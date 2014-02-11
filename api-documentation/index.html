@@ -46,6 +46,10 @@
               
             
               
+                'javascript',
+              
+            
+              
                 'python',
               
             
@@ -63,9 +67,9 @@
       
       <ul class="toc-footer">
         
-          <li><a href='#'>Get your API Key</a></li>
+          <li><a href='https://staging.api.covermymeds.com/consumers'>Get your API Key</a></li>
         
-          <li><a href='#'>Talk to us</a></li>
+          <li><a href='https://www.covermymeds.com/main/contact/'>Talk to us</a></li>
         
       </ul>
       
@@ -75,13 +79,13 @@
         <h1 id="quick-start">Quick Start</h1>
 
 <blockquote>
-<p>Use the included api_id and api_secret to play around, but get your own soon so that we can contact you if it looks like there is a problem.  Sign up for instant access on the <a href="#">developer account</a> page.</p>
+<p>Use the included api_id and api_secret to play around, but get your own soon so that we can contact you if it looks like there is a problem.  Sign up for instant access on the <a href="https://staging.api.covermymeds.com/consumers">developer account</a> page.</p>
 </blockquote>
 
 <p>Your integration will be a matter of creating prior authorization (PA) requests, saving and using their access tokens, and displaying a task list composed of PAs for your users.</p>
 
 <h3 id="creating-a-pa">Creating a PA</h3>
-<pre class="highlight html"><span class="nt">&lt;form</span> <span class="na">action=</span><span class="s">"requests"</span><span class="nt">&gt;</span>
+<pre class="highlight html"><span class="nt">&lt;form</span> <span class="na">method=</span><span class="s">"post"</span> <span class="na">action=</span><span class="s">"https://api.covermymeds.com/requests"</span><span class="nt">&gt;</span>
   <span class="nt">&lt;label</span> <span class="na">for=</span><span class="s">"first_name"</span><span class="nt">&gt;</span>First Name<span class="nt">&lt;/label&gt;</span>
   <span class="nt">&lt;input</span> <span class="na">id=</span><span class="s">"first_name"</span> <span class="na">name=</span><span class="s">"request[patient][first_name]"</span> <span class="na">placeholder=</span><span class="s">"(required)"</span> <span class="na">type=</span><span class="s">"text"</span><span class="nt">&gt;</span>
   <span class="nt">&lt;label</span> <span class="na">for=</span><span class="s">"last_name"</span><span class="nt">&gt;</span>Last Name<span class="nt">&lt;/label&gt;</span>
@@ -94,10 +98,23 @@
   <span class="nt">&lt;input</span> <span class="na">id=</span><span class="s">"drug_id"</span> <span class="na">name=</span><span class="s">"request[prescription][drug_id]"</span> <span class="na">value=</span><span class="s">"094563"</span> <span class="na">type=</span><span class="s">"text"</span><span class="nt">&gt;</span>
   <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"hidden"</span> <span class="na">name=</span><span class="s">"v"</span> <span class="na">value=</span><span class="s">"1"</span><span class="nt">&gt;</span>
   <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"hidden"</span> <span class="na">name=</span><span class="s">"api_id"</span> <span class="na">value=</span><span class="s">'1vd9o4427lyi0ccb2uem'</span><span class="nt">&gt;</span>
-  <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"hidden"</span> <span class="na">name=</span><span class="s">"api_secret"</span> <span class="na">value=</span><span class="s">'q4trxd3rj8w38qfykqn-l9zcmxxlnibzwciof6pu'</span><span class="nt">&gt;</span>
   <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"submit"</span> <span class="na">value=</span><span class="s">"Submit"</span><span class="nt">&gt;</span>
 <span class="nt">&lt;/form&gt;</span>
-</pre><pre class="highlight python"><span class="kn">import</span> <span class="nn">requests</span>  
+</pre><pre class="highlight javascript"><span class="nx">$</span><span class="p">(</span><span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+  <span class="kd">var</span> <span class="nx">options</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="na">apiId</span><span class="p">:</span> <span class="s1">'1vd9o4427lyi0ccb2uem'</span><span class="p">,</span>
+    <span class="na">apiSecret</span><span class="p">:</span> <span class="s1">'q4trxd3rj8w38qfykqn-l9zcmxxlnibzwciof6pu'</span><span class="p">,</span>
+    <span class="na">version</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="na">data</span><span class="p">:</span> <span class="p">{</span>
+      <span class="na">request</span><span class="p">:</span> <span class="p">{</span> <span class="p">...</span> <span class="p">}</span> 
+    <span class="p">}</span>
+  <span class="p">};</span>
+
+  <span class="c1">// Assuming there is an HTML element 
+</span>  <span class="c1">// &lt;button id="create_request"&gt;Click me!&lt;/button&gt;
+</span>  <span class="nx">$</span><span class="p">(</span><span class="s1">'#create_request'</span><span class="p">).</span><span class="nx">createRequest</span><span class="p">(</span><span class="nx">options</span><span class="p">);</span>
+<span class="p">});</span>
+</pre><pre class="highlight python"><span class="kn">import</span> <span class="nn">requests</span>
 
 <span class="c"># create a PA</span>
 <span class="n">data</span> <span class="o">=</span> <span class="p">{</span>
@@ -132,7 +149,7 @@
 
 <span class="n">r</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="s">'https://api.covermymeds.com/requests/search/'</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">)</span>
 </pre>
-<p>Create a request by POSTing to <code class="prettyprint">/requests/</code>.  Use the code samples or the <a href="#">interactive documentation</a> for the <code class="prettyprint">POST /requests</code> resource.</p>
+<p>Create a request by POSTing to <code class="prettyprint">/requests/</code>.  Use the code samples or the interactive documentation for the <code class="prettyprint">POST /requests</code> resource.</p>
 
 <p>The response includes an <code class="prettyprint">id</code> and an <code class="prettyprint">access_token</code>.  Save these and use them to retrieve the PA later.</p>
 
@@ -144,10 +161,10 @@
 
 <h3 id="showing-a-task-list">Showing a task list</h3>
 
-<p>You can retrieve a json list of prior authorizations by sending multiple <code class="prettyprint">id</code>s and <code class="prettyprint">access_token</code>s.  You will format this data into a task list in your application. Use the code samples or use the <a href="#">interactive documentation</a> the <code class="prettyprint">GET /requests/</code> resource.</p>
+<p>You can retrieve a json list of prior authorizations by sending multiple <code class="prettyprint">id</code>s and <code class="prettyprint">access_token</code>s.  You will format this data into a task list in your application. Use the code samples or the interactive documentation for the <code class="prettyprint">GET /requests/</code> resource.</p>
 
 <p><aside class="success">
-Make sure to check out our <a href="https://github.com/covermymeds/api-jquery-plugins">javascript components</a> that implement a full-featured API client that you may use in your web, mobile, or desktop app (in a browser-control).  These are used in a <a href="https://github.com/covermymeds/ehr-example">toy EHR application</a> so you can see how they work.  One significant advantage of this approach is that the task-list included in this library has built in pagination, filtering and search-which you could of course implement on your own but it would take a bit of work.
+Make sure to check out our <a href="https://github.com/covermymeds/api-jquery-plugins">javascript components</a> that implement a full-featured API client that you may use in your web, mobile, or desktop app (in a browser-control).  These are used in a <a href="http://covermymeds.github.io/ehr-example/">toy EHR application</a> so you can see how they work.  One significant advantage of this approach is that the task-list included in this library has built in pagination, filtering and search-which you could of course implement on your own but it would take a bit of work.
 </aside></p>
 
 <h1 id="overview">Overview</h1>
@@ -157,9 +174,9 @@ Make sure to check out our <a href="https://github.com/covermymeds/api-jquery-pl
 <p>Because PA will eventually become a named HIPAA standard, most EHR systems will need to support an electronic PA solution.  A few may choose to build this themselves from the raw NCPDP ePA transactions, however this involves an incredible amount of work-our experience over the past five years shows that making ePA worth using in the real world is a monumental task that many will wish to avoid.  So that EHR systems can focus on other things, CoverMyMeds&#39; API offers a number of powerful features that you won&rsquo;t get on your own. After completing this integration, your ePA system will:</p>
 
 <ul>
-<li>Support the <a href="http://www.ncpdp.org/News-Article.aspx?pg=467">NCPDP ePA standard</a> </li>
-<li>Work for all plans, not just those that support ePA </li>
-<li>Turn PA faxes and phone calls from more than 80% of US pharmacies into a task-list in your system </li>
+<li>Support the <a href="http://www.ncpdp.org/News-Article.aspx?pg=467">NCPDP ePA standard</a></li>
+<li>Work for all plans, not just those that support ePA</li>
+<li>Turn PA faxes and phone calls from more than 80% of US pharmacies into a task-list in your system</li>
 </ul>
 
 <h2 id="workflow">Workflow</h2>
@@ -176,13 +193,13 @@ Make sure to check out our <a href="https://github.com/covermymeds/api-jquery-pl
 
 <ol>
 <li><p>A checkbox next to each prescription in your e-prescribing &ldquo;shopping cart.&rdquo;  This allows the prescriber to start a prior authorization when writing a new prescription.  Optionally, you should also consider adding a &ldquo;Start PA&rdquo; button next to each existing prescription.</p></li>
-<li><p>A &ldquo;New PA&rdquo; form that allows users to start a prior authorization when one was not started durring the e-prescribing process.  </p></li>
+<li><p>A &ldquo;New PA&rdquo; form that allows users to start a prior authorization when one was not started durring the e-prescribing process.</p></li>
 <li><p>A Task List which displays the PAs that were started from the e-prescribing or New PA form, in addition to the PAs that were started in the pharmacy after your prescriber sent a prescription (most pharmacies are also integrated with CoverMyMeds). The actual requests are worked and managed on a &ldquo;themed&rdquo; page served by CoverMyMeds after clicking through the Task List.</p></li>
 </ol>
 
 <p>You will be supporting a few server-side components:</p>
 
-<p>Webserver: You will run a webserver that allows us to POST changes to each existing PA, and to send new PAs that are initiated in integrated pharmacies.  </p>
+<p>Webserver: You will run a webserver that allows us to POST changes to each existing PA, and to send new PAs that are initiated in integrated pharmacies.</p>
 
 <p>Token Management: You will store <code class="prettyprint">id</code>s and <code class="prettyprint">access_tokens</code> for each prior authorization.  A detailed discussion of <code class="prettyprint">access_tokens</code> is available below.</p>
 
@@ -201,11 +218,11 @@ Make sure to check out our <a href="https://github.com/covermymeds/api-jquery-pl
 
 <p>The actual PA request is displayed on a page served by CMM.  The link to each request page provides a seamless transition through single-sign on mediated by the <code class="prettyprint">access_token</code> contained in each link.</p>
 
-<p>Upon each change in status to a prior authorization (e.g., the health plan approves the request), CMM will POST the request data to a <code class="prettyprint">callback_url</code> provided at PA creation, or if not provided, to the URL pre-configured for each Client System.  </p>
+<p>Upon each change in status to a prior authorization (e.g., the health plan approves the request), CMM will POST the request data to a <code class="prettyprint">callback_url</code> provided at PA creation, or if not provided, to the URL pre-configured for each Client System.</p>
 
 <p>The Client System can also retrieve the latest status at any time for each PA through the <code class="prettyprint">GET /requests/</code> resource, or for multiple requests through the <code class="prettyprint">POST /requests/search/</code> resource.  These URLs may be &ldquo;polled&rdquo; at a reasonable interval (i.e., hourly) for systems that choose not to provide a callback_url.</p>
 
-<p>Upon each new PA being created in an integrated pharmacy, CoverMyMeds will POST the same response data as in the <code class="prettyprint">POST /requests/</code> resource to your <code class="prettyprint">callback_url</code>.  </p>
+<p>Upon each new PA being created in an integrated pharmacy, CoverMyMeds will POST the same response data as in the <code class="prettyprint">POST /requests/</code> resource to your <code class="prettyprint">callback_url</code>.</p>
 
 <p>Plans that participate in the ePA process with CoverMyMeds receive electronic PA requests, and provide electronic determinations (approved/denied), sometimes in real-time.  Plans that do not participate in the ePA process receive a PA request via fax, on their appropriate drug-specific form. Determinations for non-participating plans are provided directly to the prescriber (outside of the CMM workflow), however approval or denial may be tracked in CMM by the user.</p>
 
@@ -215,9 +232,19 @@ Make sure to check out our <a href="https://github.com/covermymeds/api-jquery-pl
   <span class="nt">&lt;input</span> <span class="na">id=</span><span class="s">"query"</span> <span class="na">name=</span><span class="s">"q"</span> <span class="na">placeholder=</span><span class="s">"(required)"</span> <span class="na">type=</span><span class="s">"text"</span><span class="nt">&gt;</span>
   <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"hidden"</span> <span class="na">name=</span><span class="s">"v"</span> <span class="na">value=</span><span class="s">"1"</span><span class="nt">&gt;</span>
   <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"hidden"</span> <span class="na">name=</span><span class="s">"api_id"</span> <span class="na">value=</span><span class="s">'1vd9o4427lyi0ccb2uem'</span><span class="nt">&gt;</span>
-  <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"hidden"</span> <span class="na">name=</span><span class="s">"api_secret"</span> <span class="na">value=</span><span class="s">'q4trxd3rj8w38qfykqn-l9zcmxxlnibzwciof6pu'</span><span class="nt">&gt;</span>
   <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"submit"</span> <span class="na">value=</span><span class="s">"Submit"</span><span class="nt">&gt;</span>
 <span class="nt">&lt;/form&gt;</span>
+</pre><pre class="highlight javascript"><span class="nx">$</span><span class="p">(</span><span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+  <span class="kd">var</span> <span class="nx">options</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="na">apiId</span><span class="p">:</span> <span class="s1">'1vd9o4427lyi0ccb2uem'</span><span class="p">,</span>
+    <span class="na">apiSecret</span><span class="p">:</span> <span class="s1">'q4trxd3rj8w38qfykqn-l9zcmxxlnibzwciof6pu'</span><span class="p">,</span>
+    <span class="na">version</span><span class="p">:</span> <span class="mi">1</span>
+  <span class="p">};</span>
+
+  <span class="c1">// Assuming there is an HTML element 
+</span>  <span class="c1">// &lt;input type="text" id="drug_search"&gt;
+</span>  <span class="nx">$</span><span class="p">(</span><span class="s1">'#drug_search'</span><span class="p">).</span><span class="nx">drugSearch</span><span class="p">(</span><span class="nx">options</span><span class="p">);</span>
+<span class="p">});</span>
 </pre><pre class="highlight python"><span class="kn">import</span> <span class="nn">requests</span>
 
 <span class="n">params</span> <span class="o">=</span> <span class="p">{</span>
@@ -228,7 +255,7 @@ Make sure to check out our <a href="https://github.com/covermymeds/api-jquery-pl
 
 <span class="n">r</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">'https://api.covermymeds.com/drugs/'</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">)</span>
 </pre>
-<p>The <code class="prettyprint">GET /drugs/</code> resource allows you to implement a drug search so the user can pick a drug for their request.  When picked, you get our internal drug <code class="prettyprint">id</code>.  Partial and full drug names are supported-click here for a search for <a href="https://api.covermymeds.com/drugs/?v=1&amp;amp;api_id=1vd9o4427lyi0ccb2uem&amp;amp;q=Nex">&ldquo;Nex&rdquo;</a>. </p>
+<p>The <code class="prettyprint">GET /drugs/</code> resource allows you to implement a drug search so the user can pick a drug for their request.  When picked, you get our internal drug <code class="prettyprint">id</code>.  Partial and full drug names are supported-click here for a search for <a href="https://api.covermymeds.com/drugs/?v=1&amp;amp;api_id=1vd9o4427lyi0ccb2uem&amp;amp;q=Nex">&ldquo;Nex&rdquo;</a>.</p>
 
 <p>You can use this resource to implement a &ldquo;type-ahead&rdquo; search.  We <a href="https://github.com/covermymeds/api-jquery-plugins/blob/master/src/jquery.drugsearch.js">publish a jquery plugin</a> that allows you to do this without any effort at all.</p>
 
@@ -236,7 +263,7 @@ Make sure to check out our <a href="https://github.com/covermymeds/api-jquery-pl
 
 <p>You may submit CMM&rsquo;s <code class="prettyprint">drug_id</code> value returned from the <code class="prettyprint">GET /drugs/</code> resource, or you may submit an NDC value for this field.  Submitting an NDC is really just sugar-we will convert the NDC code you submitted to our internal identifier when we create the request.  Most plans will approve requests at the &ldquo;label name&rdquo; (drug, strength, form) or an even higher level, so you may pick a &ldquo;representative&rdquo; NDC code when submitting your request.</p>
 
-<p>Submitting an NDC code is advantageous when you are initiating the request from the e-prescribing workflow where the user has already &ldquo;picked&rdquo; a drug in your system, and you know the NDC code. The <code class="prettyprint">/drugs/</code> resource is a good way to show a type-ahead search, such as you will need in the New PA form, so using CMM\&rsquo;s internal drug_id can be convenient here.  </p>
+<p>Submitting an NDC code is advantageous when you are initiating the request from the e-prescribing workflow where the user has already &ldquo;picked&rdquo; a drug in your system, and you know the NDC code. The <code class="prettyprint">/drugs/</code> resource is a good way to show a type-ahead search, such as you will need in the New PA form, so using CMM&rsquo;s internal drug_id can be convenient here.  </p>
 
 <h1 id="/forms/">/forms/</h1>
 <pre class="highlight html"><span class="nt">&lt;form</span> <span class="na">method=</span><span class="s">"get"</span> <span class="na">action=</span><span class="s">"forms"</span><span class="nt">&gt;</span>
@@ -248,9 +275,21 @@ Make sure to check out our <a href="https://github.com/covermymeds/api-jquery-pl
   <span class="nt">&lt;input</span> <span class="na">id=</span><span class="s">"state"</span> <span class="na">name=</span><span class="s">"state"</span> <span class="na">placeholder=</span><span class="s">"(required)"</span> <span class="na">type=</span><span class="s">"text"</span><span class="nt">&gt;</span>
   <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"hidden"</span> <span class="na">name=</span><span class="s">"v"</span> <span class="na">value=</span><span class="s">"1"</span><span class="nt">&gt;</span>
   <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"hidden"</span> <span class="na">name=</span><span class="s">"api_id"</span> <span class="na">value=</span><span class="s">'1vd9o4427lyi0ccb2uem'</span><span class="nt">&gt;</span>
-  <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"hidden"</span> <span class="na">name=</span><span class="s">"api_secret"</span> <span class="na">value=</span><span class="s">'q4trxd3rj8w38qfykqn-l9zcmxxlnibzwciof6pu'</span><span class="nt">&gt;</span>
   <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"submit"</span> <span class="na">value=</span><span class="s">"Submit"</span><span class="nt">&gt;</span>
 <span class="nt">&lt;/form&gt;</span>
+</pre><pre class="highlight javascript">  <span class="nx">$</span><span class="p">(</span><span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+    <span class="kd">var</span> <span class="nx">options</span> <span class="o">=</span> <span class="p">{</span>
+      <span class="na">apiId</span><span class="p">:</span> <span class="s1">'1vd9o4427lyi0ccb2uem'</span><span class="p">,</span>
+      <span class="na">apiSecret</span><span class="p">:</span> <span class="s1">'q4trxd3rj8w38qfykqn-l9zcmxxlnibzwciof6pu'</span><span class="p">,</span>
+      <span class="na">version</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+      <span class="na">drugId</span><span class="p">:</span> <span class="mi">12345</span><span class="p">,</span>
+      <span class="na">state</span><span class="p">:</span> <span class="s1">'OH'</span>
+    <span class="p">};</span>
+
+    <span class="c1">// Assuming there is an HTML element 
+</span>    <span class="c1">// &lt;input type="text" id="form_search"&gt;
+</span>    <span class="nx">$</span><span class="p">(</span><span class="s1">'#form_search'</span><span class="p">).</span><span class="nx">formSearch</span><span class="p">(</span><span class="nx">options</span><span class="p">);</span>
+  <span class="p">});</span>
 </pre><pre class="highlight python"><span class="kn">import</span> <span class="nn">requests</span>
 
 <span class="n">params</span> <span class="o">=</span> <span class="p">{</span>
@@ -263,7 +302,7 @@ Make sure to check out our <a href="https://github.com/covermymeds/api-jquery-pl
 
 <span class="n">r</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">'https://api.covermymeds.com/forms/'</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">)</span>
 </pre>
-<p>The <code class="prettyprint">GET /forms/</code> resource allows you to implement a form search so the user may pick the appropriate prior authorization &ldquo;form&rdquo; for their request.  This resource works with both &ldquo;paper&rdquo; forms, and electronic prior authorization (ePA) requests.  </p>
+<p>The <code class="prettyprint">GET /forms/</code> resource allows you to implement a form search so the user may pick the appropriate prior authorization &ldquo;form&rdquo; for their request.  This resource works with both &ldquo;paper&rdquo; forms, and electronic prior authorization (ePA) requests.</p>
 
 <p>You can use this resource to implement a &ldquo;type-ahead&rdquo; search.  We <a href="https://github.com/covermymeds/api-jquery-plugins/blob/master/src/jquery.formsearch.js">publish a jquery plugin</a> that allows you to do this without any effort at all.</p>
 
@@ -278,7 +317,7 @@ Make sure to check out our <a href="https://github.com/covermymeds/api-jquery-pl
 <p>The <code class="prettyprint">/requests/</code> resource is the workhorse of the API.  You will use it to create new prior authorizations, retrieve information about them, and get a list of them for your Task List.  Several additional features are provided for working with prior authorizations such as token management, using the CMM request page, theming, and the callback system.</p>
 
 <h2 id="post-/requests/">POST /requests/</h2>
-<pre class="highlight html"><span class="nt">&lt;form</span> <span class="na">action=</span><span class="s">"requests"</span><span class="nt">&gt;</span>
+<pre class="highlight html"><span class="nt">&lt;form</span> <span class="na">method=</span><span class="s">"post"</span> <span class="na">action=</span><span class="s">"https://api.covermymeds.com/requests"</span><span class="nt">&gt;</span>
   <span class="nt">&lt;label</span> <span class="na">for=</span><span class="s">"first_name"</span><span class="nt">&gt;</span>First Name<span class="nt">&lt;/label&gt;</span>
   <span class="nt">&lt;input</span> <span class="na">id=</span><span class="s">"first_name"</span> <span class="na">name=</span><span class="s">"request[patient][first_name]"</span> <span class="na">placeholder=</span><span class="s">"(required)"</span> <span class="na">type=</span><span class="s">"text"</span><span class="nt">&gt;</span>
   <span class="nt">&lt;label</span> <span class="na">for=</span><span class="s">"last_name"</span><span class="nt">&gt;</span>Last Name<span class="nt">&lt;/label&gt;</span>
@@ -291,7 +330,6 @@ Make sure to check out our <a href="https://github.com/covermymeds/api-jquery-pl
   <span class="nt">&lt;input</span> <span class="na">id=</span><span class="s">"drug_id"</span> <span class="na">name=</span><span class="s">"request[prescription][drug_id]"</span> <span class="na">value=</span><span class="s">"094563"</span> <span class="na">type=</span><span class="s">"text"</span><span class="nt">&gt;</span>
   <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"hidden"</span> <span class="na">name=</span><span class="s">"v"</span> <span class="na">value=</span><span class="s">"1"</span><span class="nt">&gt;</span>
   <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"hidden"</span> <span class="na">name=</span><span class="s">"api_id"</span> <span class="na">value=</span><span class="s">'1vd9o4427lyi0ccb2uem'</span><span class="nt">&gt;</span>
-  <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"hidden"</span> <span class="na">name=</span><span class="s">"api_secret"</span> <span class="na">value=</span><span class="s">'q4trxd3rj8w38qfykqn-l9zcmxxlnibzwciof6pu'</span><span class="nt">&gt;</span>
   <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"submit"</span> <span class="na">value=</span><span class="s">"Submit"</span><span class="nt">&gt;</span>
 <span class="nt">&lt;/form&gt;</span>
 </pre>
@@ -300,11 +338,9 @@ Make sure to check out our <a href="https://github.com/covermymeds/api-jquery-pl
 <p>You should consider whether to actually show the request to the user after it is created.  It is usually best to show the request page when a PA is created from the New Request Form, since that feature is likely to be used by an administrative staff person who wants to complete the PA in one sitting. However, when the PA is created in the e-prescribing workflow, it can be best to simply let the user know that the PA was created and let it be worked later by an administrative task person from the Task List.  The <a href="https://github.com/covermymeds/ehr-example">sample implementation</a> we provide uses a nice approach in that the confirmation message allows the prescriber to click to view the PA, but doesn&rsquo;t otherwise interupt the prescribing workflow.</p>
 
 <h2 id="get-/requests/">GET /requests/</h2>
-<pre class="highlight html"><span class="nt">&lt;form</span> <span class="na">method=</span><span class="s">"get"</span> <span class="na">action=</span><span class="s">"requests"</span><span class="nt">&gt;</span>
+<pre class="highlight html"><span class="nt">&lt;form</span> <span class="na">method=</span><span class="s">"get"</span> <span class="na">action=</span><span class="s">"https://api.covermymeds.com/requests"</span><span class="nt">&gt;</span>
   <span class="nt">&lt;label</span> <span class="na">for=</span><span class="s">"id1"</span><span class="nt">&gt;</span>Pa ID<span class="nt">&lt;/label&gt;</span>
   <span class="nt">&lt;input</span> <span class="na">id=</span><span class="s">"id1"</span> <span class="na">name=</span><span class="s">"ids[]"</span> <span class="na">placeholder=</span><span class="s">"(required)"</span> <span class="na">type=</span><span class="s">"text"</span><span class="nt">&gt;</span>
-  <span class="nt">&lt;label</span> <span class="na">for=</span><span class="s">"id2"</span><span class="nt">&gt;</span>Pa ID<span class="nt">&lt;/label&gt;</span>
-  <span class="nt">&lt;input</span> <span class="na">id=</span><span class="s">"id2"</span> <span class="na">name=</span><span class="s">"ids[]"</span> <span class="na">placeholder=</span><span class="s">""</span> <span class="na">type=</span><span class="s">"text"</span><span class="nt">&gt;</span>
   <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"hidden"</span> <span class="na">name=</span><span class="s">"v"</span> <span class="na">value=</span><span class="s">"1"</span><span class="nt">&gt;</span>
   <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"hidden"</span> <span class="na">name=</span><span class="s">"api_id"</span> <span class="na">value=</span><span class="s">'1vd9o4427lyi0ccb2uem'</span><span class="nt">&gt;</span>
   <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"hidden"</span> <span class="na">name=</span><span class="s">"api_secret"</span> <span class="na">value=</span><span class="s">'q4trxd3rj8w38qfykqn-l9zcmxxlnibzwciof6pu'</span><span class="nt">&gt;</span>
@@ -330,13 +366,24 @@ Make sure to check out our <a href="https://github.com/covermymeds/api-jquery-pl
 <pre class="highlight html"><span class="nt">&lt;form</span> <span class="na">method=</span><span class="s">"post"</span> <span class="na">action=</span><span class="s">"requests/search/"</span><span class="nt">&gt;</span>
   <span class="nt">&lt;label</span> <span class="na">for=</span><span class="s">"id1"</span><span class="nt">&gt;</span>Pa ID<span class="nt">&lt;/label&gt;</span>
   <span class="nt">&lt;input</span> <span class="na">id=</span><span class="s">"id1"</span> <span class="na">name=</span><span class="s">"ids[]"</span> <span class="na">placeholder=</span><span class="s">"(required)"</span> <span class="na">type=</span><span class="s">"text"</span><span class="nt">&gt;</span>
-  <span class="nt">&lt;label</span> <span class="na">for=</span><span class="s">"id2"</span><span class="nt">&gt;</span>Pa ID<span class="nt">&lt;/label&gt;</span>
-  <span class="nt">&lt;input</span> <span class="na">id=</span><span class="s">"id2"</span> <span class="na">name=</span><span class="s">"ids[]"</span> <span class="na">placeholder=</span><span class="s">""</span> <span class="na">type=</span><span class="s">"text"</span><span class="nt">&gt;</span>
   <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"hidden"</span> <span class="na">name=</span><span class="s">"v"</span> <span class="na">value=</span><span class="s">"1"</span><span class="nt">&gt;</span>
   <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"hidden"</span> <span class="na">name=</span><span class="s">"api_id"</span> <span class="na">value=</span><span class="s">'1vd9o4427lyi0ccb2uem'</span><span class="nt">&gt;</span>
   <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"hidden"</span> <span class="na">name=</span><span class="s">"api_secret"</span> <span class="na">value=</span><span class="s">'q4trxd3rj8w38qfykqn-l9zcmxxlnibzwciof6pu'</span><span class="nt">&gt;</span>
   <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"submit"</span> <span class="na">value=</span><span class="s">"Submit"</span><span class="nt">&gt;</span>
 <span class="nt">&lt;/form&gt;</span>
+</pre><pre class="highlight javascript">
+<span class="nx">$</span><span class="p">(</span><span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+  <span class="kd">var</span> <span class="nx">options</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="na">apiId</span><span class="p">:</span> <span class="s1">'1vd9o4427lyi0ccb2uem'</span><span class="p">,</span>
+    <span class="na">apiSecret</span><span class="p">:</span> <span class="s1">'q4trxd3rj8w38qfykqn-l9zcmxxlnibzwciof6pu'</span><span class="p">,</span>
+    <span class="na">version</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="na">ids</span><span class="p">:</span> <span class="p">[</span><span class="s1">'AB1CD2'</span><span class="p">,</span> <span class="s1">'BA3DC4'</span><span class="p">]</span>
+  <span class="p">};</span>
+
+  <span class="c1">// Assuming there is an HTML element
+</span>  <span class="c1">// &lt;div id="dashboard"&gt;&lt;/div&gt;
+</span>  <span class="nx">$</span><span class="p">(</span><span class="s1">'#dashboard'</span><span class="p">).</span><span class="nx">dashboard</span><span class="p">(</span><span class="nx">options</span><span class="p">);</span>
+<span class="p">});</span>
 </pre><pre class="highlight python"><span class="kn">import</span> <span class="nn">requests</span>
 
 <span class="c"># POST /requests/search/</span>
@@ -353,14 +400,12 @@ Make sure to check out our <a href="https://github.com/covermymeds/api-jquery-pl
 </pre>
 <p>Use this method to return a list of prior authorizations to populate your Task List.  This resource may be used client-side or server-side since it uses <code class="prettyprint">access_tokens</code>.</p>
 
-<p>Because this data is light-weight, we do not need to support filtering or pagination in the resource itself.  If you are implementing your own Task List, it is important to provide search and filtering from your client applicaton.  Our Task List <a href="https://github.com/covermymeds/api-jquery-plugins/blob/master/src/jquery.dashboard.js">javascript component</a> can handle this for you.  </p>
+<p>Because this data is light-weight, we do not need to support filtering or pagination in the resource itself.  If you are implementing your own Task List, it is important to provide search and filtering from your client applicaton.  Our Task List <a href="https://github.com/covermymeds/api-jquery-plugins/blob/master/src/jquery.dashboard.js">javascript component</a> can handle this for you.</p>
 
 <h2 id="post-/requests/tokens/">POST /requests/tokens/</h2>
-<pre class="highlight html"><span class="nt">&lt;form</span> <span class="na">method=</span><span class="s">"post"</span> <span class="na">action=</span><span class="s">"requests/tokens/"</span><span class="nt">&gt;</span>
+<pre class="highlight html"><span class="nt">&lt;form</span> <span class="na">method=</span><span class="s">"post"</span> <span class="na">action=</span><span class="s">"https://api.covermymeds.com/requests/tokens/"</span><span class="nt">&gt;</span>
   <span class="nt">&lt;label</span> <span class="na">for=</span><span class="s">"id1"</span><span class="nt">&gt;</span>Pa ID<span class="nt">&lt;/label&gt;</span>
   <span class="nt">&lt;input</span> <span class="na">id=</span><span class="s">"id1"</span> <span class="na">name=</span><span class="s">"request_ids[]"</span> <span class="na">placeholder=</span><span class="s">"(required)"</span> <span class="na">type=</span><span class="s">"text"</span><span class="nt">&gt;</span>
-  <span class="nt">&lt;label</span> <span class="na">for=</span><span class="s">"id2"</span><span class="nt">&gt;</span>Pa ID<span class="nt">&lt;/label&gt;</span>
-  <span class="nt">&lt;input</span> <span class="na">id=</span><span class="s">"id2"</span> <span class="na">name=</span><span class="s">"request_ids[]"</span> <span class="na">placeholder=</span><span class="s">""</span> <span class="na">type=</span><span class="s">"text"</span><span class="nt">&gt;</span>
   <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"hidden"</span> <span class="na">name=</span><span class="s">"v"</span> <span class="na">value=</span><span class="s">"1"</span><span class="nt">&gt;</span>
   <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"hidden"</span> <span class="na">name=</span><span class="s">"api_id"</span> <span class="na">value=</span><span class="s">'1vd9o4427lyi0ccb2uem'</span><span class="nt">&gt;</span>
   <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"hidden"</span> <span class="na">name=</span><span class="s">"api_secret"</span> <span class="na">value=</span><span class="s">'q4trxd3rj8w38qfykqn-l9zcmxxlnibzwciof6pu'</span><span class="nt">&gt;</span>
@@ -383,17 +428,38 @@ Make sure to check out our <a href="https://github.com/covermymeds/api-jquery-pl
 <p>Use this resource to create new <code class="prettyprint">access_tokens</code> for a PA request. You may wish to do this so that you can assign a unique token for each user that will view a request, or to regenerate tokens if you believe they may have been compromised.</p>
 
 <h2 id="delete-/requests/tokens/{id}/">DELETE /requests/tokens/{id}/</h2>
-<pre class="highlight html"><span class="nt">&lt;form</span> <span class="na">method=</span><span class="s">"delete"</span> <span class="na">action=</span><span class="s">"requests/tokens/"</span><span class="nt">&gt;</span>
-  <span class="nt">&lt;label</span> <span class="na">for=</span><span class="s">"id1"</span><span class="nt">&gt;</span>Token ID<span class="nt">&lt;/label&gt;</span>
-  <span class="nt">&lt;input</span> <span class="na">id=</span><span class="s">"id1"</span> <span class="na">name=</span><span class="s">"id"</span> <span class="na">placeholder=</span><span class="s">"(required)"</span> <span class="na">type=</span><span class="s">"text"</span><span class="nt">&gt;</span>
+<pre class="highlight html"><span class="nt">&lt;form</span> <span class="na">method=</span><span class="s">"post"</span> <span class="na">action=</span><span class="s">"https://api.covermymeds.com/requests/tokens/"</span> <span class="na">id=</span><span class="s">"delete_token"</span><span class="nt">&gt;</span>
+  <span class="c">&lt;!-- This tells our server that we actually want this request to be DELETE rather than POST --&gt;</span>
+  <span class="nt">&lt;label</span> <span class="na">for=</span><span class="s">"delete_token_id"</span><span class="nt">&gt;</span>Token ID<span class="nt">&lt;/label&gt;</span>
+  <span class="nt">&lt;input</span> <span class="na">id=</span><span class="s">"delete_token_id"</span> <span class="na">name=</span><span class="s">"id"</span> <span class="na">placeholder=</span><span class="s">"(required)"</span> <span class="na">type=</span><span class="s">"text"</span><span class="nt">&gt;</span>
   <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"hidden"</span> <span class="na">name=</span><span class="s">"v"</span> <span class="na">value=</span><span class="s">"1"</span><span class="nt">&gt;</span>
   <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"hidden"</span> <span class="na">name=</span><span class="s">"api_id"</span> <span class="na">value=</span><span class="s">'1vd9o4427lyi0ccb2uem'</span><span class="nt">&gt;</span>
   <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"hidden"</span> <span class="na">name=</span><span class="s">"api_secret"</span> <span class="na">value=</span><span class="s">'q4trxd3rj8w38qfykqn-l9zcmxxlnibzwciof6pu'</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"hidden"</span> <span class="na">name=</span><span class="s">"_method"</span> <span class="na">value=</span><span class="s">"delete"</span><span class="nt">&gt;</span>
   <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"submit"</span> <span class="na">value=</span><span class="s">"Submit"</span><span class="nt">&gt;</span>
 <span class="nt">&lt;/form&gt;</span>
+
+<span class="nt">&lt;script&gt;</span>
+  <span class="c1">// The API URL requires a token ID to be part of it, which is problematic because
+</span>  <span class="c1">// the ID is a user-provided value. This Javascript dynamically appends the token ID
+</span>  <span class="c1">// value to the form URL when the form is submitted.
+</span>  <span class="p">(</span><span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+    <span class="kd">var</span> <span class="nx">form</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s1">'delete_token'</span><span class="p">);</span>
+    <span class="nx">form</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span><span class="s1">'submit'</span><span class="p">,</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">event</span><span class="p">)</span> <span class="p">{</span>
+      <span class="kd">var</span> <span class="nx">tokenId</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s1">'delete_token_id'</span><span class="p">),</span>
+          <span class="nx">form</span> <span class="o">=</span> <span class="nx">event</span><span class="p">.</span><span class="nx">target</span><span class="p">;</span>
+
+      <span class="c1">// Append the token ID to the API URL
+</span>      <span class="nx">form</span><span class="p">.</span><span class="nx">action</span> <span class="o">+=</span> <span class="nx">tokenId</span><span class="p">.</span><span class="nx">value</span><span class="p">;</span>
+
+      <span class="c1">// Remove the token ID input element from the form
+</span>      <span class="nx">tokenId</span><span class="p">.</span><span class="nx">parentNode</span><span class="p">.</span><span class="nx">removeChild</span><span class="p">(</span><span class="nx">tokenId</span><span class="p">);</span>
+    <span class="p">},</span> <span class="kc">true</span><span class="p">);</span>
+  <span class="p">}());</span>
+<span class="nt">&lt;/script&gt;</span>
 </pre><pre class="highlight python"><span class="kn">import</span> <span class="nn">requests</span>
 
-<span class="c"># DELETE /requests/tokends/{id}</span>
+<span class="c"># DELETE /requests/tokens/{id}</span>
 
 <span class="n">data</span> <span class="o">=</span> <span class="p">{</span>
   <span class="s">'v'</span><span class="p">:</span> <span class="s">'1'</span><span class="p">,</span>
@@ -416,7 +482,7 @@ Make sure to check out our <a href="https://github.com/covermymeds/api-jquery-pl
 
 <span class="n">webbrowser</span><span class="o">.</span><span class="nb">open</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
 </pre>
-<p>Supporting a great user experience across thousands of health plan&rsquo;s distinct prior authorizaton forms, standards-based ePA transactions, and proprietary integrations presents many user interface challenges.  </p>
+<p>Supporting a great user experience across thousands of health plan&rsquo;s distinct prior authorizaton forms, standards-based ePA transactions, and proprietary integrations presents many user interface challenges.</p>
 
 <p>To solve this problem, it is best to let CoverMyMeds serve the actual prior authorization request page from our server.  The request page formats the PA for editing and provides a number of decision support and workflow tools.  We encourage you to &ldquo;theme&rdquo; the page for your Client System.  Details on how to do this are included in the <em>Theming</em> section.</p>
 
@@ -447,7 +513,7 @@ Make sure to check out our <a href="https://github.com/covermymeds/api-jquery-pl
 
 <p>You may do this by requesting <code class="prettyprint">GET /requests/</code> each time a user views a Task List, or you may implement an endpoint to which we may send data each time there is a change (e.g., the health plan approves the request).  CMM will format this request identically to the JSON response in the <code class="prettyprint">GET /requests/</code> resource.</p>
 
-<p>If you implement an endpoint, you can specify a global <code class="prettyprint">callback_url</code> in your <a href="https://staging.api.covermymeds.com/consumers/signin">Developer Dashboard</a>, or you may submit a <code class="prettyprint">callback_url</code> for each request when creating them through <code class="prettyprint">POST /requests/</code>.  Setting this value on a per-PA basis allows you to distribute the callbacks to multiple on-premise systems or to different servers if you are load-balancing a multi-tenant architecture. </p>
+<p>If you implement an endpoint, you can specify a global <code class="prettyprint">callback_url</code> in your <a href="https://staging.api.covermymeds.com/consumers/signin">Developer Dashboard</a>, or you may submit a <code class="prettyprint">callback_url</code> for each request when creating them through <code class="prettyprint">POST /requests/</code>.  Setting this value on a per-PA basis allows you to distribute the callbacks to multiple on-premise systems or to different servers if you are load-balancing a multi-tenant architecture.</p>
 
 <p>Your webservice should return an http status 200 or 201 when you receive the request and process it successfully.  You should return an http error code when the request cannot be processed.  CoverMyMeds&rsquo;s system will queue errors and retry them if the status codes are believed to be resolvable.  We will contact you if they are not successfully processed within a reasonable timeframe.</p>
 
@@ -461,17 +527,17 @@ Make sure to check out our <a href="https://github.com/covermymeds/api-jquery-pl
 
 <h1 id="/prescribers/">/prescribers/</h1>
 
-<p>A Prescriber resource allows us to share a PA that is initiated in the pharmacy with your user.  </p>
+<p>A Prescriber resource allows us to share a PA that is initiated in the pharmacy with your user.</p>
 
-<p>Most pharmacies use the CoverMyMeds system to initiate a PA after each claim rejection.  CoverMyMeds pushes these prior authorizations to the right place based on a credentialing process that maps prescriber NPIs to integrated EHRs or CoverMyMeds user accounts.  </p>
+<p>Most pharmacies use the CoverMyMeds system to initiate a PA after each claim rejection.  CoverMyMeds pushes these prior authorizations to the right place based on a credentialing process that maps prescriber NPIs to integrated EHRs or CoverMyMeds user accounts.</p>
 
-<p>Doing this push involves mapping the Prescriber NPI field in the rejected claim to a flag that tells the CoverMyMeds system that claim rejections for the given Prescriber NPI should be available in your system. </p>
+<p>Doing this push involves mapping the Prescriber NPI field in the rejected claim to a flag that tells the CoverMyMeds system that claim rejections for the given Prescriber NPI should be available in your system.</p>
 
-<p>Upon a PA being initiated by a pharmacy, CoverMyMeds will deliver the transaction by POSTing to your server.  </p>
+<p>Upon a PA being initiated by a pharmacy, CoverMyMeds will deliver the transaction by POSTing to your server.</p>
 
 <p>For each pharmacy-initiated PA, CoverMyMeds POSTs data formatted identically to the response in the <code class="prettyprint">POST /requests</code> transaction. CoverMyMeds expects a 2xx (“ok”) http response; if we receive an error, we will queue the delivery and try again later.</p>
 
-<p>Upon delivery, you should store the PA data, including the <code class="prettyprint">id</code>, <code class="prettyprint">access_token</code>, and <code class="prettyprint">prescriber_npi</code>.  </p>
+<p>Upon delivery, you should store the PA data, including the <code class="prettyprint">id</code>, <code class="prettyprint">access_token</code>, and <code class="prettyprint">prescriber_npi</code>.</p>
 
 <p>Then, when you show the task list to the user, the pharmacy-initiated transactions are requested by <code class="prettyprint">id</code> and <code class="prettyprint">access_token</code> just as prescriber-initiated transactions are shown.</p>
 
@@ -481,7 +547,7 @@ Make sure to check out our <a href="https://github.com/covermymeds/api-jquery-pl
 
 <p>Not all actions are instantaneous-after creating or updating a prescriber credential, CoverMyMeds runs a security process to validate the credential request. Some manual steps may be taken, including contacting the user, such as in the common occurence that you are registering an NPI for a user that already exists in CoverMyMeds.  These manual processes are usually complete in less than 24 hours.</p>
 
-<p>Your system is responsible for maintaining a map of credentialed NPIs to your users, and in turn, your users to PA data that we POST to you.  </p>
+<p>Your system is responsible for maintaining a map of credentialed NPIs to your users, and in turn, your users to PA data that we POST to you.</p>
 
 <p>Upon a new prescriber-credential request, CoverMyMeds will contact the associated prescriber using our contact data and will confirm that they wish to have data delivered to your Client System.</p>
 
@@ -491,13 +557,13 @@ Make sure to check out our <a href="https://github.com/covermymeds/api-jquery-pl
 
 <p>Visit the <a href="https://staging.api.covermymeds.com/consumers/signin">Developer Dashboard</a> page to register and manage your preferences.</p>
 
-<p>When you register your Client System, you will be issued an <code class="prettyprint">api_id</code> and an <code class="prettyprint">api_secret</code>.  </p>
+<p>When you register your Client System, you will be issued an <code class="prettyprint">api_id</code> and an <code class="prettyprint">api_secret</code>.</p>
 
 <p>You may also specify a <code class="prettyprint">callback_url</code> which will be used to receive PA updates and new PAs.  The use of this url is optional.</p>
 
 <h2 id="api-keys">API Keys</h2>
 
-<p>Authentication for the API is performed with your <code class="prettyprint">api_id</code>.  If the resource could be destructive or reveal private information, the <code class="prettyprint">api_secret</code> or &ldquo;per-PA&rdquo; <code class="prettyprint">access_token</code>s are used in addition to the <code class="prettyprint">api_id</code>.  </p>
+<p>Authentication for the API is performed with your <code class="prettyprint">api_id</code>.  If the resource could be destructive or reveal private information, the <code class="prettyprint">api_secret</code> or &ldquo;per-PA&rdquo; <code class="prettyprint">access_token</code>s are used in addition to the <code class="prettyprint">api_id</code>.</p>
 
 <p><code class="prettyprint">access_token</code>s are used to provide single-sign-on (SSO) for the Request page that is served by CMM.</p>
 
@@ -507,13 +573,13 @@ Make sure to check out our <a href="https://github.com/covermymeds/api-jquery-pl
 While most resources will accept the <code class="prettyprint">api_key</code> and <code class="prettyprint">api_secret</code> in the http request body, it is best to pass them instead in the http authentication header, to minimize the chance that they could be recorded in someone&rsquo;s network or logging infrastructure. For clarity, we generally have ommitted this detail in our example code in this document.
 </aside></p>
 
-<p>You can and should change your <code class="prettyprint">api_secret</code> any time you suspect it may have been compromised.  Doing this will take immediate effect and can be done in the <a href="https://staging.api.covermymeds.com/consumers/signin">Developer Dashboard</a>.  </p>
+<p>You can and should change your <code class="prettyprint">api_secret</code> any time you suspect it may have been compromised.  Doing this will take immediate effect and can be done in the <a href="https://staging.api.covermymeds.com/consumers/signin">Developer Dashboard</a>.</p>
 
 <h2 id="access-tokens">Access Tokens</h2>
 
-<p>Most systems have the concept of a user. This user concept is frequently extended to include constructs such as user groups, organizations, and perhaps also practice locations, which may have composite properties of groups and organizations while adding another dimension.  </p>
+<p>Most systems have the concept of a user. This user concept is frequently extended to include constructs such as user groups, organizations, and perhaps also practice locations, which may have composite properties of groups and organizations while adding another dimension.</p>
 
-<p>Together, these concepts are used to provision access to database records, such as patients.  The relationship between database records and users may be relatively simple, such as a foreign key in the record that points to a user.  Or, it may be more complex, perhaps managing a many-to-many relationship that includes the user group and other hierarchies.  Additional complexity is involved when one considers how user-level changes should modify record access over time.  For example, if a new user is added to a record that was previously created, should this user now have access to the record?  </p>
+<p>Together, these concepts are used to provision access to database records, such as patients.  The relationship between database records and users may be relatively simple, such as a foreign key in the record that points to a user.  Or, it may be more complex, perhaps managing a many-to-many relationship that includes the user group and other hierarchies.  Additional complexity is involved when one considers how user-level changes should modify record access over time.  For example, if a new user is added to a record that was previously created, should this user now have access to the record?</p>
 
 <p>You already know how to do all of this stuff-so we have designed the API to avoid compromising your carefully designed access controls.  We do this by skipping the user concept entirely&ndash;instead, we use <code class="prettyprint">access_token</code>s that grant access to the associated prior authorization to anyone in their possession.</p>
 
@@ -521,9 +587,9 @@ While most resources will accept the <code class="prettyprint">api_key</code> an
 
 <h3 id="storing-access-tokens">Storing Access Tokens</h3>
 
-<p>Access tokens should be stored by the Client System such that they can be used appropriately for any given user context.  To take a simple example, imagine that your system has a single user access control scheme.  The token management associated with this scheme would be easy-just keep a list of tokens with each user (perhaps all of the system-wide tokens in one table with a foreign key to the user).  </p>
+<p>Access tokens should be stored by the Client System such that they can be used appropriately for any given user context.  To take a simple example, imagine that your system has a single user access control scheme.  The token management associated with this scheme would be easy-just keep a list of tokens with each user (perhaps all of the system-wide tokens in one table with a foreign key to the user).</p>
 
-<p>Your system will probably be a bit more complicated than that. You&rsquo;ll probably want to provide access so that nursing and administative staff can see prior authorizations for their doctors, and everyone can see the work in their workgroup.  Remember to think about the three ways that prior authorizations may be created: </p>
+<p>Your system will probably be a bit more complicated than that. You&rsquo;ll probably want to provide access so that nursing and administative staff can see prior authorizations for their doctors, and everyone can see the work in their workgroup.  Remember to think about the three ways that prior authorizations may be created:</p>
 
 <ol>
 <li>By practice office staff, using the New PA Form</li>
@@ -535,11 +601,11 @@ While most resources will accept the <code class="prettyprint">api_key</code> an
 
 <h3 id="using-access-tokens">Using Access Tokens</h3>
 
-<p>So that you may use client-side code to perform the integration, the <code class="prettyprint">/requests/</code> resource does not require the use of the api_secret.  </p>
+<p>So that you may use client-side code to perform the integration, the <code class="prettyprint">/requests/</code> resource does not require the use of the api_secret.</p>
 
-<p>This means that access tokens are effectively passwords.  Their security comes from being hard to guess (they are long random strings), and from not revealing them to users that shouldn’t be able to see their associated PA.  </p>
+<p>This means that access tokens are effectively passwords.  Their security comes from being hard to guess (they are long random strings), and from not revealing them to users that shouldn’t be able to see their associated PA.</p>
 
-<p>Each access token is unique for each request (i.e., they aren’t re-used)-this makes their use lower risk than typical password-based authentication systems-which could provide access to large volumes of protected health information if they are compromised.  </p>
+<p>Each access token is unique for each request (i.e., they aren’t re-used)-this makes their use lower risk than typical password-based authentication systems-which could provide access to large volumes of protected health information if they are compromised.</p>
 
 <p>You may choose to actively manage <code class="prettyprint">access_token</code>s. This is unneccessary unless the tokens are compromised, but you may wish to consider it if you are using tokens in a client-side application.  For example, you could regenerate tokens for a particular request if a user of the system shouldn’t have access to the PA request anymore.  While low risk, it would be possible that this user had previously recorded the <code class="prettyprint">access_token</code>.</p>
 
@@ -599,7 +665,7 @@ Be careful that your implementation doesn&rsquo;t create blocking requests that 
 
 <h3 id="dashboard-and-programmatic-monitoring">Dashboard and Programmatic Monitoring</h3>
 
-<p>To promote transparency, we publish an <a href="https://uptime.covermymeds.com/">Uptime Dashboard</a> which shows realtime status information and historical uptime data.  </p>
+<p>To promote transparency, we publish an <a href="https://uptime.covermymeds.com/">Uptime Dashboard</a> which shows realtime status information and historical uptime data.</p>
 
 <p>You may also programatically monitor each API resource by using its <code class="prettyprint">/_ping/</code> route.  Should you wish to do this, the most important resource to monitor is <code class="prettyprint">https://api.covermymeds.com/requests/_ping</code>.  A <code class="prettyprint">status</code> of <code class="prettyprint">ok</code> indicates that systems are up. Anything else indicates a possible problem.</p>
 
@@ -639,7 +705,7 @@ Be careful that your implementation doesn&rsquo;t create blocking requests that 
 
 <h2 id="business-associate-agreement">Business Associate Agreement</h2>
 
-<p>CoverMyMeds uses a standard Business Associate Agreement with most providers, and may execute customized Business Associate Agreements with large health systems, pharmacies, and plans or PBMs (payers). </p>
+<p>CoverMyMeds uses a standard Business Associate Agreement with most providers, and may execute customized Business Associate Agreements with large health systems, pharmacies, and plans or PBMs (payers).</p>
 
 <p>Integrating Systems will execute a Mutual Subcontract Business Associate Agreement with CoverMyMeds.  This document obligates both parties to terms of the Business Associate Agreement, and allows data to be exchanged between the parties.</p>
 
@@ -654,7 +720,7 @@ Be careful that your implementation doesn&rsquo;t create blocking requests that 
 <p><aside class="notice">
 Questions or concerns about our security or privacy program may be directed to our Privacy Officer:</p>
 
-<p><a href="mailto:privacymatters@covermymeds.com">privacymatters@covermymeds.com</a> </p>
+<p><a href="mailto:privacymatters@covermymeds.com">privacymatters@covermymeds.com</a></p>
 
 <p>1-866-452-5017</p>
 
@@ -670,6 +736,10 @@ Columbus, Ohio 43215
             
               
                 <a href="#" data-language-name="html">html</a>
+              
+            
+              
+                <a href="#" data-language-name="javascript">javascript</a>
               
             
               
