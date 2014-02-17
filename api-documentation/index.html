@@ -227,9 +227,9 @@ Make sure to check out our <a href="https://github.com/covermymeds/api-jquery-pl
 <p>Plans that participate in the ePA process with CoverMyMeds receive electronic PA requests, and provide electronic determinations (approved/denied), sometimes in real-time.  Plans that do not participate in the ePA process receive a PA request via fax, on their appropriate drug-specific form. Determinations for non-participating plans are provided directly to the prescriber (outside of the CMM workflow), however approval or denial may be tracked in CMM by the user.</p>
 
 <h1 id="/drugs/">/drugs/</h1>
-<pre class="highlight html"><span class="nt">&lt;form</span> <span class="na">method=</span><span class="s">"get"</span> <span class="na">action=</span><span class="s">"drugs"</span><span class="nt">&gt;</span>
-  <span class="nt">&lt;label</span> <span class="na">for=</span><span class="s">"query"</span><span class="nt">&gt;</span>Query<span class="nt">&lt;/label&gt;</span>
-  <span class="nt">&lt;input</span> <span class="na">id=</span><span class="s">"query"</span> <span class="na">name=</span><span class="s">"q"</span> <span class="na">placeholder=</span><span class="s">"(required)"</span> <span class="na">type=</span><span class="s">"text"</span><span class="nt">&gt;</span>
+<pre class="highlight html"><span class="nt">&lt;form</span> <span class="na">method=</span><span class="s">"get"</span> <span class="na">action=</span><span class="s">"https://api.covermymeds.com/drugs"</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;label</span> <span class="na">for=</span><span class="s">"drugs_query"</span><span class="nt">&gt;</span>Query<span class="nt">&lt;/label&gt;</span>
+  <span class="nt">&lt;input</span> <span class="na">id=</span><span class="s">"drugs_query"</span> <span class="na">name=</span><span class="s">"q"</span> <span class="na">placeholder=</span><span class="s">"(required)"</span> <span class="na">type=</span><span class="s">"text"</span><span class="nt">&gt;</span>
   <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"hidden"</span> <span class="na">name=</span><span class="s">"v"</span> <span class="na">value=</span><span class="s">"1"</span><span class="nt">&gt;</span>
   <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"hidden"</span> <span class="na">name=</span><span class="s">"api_id"</span> <span class="na">value=</span><span class="s">'1vd9o4427lyi0ccb2uem'</span><span class="nt">&gt;</span>
   <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"submit"</span> <span class="na">value=</span><span class="s">"Submit"</span><span class="nt">&gt;</span>
@@ -266,13 +266,13 @@ Make sure to check out our <a href="https://github.com/covermymeds/api-jquery-pl
 <p>Submitting an NDC code is advantageous when you are initiating the request from the e-prescribing workflow where the user has already &ldquo;picked&rdquo; a drug in your system, and you know the NDC code. The <code class="prettyprint">/drugs/</code> resource is a good way to show a type-ahead search, such as you will need in the New PA form, so using CMM&rsquo;s internal drug_id can be convenient here.  </p>
 
 <h1 id="/forms/">/forms/</h1>
-<pre class="highlight html"><span class="nt">&lt;form</span> <span class="na">method=</span><span class="s">"get"</span> <span class="na">action=</span><span class="s">"forms"</span><span class="nt">&gt;</span>
-  <span class="nt">&lt;label</span> <span class="na">for=</span><span class="s">"query"</span><span class="nt">&gt;</span>Query<span class="nt">&lt;/label&gt;</span>
-  <span class="nt">&lt;input</span> <span class="na">id=</span><span class="s">"query"</span> <span class="na">name=</span><span class="s">"q"</span> <span class="na">placeholder=</span><span class="s">"(required)"</span> <span class="na">type=</span><span class="s">"text"</span><span class="nt">&gt;</span>
-  <span class="nt">&lt;label</span> <span class="na">for=</span><span class="s">"drug_id"</span><span class="nt">&gt;</span>Drug ID<span class="nt">&lt;/label&gt;</span>
-  <span class="nt">&lt;input</span> <span class="na">id=</span><span class="s">"drug_id"</span> <span class="na">name=</span><span class="s">"drug_id"</span> <span class="na">placeholder=</span><span class="s">"(required)"</span> <span class="na">type=</span><span class="s">"text"</span><span class="nt">&gt;</span>
-  <span class="nt">&lt;label</span> <span class="na">for=</span><span class="s">"state"</span><span class="nt">&gt;</span>State<span class="nt">&lt;/label&gt;</span>
-  <span class="nt">&lt;input</span> <span class="na">id=</span><span class="s">"state"</span> <span class="na">name=</span><span class="s">"state"</span> <span class="na">placeholder=</span><span class="s">"(required)"</span> <span class="na">type=</span><span class="s">"text"</span><span class="nt">&gt;</span>
+<pre class="highlight html"><span class="nt">&lt;form</span> <span class="na">method=</span><span class="s">"get"</span> <span class="na">action=</span><span class="s">"https://api.covermymeds.com/forms"</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;label</span> <span class="na">for=</span><span class="s">"forms_query"</span><span class="nt">&gt;</span>Query<span class="nt">&lt;/label&gt;</span>
+  <span class="nt">&lt;input</span> <span class="na">id=</span><span class="s">"forms_query"</span> <span class="na">name=</span><span class="s">"q"</span> <span class="na">placeholder=</span><span class="s">"(required)"</span> <span class="na">type=</span><span class="s">"text"</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;label</span> <span class="na">for=</span><span class="s">"forms_drug_id"</span><span class="nt">&gt;</span>Drug ID<span class="nt">&lt;/label&gt;</span>
+  <span class="nt">&lt;input</span> <span class="na">id=</span><span class="s">"forms_drug_id"</span> <span class="na">name=</span><span class="s">"drug_id"</span> <span class="na">placeholder=</span><span class="s">"(required)"</span> <span class="na">type=</span><span class="s">"text"</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;label</span> <span class="na">for=</span><span class="s">"forms_state"</span><span class="nt">&gt;</span>State<span class="nt">&lt;/label&gt;</span>
+  <span class="nt">&lt;input</span> <span class="na">id=</span><span class="s">"forms_state"</span> <span class="na">name=</span><span class="s">"state"</span> <span class="na">placeholder=</span><span class="s">"(required)"</span> <span class="na">type=</span><span class="s">"text"</span><span class="nt">&gt;</span>
   <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"hidden"</span> <span class="na">name=</span><span class="s">"v"</span> <span class="na">value=</span><span class="s">"1"</span><span class="nt">&gt;</span>
   <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"hidden"</span> <span class="na">name=</span><span class="s">"api_id"</span> <span class="na">value=</span><span class="s">'1vd9o4427lyi0ccb2uem'</span><span class="nt">&gt;</span>
   <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"submit"</span> <span class="na">value=</span><span class="s">"Submit"</span><span class="nt">&gt;</span>
@@ -318,16 +318,16 @@ Make sure to check out our <a href="https://github.com/covermymeds/api-jquery-pl
 
 <h2 id="post-/requests/">POST /requests/</h2>
 <pre class="highlight html"><span class="nt">&lt;form</span> <span class="na">method=</span><span class="s">"post"</span> <span class="na">action=</span><span class="s">"https://api.covermymeds.com/requests"</span><span class="nt">&gt;</span>
-  <span class="nt">&lt;label</span> <span class="na">for=</span><span class="s">"first_name"</span><span class="nt">&gt;</span>First Name<span class="nt">&lt;/label&gt;</span>
-  <span class="nt">&lt;input</span> <span class="na">id=</span><span class="s">"first_name"</span> <span class="na">name=</span><span class="s">"request[patient][first_name]"</span> <span class="na">placeholder=</span><span class="s">"(required)"</span> <span class="na">type=</span><span class="s">"text"</span><span class="nt">&gt;</span>
-  <span class="nt">&lt;label</span> <span class="na">for=</span><span class="s">"last_name"</span><span class="nt">&gt;</span>Last Name<span class="nt">&lt;/label&gt;</span>
-  <span class="nt">&lt;input</span> <span class="na">id=</span><span class="s">"last_name"</span> <span class="na">name=</span><span class="s">"request[patient][last_name]"</span> <span class="na">placeholder=</span><span class="s">"(required)"</span> <span class="na">type=</span><span class="s">"text"</span><span class="nt">&gt;</span>
-  <span class="nt">&lt;label</span> <span class="na">for=</span><span class="s">"date_of_birth"</span><span class="nt">&gt;</span>Date Of Birth<span class="nt">&lt;/label&gt;</span>
-  <span class="nt">&lt;input</span> <span class="na">id=</span><span class="s">"date_of_birth"</span> <span class="na">name=</span><span class="s">"request[patient][date_of_birth]"</span> <span class="na">placeholder=</span><span class="s">"(required)"</span> <span class="na">type=</span><span class="s">"text"</span><span class="nt">&gt;</span>
-  <span class="nt">&lt;label</span> <span class="na">for=</span><span class="s">"state"</span><span class="nt">&gt;</span>State<span class="nt">&lt;/label&gt;</span>
-  <span class="nt">&lt;input</span> <span class="na">id=</span><span class="s">"state"</span> <span class="na">name=</span><span class="s">"request[state]"</span> <span class="na">placeholder=</span><span class="s">"(required)"</span> <span class="na">type=</span><span class="s">"text"</span><span class="nt">&gt;</span>
-  <span class="nt">&lt;label</span> <span class="na">for=</span><span class="s">"drug_id"</span><span class="nt">&gt;</span>Drug ID<span class="nt">&lt;/label&gt;</span>
-  <span class="nt">&lt;input</span> <span class="na">id=</span><span class="s">"drug_id"</span> <span class="na">name=</span><span class="s">"request[prescription][drug_id]"</span> <span class="na">value=</span><span class="s">"094563"</span> <span class="na">type=</span><span class="s">"text"</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;label</span> <span class="na">for=</span><span class="s">"requests_first_name"</span><span class="nt">&gt;</span>First Name<span class="nt">&lt;/label&gt;</span>
+  <span class="nt">&lt;input</span> <span class="na">id=</span><span class="s">"requests_first_name"</span> <span class="na">name=</span><span class="s">"request[patient][first_name]"</span> <span class="na">placeholder=</span><span class="s">"(required)"</span> <span class="na">type=</span><span class="s">"text"</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;label</span> <span class="na">for=</span><span class="s">"requests_last_name"</span><span class="nt">&gt;</span>Last Name<span class="nt">&lt;/label&gt;</span>
+  <span class="nt">&lt;input</span> <span class="na">id=</span><span class="s">"requests_last_name"</span> <span class="na">name=</span><span class="s">"request[patient][last_name]"</span> <span class="na">placeholder=</span><span class="s">"(required)"</span> <span class="na">type=</span><span class="s">"text"</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;label</span> <span class="na">for=</span><span class="s">"requests_date_of_birth"</span><span class="nt">&gt;</span>Date Of Birth<span class="nt">&lt;/label&gt;</span>
+  <span class="nt">&lt;input</span> <span class="na">id=</span><span class="s">"requests_date_of_birth"</span> <span class="na">name=</span><span class="s">"request[patient][date_of_birth]"</span> <span class="na">placeholder=</span><span class="s">"(required)"</span> <span class="na">type=</span><span class="s">"text"</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;label</span> <span class="na">for=</span><span class="s">"requests_state"</span><span class="nt">&gt;</span>State<span class="nt">&lt;/label&gt;</span>
+  <span class="nt">&lt;input</span> <span class="na">id=</span><span class="s">"requests_state"</span> <span class="na">name=</span><span class="s">"request[state]"</span> <span class="na">placeholder=</span><span class="s">"(required)"</span> <span class="na">type=</span><span class="s">"text"</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;label</span> <span class="na">for=</span><span class="s">"requests_drug_id"</span><span class="nt">&gt;</span>Drug ID<span class="nt">&lt;/label&gt;</span>
+  <span class="nt">&lt;input</span> <span class="na">id=</span><span class="s">"requests_drug_id"</span> <span class="na">name=</span><span class="s">"request[prescription][drug_id]"</span> <span class="na">value=</span><span class="s">"094563"</span> <span class="na">type=</span><span class="s">"text"</span><span class="nt">&gt;</span>
   <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"hidden"</span> <span class="na">name=</span><span class="s">"v"</span> <span class="na">value=</span><span class="s">"1"</span><span class="nt">&gt;</span>
   <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"hidden"</span> <span class="na">name=</span><span class="s">"api_id"</span> <span class="na">value=</span><span class="s">'1vd9o4427lyi0ccb2uem'</span><span class="nt">&gt;</span>
   <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"submit"</span> <span class="na">value=</span><span class="s">"Submit"</span><span class="nt">&gt;</span>
@@ -339,8 +339,8 @@ Make sure to check out our <a href="https://github.com/covermymeds/api-jquery-pl
 
 <h2 id="get-/requests/">GET /requests/</h2>
 <pre class="highlight html"><span class="nt">&lt;form</span> <span class="na">method=</span><span class="s">"get"</span> <span class="na">action=</span><span class="s">"https://api.covermymeds.com/requests"</span><span class="nt">&gt;</span>
-  <span class="nt">&lt;label</span> <span class="na">for=</span><span class="s">"id1"</span><span class="nt">&gt;</span>Pa ID<span class="nt">&lt;/label&gt;</span>
-  <span class="nt">&lt;input</span> <span class="na">id=</span><span class="s">"id1"</span> <span class="na">name=</span><span class="s">"ids[]"</span> <span class="na">placeholder=</span><span class="s">"(required)"</span> <span class="na">type=</span><span class="s">"text"</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;label</span> <span class="na">for=</span><span class="s">"get_requests_id_1"</span><span class="nt">&gt;</span>Pa ID<span class="nt">&lt;/label&gt;</span>
+  <span class="nt">&lt;input</span> <span class="na">id=</span><span class="s">"get_requests_id_1"</span> <span class="na">name=</span><span class="s">"ids[]"</span> <span class="na">placeholder=</span><span class="s">"(required)"</span> <span class="na">type=</span><span class="s">"text"</span><span class="nt">&gt;</span>
   <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"hidden"</span> <span class="na">name=</span><span class="s">"v"</span> <span class="na">value=</span><span class="s">"1"</span><span class="nt">&gt;</span>
   <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"hidden"</span> <span class="na">name=</span><span class="s">"api_id"</span> <span class="na">value=</span><span class="s">'1vd9o4427lyi0ccb2uem'</span><span class="nt">&gt;</span>
   <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"hidden"</span> <span class="na">name=</span><span class="s">"api_secret"</span> <span class="na">value=</span><span class="s">'q4trxd3rj8w38qfykqn-l9zcmxxlnibzwciof6pu'</span><span class="nt">&gt;</span>
@@ -363,9 +363,9 @@ Make sure to check out our <a href="https://github.com/covermymeds/api-jquery-pl
 <p>Use this method to retrieve information about a PA that already exists.  Because this method requires the <code class="prettyprint">api_secret</code>, it should be made from your server.  If you wish to display the PA to the user, you should display it on the CMM website as described below.</p>
 
 <h2 id="post-/requests/search/">POST /requests/search/</h2>
-<pre class="highlight html"><span class="nt">&lt;form</span> <span class="na">method=</span><span class="s">"post"</span> <span class="na">action=</span><span class="s">"requests/search/"</span><span class="nt">&gt;</span>
-  <span class="nt">&lt;label</span> <span class="na">for=</span><span class="s">"id1"</span><span class="nt">&gt;</span>Pa ID<span class="nt">&lt;/label&gt;</span>
-  <span class="nt">&lt;input</span> <span class="na">id=</span><span class="s">"id1"</span> <span class="na">name=</span><span class="s">"ids[]"</span> <span class="na">placeholder=</span><span class="s">"(required)"</span> <span class="na">type=</span><span class="s">"text"</span><span class="nt">&gt;</span>
+<pre class="highlight html"><span class="nt">&lt;form</span> <span class="na">method=</span><span class="s">"post"</span> <span class="na">action=</span><span class="s">"https://api.covermymeds.com/requests/search/"</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;label</span> <span class="na">for=</span><span class="s">"post_requests_id_1"</span><span class="nt">&gt;</span>Pa ID<span class="nt">&lt;/label&gt;</span>
+  <span class="nt">&lt;input</span> <span class="na">id=</span><span class="s">"post_requests_id_1"</span> <span class="na">name=</span><span class="s">"ids[]"</span> <span class="na">placeholder=</span><span class="s">"(required)"</span> <span class="na">type=</span><span class="s">"text"</span><span class="nt">&gt;</span>
   <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"hidden"</span> <span class="na">name=</span><span class="s">"v"</span> <span class="na">value=</span><span class="s">"1"</span><span class="nt">&gt;</span>
   <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"hidden"</span> <span class="na">name=</span><span class="s">"api_id"</span> <span class="na">value=</span><span class="s">'1vd9o4427lyi0ccb2uem'</span><span class="nt">&gt;</span>
   <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"hidden"</span> <span class="na">name=</span><span class="s">"api_secret"</span> <span class="na">value=</span><span class="s">'q4trxd3rj8w38qfykqn-l9zcmxxlnibzwciof6pu'</span><span class="nt">&gt;</span>
@@ -404,8 +404,8 @@ Make sure to check out our <a href="https://github.com/covermymeds/api-jquery-pl
 
 <h2 id="post-/requests/tokens/">POST /requests/tokens/</h2>
 <pre class="highlight html"><span class="nt">&lt;form</span> <span class="na">method=</span><span class="s">"post"</span> <span class="na">action=</span><span class="s">"https://api.covermymeds.com/requests/tokens/"</span><span class="nt">&gt;</span>
-  <span class="nt">&lt;label</span> <span class="na">for=</span><span class="s">"id1"</span><span class="nt">&gt;</span>Pa ID<span class="nt">&lt;/label&gt;</span>
-  <span class="nt">&lt;input</span> <span class="na">id=</span><span class="s">"id1"</span> <span class="na">name=</span><span class="s">"request_ids[]"</span> <span class="na">placeholder=</span><span class="s">"(required)"</span> <span class="na">type=</span><span class="s">"text"</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;label</span> <span class="na">for=</span><span class="s">"token_id_1"</span><span class="nt">&gt;</span>Pa ID<span class="nt">&lt;/label&gt;</span>
+  <span class="nt">&lt;input</span> <span class="na">id=</span><span class="s">"token_id_1"</span> <span class="na">name=</span><span class="s">"request_ids[]"</span> <span class="na">placeholder=</span><span class="s">"(required)"</span> <span class="na">type=</span><span class="s">"text"</span><span class="nt">&gt;</span>
   <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"hidden"</span> <span class="na">name=</span><span class="s">"v"</span> <span class="na">value=</span><span class="s">"1"</span><span class="nt">&gt;</span>
   <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"hidden"</span> <span class="na">name=</span><span class="s">"api_id"</span> <span class="na">value=</span><span class="s">'1vd9o4427lyi0ccb2uem'</span><span class="nt">&gt;</span>
   <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"hidden"</span> <span class="na">name=</span><span class="s">"api_secret"</span> <span class="na">value=</span><span class="s">'q4trxd3rj8w38qfykqn-l9zcmxxlnibzwciof6pu'</span><span class="nt">&gt;</span>
@@ -429,12 +429,12 @@ Make sure to check out our <a href="https://github.com/covermymeds/api-jquery-pl
 
 <h2 id="delete-/requests/tokens/{id}/">DELETE /requests/tokens/{id}/</h2>
 <pre class="highlight html"><span class="nt">&lt;form</span> <span class="na">method=</span><span class="s">"post"</span> <span class="na">action=</span><span class="s">"https://api.covermymeds.com/requests/tokens/"</span> <span class="na">id=</span><span class="s">"delete_token"</span><span class="nt">&gt;</span>
-  <span class="c">&lt;!-- This tells our server that we actually want this request to be DELETE rather than POST --&gt;</span>
   <span class="nt">&lt;label</span> <span class="na">for=</span><span class="s">"delete_token_id"</span><span class="nt">&gt;</span>Token ID<span class="nt">&lt;/label&gt;</span>
   <span class="nt">&lt;input</span> <span class="na">id=</span><span class="s">"delete_token_id"</span> <span class="na">name=</span><span class="s">"id"</span> <span class="na">placeholder=</span><span class="s">"(required)"</span> <span class="na">type=</span><span class="s">"text"</span><span class="nt">&gt;</span>
   <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"hidden"</span> <span class="na">name=</span><span class="s">"v"</span> <span class="na">value=</span><span class="s">"1"</span><span class="nt">&gt;</span>
   <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"hidden"</span> <span class="na">name=</span><span class="s">"api_id"</span> <span class="na">value=</span><span class="s">'1vd9o4427lyi0ccb2uem'</span><span class="nt">&gt;</span>
   <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"hidden"</span> <span class="na">name=</span><span class="s">"api_secret"</span> <span class="na">value=</span><span class="s">'q4trxd3rj8w38qfykqn-l9zcmxxlnibzwciof6pu'</span><span class="nt">&gt;</span>
+  <span class="c">&lt;!-- This tells our server that we actually want this request to be DELETE rather than POST --&gt;</span>
   <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"hidden"</span> <span class="na">name=</span><span class="s">"_method"</span> <span class="na">value=</span><span class="s">"delete"</span><span class="nt">&gt;</span>
   <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"submit"</span> <span class="na">value=</span><span class="s">"Submit"</span><span class="nt">&gt;</span>
 <span class="nt">&lt;/form&gt;</span>
@@ -444,16 +444,11 @@ Make sure to check out our <a href="https://github.com/covermymeds/api-jquery-pl
 </span>  <span class="c1">// the ID is a user-provided value. This Javascript dynamically appends the token ID
 </span>  <span class="c1">// value to the form URL when the form is submitted.
 </span>  <span class="p">(</span><span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
-    <span class="kd">var</span> <span class="nx">form</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s1">'delete_token'</span><span class="p">);</span>
-    <span class="nx">form</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span><span class="s1">'submit'</span><span class="p">,</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">event</span><span class="p">)</span> <span class="p">{</span>
-      <span class="kd">var</span> <span class="nx">tokenId</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s1">'delete_token_id'</span><span class="p">),</span>
-          <span class="nx">form</span> <span class="o">=</span> <span class="nx">event</span><span class="p">.</span><span class="nx">target</span><span class="p">;</span>
+    <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s1">'delete_token'</span><span class="p">).</span><span class="nx">addEventListener</span><span class="p">(</span><span class="s1">'submit'</span><span class="p">,</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">event</span><span class="p">)</span> <span class="p">{</span>
+      <span class="kd">var</span> <span class="nx">form</span> <span class="o">=</span> <span class="nx">event</span><span class="p">.</span><span class="nx">target</span><span class="p">;</span>
 
       <span class="c1">// Append the token ID to the API URL
-</span>      <span class="nx">form</span><span class="p">.</span><span class="nx">action</span> <span class="o">+=</span> <span class="nx">tokenId</span><span class="p">.</span><span class="nx">value</span><span class="p">;</span>
-
-      <span class="c1">// Remove the token ID input element from the form
-</span>      <span class="nx">tokenId</span><span class="p">.</span><span class="nx">parentNode</span><span class="p">.</span><span class="nx">removeChild</span><span class="p">(</span><span class="nx">tokenId</span><span class="p">);</span>
+</span>      <span class="nx">form</span><span class="p">.</span><span class="nx">action</span> <span class="o">+=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s1">'delete_token_id'</span><span class="p">).</span><span class="nx">value</span><span class="p">;</span>
     <span class="p">},</span> <span class="kc">true</span><span class="p">);</span>
   <span class="p">}());</span>
 <span class="nt">&lt;/script&gt;</span>
@@ -739,6 +734,19 @@ Columbus, Ohio 43215
               
             
               
+                <a href="#" data-language-name="javascript">javascript</a>
+              
+            
+              
+                <a href="#" data-language-name="python">python</a>
+              
+            
+          
+        </div>
+      </div>
+    </div>
+  </body>
+</html>    
                 <a href="#" data-language-name="javascript">javascript</a>
               
             
