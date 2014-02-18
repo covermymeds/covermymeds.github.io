@@ -111,8 +111,9 @@
   <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"hidden"</span> <span class="na">name=</span><span class="s">"api_secret"</span> <span class="na">value=</span><span class="s">'q4trxd3rj8w38qfykqn-l9zcmxxlnibzwciof6pu'</span><span class="nt">&gt;</span>
   <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"submit"</span> <span class="na">value=</span><span class="s">"Submit"</span><span class="nt">&gt;</span>
 <span class="nt">&lt;/form&gt;</span>
-</pre><pre class="highlight javascript"><span class="nx">$</span><span class="p">(</span><span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
-
+</pre><pre class="highlight javascript"><span class="o">&lt;</span><span class="nx">script</span> <span class="nx">src</span><span class="o">=</span><span class="s2">"http://code.jquery.com/jquery-1.11.0.min.js"</span><span class="o">&gt;&lt;</span><span class="sr">/</span><span class="err">script&gt;</span>
+<span class="o">&lt;</span><span class="nx">script</span><span class="o">&gt;</span>
+<span class="nx">$</span><span class="p">(</span><span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
   <span class="c1">// Create a PA
 </span>  <span class="nx">$</span><span class="p">.</span><span class="nx">ajax</span><span class="p">({</span>
     <span class="na">method</span><span class="p">:</span> <span class="s1">'post'</span><span class="p">,</span>
@@ -134,7 +135,7 @@
       <span class="p">}</span>
     <span class="p">},</span>
     <span class="na">success</span><span class="p">:</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">data</span><span class="p">)</span> <span class="p">{</span>
-      <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">"Request created! "</span> <span class="o">+</span> <span class="nx">data</span><span class="p">);</span>
+      <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">"Request created! "</span> <span class="o">+</span> <span class="nx">JSON</span><span class="p">.</span><span class="nx">stringify</span><span class="p">(</span><span class="nx">data</span><span class="p">));</span>
     <span class="p">}</span>
   <span class="p">});</span>
 
@@ -144,15 +145,16 @@
     <span class="na">url</span><span class="p">:</span> <span class="s1">'https://api.covermymeds.com/requests'</span><span class="p">,</span>
     <span class="na">data</span><span class="p">:</span> <span class="p">{</span>
       <span class="na">api_id</span><span class="p">:</span> <span class="s1">'1vd9o4427lyi0ccb2uem'</span><span class="p">,</span>
+      <span class="na">api_secret</span><span class="p">:</span> <span class="s1">'q4trxd3rj8w38qfykqn-l9zcmxxlnibzwciof6pu'</span><span class="p">,</span>
       <span class="na">v</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
-      <span class="na">ids</span><span class="p">:</span> <span class="p">[</span><span class="s1">'VH9VW9'</span><span class="p">]</span>
+      <span class="na">ids</span><span class="p">:</span> <span class="p">[</span><span class="s1">'GA3MW8'</span><span class="p">]</span>
     <span class="p">},</span>
     <span class="na">success</span><span class="p">:</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">data</span><span class="p">)</span> <span class="p">{</span>
-      <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">"Request search results: "</span> <span class="o">+</span> <span class="nx">data</span><span class="p">);</span>
+      <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">"Request search results: "</span> <span class="o">+</span> <span class="nx">JSON</span><span class="p">.</span><span class="nx">stringify</span><span class="p">(</span><span class="nx">data</span><span class="p">));</span>
     <span class="p">}</span>
   <span class="p">});</span>
-
 <span class="p">});</span>
+<span class="o">&lt;</span><span class="sr">/</span><span class="err">script&gt;</span>
 </pre><pre class="highlight python"><span class="kn">import</span> <span class="nn">requests</span>
 
 <span class="c"># create a PA</span>
@@ -273,17 +275,23 @@ Make sure to check out our <a href="https://github.com/covermymeds/api-jquery-pl
   <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"hidden"</span> <span class="na">name=</span><span class="s">"api_id"</span> <span class="na">value=</span><span class="s">'1vd9o4427lyi0ccb2uem'</span><span class="nt">&gt;</span>
   <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"submit"</span> <span class="na">value=</span><span class="s">"Submit"</span><span class="nt">&gt;</span>
 <span class="nt">&lt;/form&gt;</span>
-</pre><pre class="highlight javascript"><span class="nx">$</span><span class="p">(</span><span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
-  <span class="kd">var</span> <span class="nx">options</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="na">apiId</span><span class="p">:</span> <span class="s1">'1vd9o4427lyi0ccb2uem'</span><span class="p">,</span>
-    <span class="na">apiSecret</span><span class="p">:</span> <span class="s1">'q4trxd3rj8w38qfykqn-l9zcmxxlnibzwciof6pu'</span><span class="p">,</span>
-    <span class="na">version</span><span class="p">:</span> <span class="mi">1</span>
-  <span class="p">};</span>
-
-  <span class="c1">// Assuming there is an HTML element
-</span>  <span class="c1">// &lt;input type="text" id="drug_search"&gt;
-</span>  <span class="nx">$</span><span class="p">(</span><span class="s1">'#drug_search'</span><span class="p">).</span><span class="nx">drugSearch</span><span class="p">(</span><span class="nx">options</span><span class="p">);</span>
+</pre><pre class="highlight javascript"><span class="o">&lt;</span><span class="nx">script</span> <span class="nx">src</span><span class="o">=</span><span class="s2">"http://code.jquery.com/jquery-1.11.0.min.js"</span><span class="o">&gt;&lt;</span><span class="sr">/</span><span class="err">script&gt;</span>
+<span class="o">&lt;</span><span class="nx">script</span><span class="o">&gt;</span>
+<span class="nx">$</span><span class="p">(</span><span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+  <span class="nx">$</span><span class="p">.</span><span class="nx">ajax</span><span class="p">({</span>
+    <span class="na">method</span><span class="p">:</span> <span class="s1">'get'</span><span class="p">,</span>
+    <span class="na">url</span><span class="p">:</span> <span class="s1">'https://api.covermymeds.com/drugs'</span><span class="p">,</span>
+    <span class="na">data</span><span class="p">:</span> <span class="p">{</span>
+      <span class="na">q</span><span class="p">:</span> <span class="s1">'xanax'</span><span class="p">,</span>
+      <span class="na">v</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+      <span class="na">api_id</span><span class="p">:</span> <span class="s1">'1vd9o4427lyi0ccb2uem'</span>
+    <span class="p">},</span>
+    <span class="na">success</span><span class="p">:</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">data</span><span class="p">)</span> <span class="p">{</span>
+      <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">'Drug search results: '</span> <span class="o">+</span> <span class="nx">JSON</span><span class="p">.</span><span class="nx">stringify</span><span class="p">(</span><span class="nx">data</span><span class="p">));</span>
+    <span class="p">}</span>
+  <span class="p">});</span>
 <span class="p">});</span>
+<span class="o">&lt;</span><span class="sr">/</span><span class="err">script&gt;</span>
 </pre><pre class="highlight python"><span class="kn">import</span> <span class="nn">requests</span>
 
 <span class="n">params</span> <span class="o">=</span> <span class="p">{</span>
@@ -342,19 +350,25 @@ Make sure to check out our <a href="https://github.com/covermymeds/api-jquery-pl
   <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"hidden"</span> <span class="na">name=</span><span class="s">"api_id"</span> <span class="na">value=</span><span class="s">'1vd9o4427lyi0ccb2uem'</span><span class="nt">&gt;</span>
   <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"submit"</span> <span class="na">value=</span><span class="s">"Submit"</span><span class="nt">&gt;</span>
 <span class="nt">&lt;/form&gt;</span>
-</pre><pre class="highlight javascript">  <span class="nx">$</span><span class="p">(</span><span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
-    <span class="kd">var</span> <span class="nx">options</span> <span class="o">=</span> <span class="p">{</span>
-      <span class="na">apiId</span><span class="p">:</span> <span class="s1">'1vd9o4427lyi0ccb2uem'</span><span class="p">,</span>
-      <span class="na">apiSecret</span><span class="p">:</span> <span class="s1">'q4trxd3rj8w38qfykqn-l9zcmxxlnibzwciof6pu'</span><span class="p">,</span>
-      <span class="na">version</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
-      <span class="na">drugId</span><span class="p">:</span> <span class="mi">12345</span><span class="p">,</span>
-      <span class="na">state</span><span class="p">:</span> <span class="s1">'OH'</span>
-    <span class="p">};</span>
-
-    <span class="c1">// Assuming there is an HTML element
-</span>    <span class="c1">// &lt;input type="text" id="form_search"&gt;
-</span>    <span class="nx">$</span><span class="p">(</span><span class="s1">'#form_search'</span><span class="p">).</span><span class="nx">formSearch</span><span class="p">(</span><span class="nx">options</span><span class="p">);</span>
+</pre><pre class="highlight javascript"><span class="o">&lt;</span><span class="nx">script</span> <span class="nx">src</span><span class="o">=</span><span class="s2">"http://code.jquery.com/jquery-1.11.0.min.js"</span><span class="o">&gt;&lt;</span><span class="sr">/</span><span class="err">script&gt;</span>
+<span class="o">&lt;</span><span class="nx">script</span><span class="o">&gt;</span>
+<span class="nx">$</span><span class="p">(</span><span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+  <span class="nx">$</span><span class="p">.</span><span class="nx">ajax</span><span class="p">({</span>
+    <span class="na">method</span><span class="p">:</span> <span class="s1">'get'</span><span class="p">,</span>
+    <span class="na">url</span><span class="p">:</span> <span class="s1">'https://api.covermymeds.com/forms'</span><span class="p">,</span>
+    <span class="na">data</span><span class="p">:</span> <span class="p">{</span>
+      <span class="na">q</span><span class="p">:</span> <span class="s1">'bcbs'</span><span class="p">,</span>
+      <span class="na">state</span><span class="p">:</span> <span class="s1">'OH'</span><span class="p">,</span>
+      <span class="na">drug_id</span><span class="p">:</span> <span class="s1">'064691'</span><span class="p">,</span>
+      <span class="na">v</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+      <span class="na">api_id</span><span class="p">:</span> <span class="s1">'1vd9o4427lyi0ccb2uem'</span>
+    <span class="p">},</span>
+    <span class="na">success</span><span class="p">:</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">data</span><span class="p">)</span> <span class="p">{</span>
+      <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">'Form search results: '</span> <span class="o">+</span> <span class="nx">JSON</span><span class="p">.</span><span class="nx">stringify</span><span class="p">(</span><span class="nx">data</span><span class="p">));</span>
+    <span class="p">}</span>
   <span class="p">});</span>
+<span class="p">});</span>
+<span class="o">&lt;</span><span class="sr">/</span><span class="err">script&gt;</span>
 </pre><pre class="highlight python"><span class="kn">import</span> <span class="nn">requests</span>
 
 <span class="n">params</span> <span class="o">=</span> <span class="p">{</span>
@@ -422,6 +436,34 @@ Make sure to check out our <a href="https://github.com/covermymeds/api-jquery-pl
   <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"hidden"</span> <span class="na">name=</span><span class="s">"api_id"</span> <span class="na">value=</span><span class="s">'1vd9o4427lyi0ccb2uem'</span><span class="nt">&gt;</span>
   <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"submit"</span> <span class="na">value=</span><span class="s">"Submit"</span><span class="nt">&gt;</span>
 <span class="nt">&lt;/form&gt;</span>
+</pre><pre class="highlight javascript"><span class="o">&lt;</span><span class="nx">script</span> <span class="nx">src</span><span class="o">=</span><span class="s2">"http://code.jquery.com/jquery-1.11.0.min.js"</span><span class="o">&gt;&lt;</span><span class="sr">/</span><span class="err">script&gt;</span>
+<span class="o">&lt;</span><span class="nx">script</span><span class="o">&gt;</span>
+<span class="nx">$</span><span class="p">(</span><span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+  <span class="nx">$</span><span class="p">.</span><span class="nx">ajax</span><span class="p">({</span>
+    <span class="na">method</span><span class="p">:</span> <span class="s1">'post'</span><span class="p">,</span>
+    <span class="na">url</span><span class="p">:</span> <span class="s1">'https://api.covermymeds.com/requests'</span><span class="p">,</span>
+    <span class="na">data</span><span class="p">:</span> <span class="p">{</span>
+      <span class="na">api_id</span><span class="p">:</span> <span class="s1">'1vd9o4427lyi0ccb2uem'</span><span class="p">,</span>
+      <span class="na">v</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+      <span class="na">request</span><span class="p">:</span> <span class="p">{</span>
+        <span class="na">form_id</span><span class="p">:</span> <span class="s1">'20337'</span><span class="p">,</span>
+        <span class="na">state</span><span class="p">:</span> <span class="s1">'OH'</span><span class="p">,</span>
+        <span class="na">patient</span><span class="p">:</span> <span class="p">{</span>
+          <span class="na">first_name</span><span class="p">:</span> <span class="s1">'Matt'</span><span class="p">,</span>
+          <span class="na">last_name</span><span class="p">:</span> <span class="s1">'Smith'</span><span class="p">,</span>
+          <span class="na">date_of_birth</span><span class="p">:</span> <span class="s1">'01/27/1979'</span>
+        <span class="p">},</span>
+        <span class="na">prescription</span><span class="p">:</span> <span class="p">{</span>
+          <span class="na">drug_id</span><span class="p">:</span> <span class="s1">'131079'</span>
+        <span class="p">}</span>
+      <span class="p">}</span>
+    <span class="p">},</span>
+    <span class="na">success</span><span class="p">:</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">data</span><span class="p">)</span> <span class="p">{</span>
+      <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">"Request created! "</span> <span class="o">+</span> <span class="nx">JSON</span><span class="p">.</span><span class="nx">stringify</span><span class="p">(</span><span class="nx">data</span><span class="p">));</span>
+    <span class="p">}</span>
+  <span class="p">});</span>
+<span class="p">});</span>
+<span class="o">&lt;</span><span class="sr">/</span><span class="err">script&gt;</span>
 </pre>
 <p><button class="show-schema">Show HTTP Request Schema</button>
 <code class="schema" style="display: none;">{
@@ -598,6 +640,24 @@ Make sure to check out our <a href="https://github.com/covermymeds/api-jquery-pl
   <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"hidden"</span> <span class="na">name=</span><span class="s">"api_secret"</span> <span class="na">value=</span><span class="s">'q4trxd3rj8w38qfykqn-l9zcmxxlnibzwciof6pu'</span><span class="nt">&gt;</span>
   <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"submit"</span> <span class="na">value=</span><span class="s">"Submit"</span><span class="nt">&gt;</span>
 <span class="nt">&lt;/form&gt;</span>
+</pre><pre class="highlight javascript"><span class="o">&lt;</span><span class="nx">script</span> <span class="nx">src</span><span class="o">=</span><span class="s2">"http://code.jquery.com/jquery-1.11.0.min.js"</span><span class="o">&gt;&lt;</span><span class="sr">/</span><span class="err">script&gt;</span>
+<span class="o">&lt;</span><span class="nx">script</span><span class="o">&gt;</span>
+<span class="nx">$</span><span class="p">(</span><span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+  <span class="nx">$</span><span class="p">.</span><span class="nx">ajax</span><span class="p">({</span>
+    <span class="na">method</span><span class="p">:</span> <span class="s1">'get'</span><span class="p">,</span>
+    <span class="na">url</span><span class="p">:</span> <span class="s1">'https://api.covermymeds.com/requests'</span><span class="p">,</span>
+    <span class="na">data</span><span class="p">:</span> <span class="p">{</span>
+      <span class="na">ids</span><span class="p">:</span> <span class="p">[</span><span class="s1">'GA3MW8'</span><span class="p">],</span>
+      <span class="na">v</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+      <span class="na">api_id</span><span class="p">:</span> <span class="s1">'1vd9o4427lyi0ccb2uem'</span><span class="p">,</span>
+      <span class="na">api_secret</span><span class="p">:</span> <span class="s1">'q4trxd3rj8w38qfykqn-l9zcmxxlnibzwciof6pu'</span>
+    <span class="p">},</span>
+    <span class="na">success</span><span class="p">:</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">data</span><span class="p">)</span> <span class="p">{</span>
+      <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">'Request search results: '</span> <span class="o">+</span> <span class="nx">JSON</span><span class="p">.</span><span class="nx">stringify</span><span class="p">(</span><span class="nx">data</span><span class="p">));</span>
+    <span class="p">}</span>
+  <span class="p">});</span>
+<span class="p">});</span>
+<span class="o">&lt;</span><span class="sr">/</span><span class="err">script&gt;</span>
 </pre><pre class="highlight python"><span class="kn">import</span> <span class="nn">requests</span>
 
 <span class="c"># GET /requests/</span>
@@ -729,19 +789,24 @@ Make sure to check out our <a href="https://github.com/covermymeds/api-jquery-pl
   <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"hidden"</span> <span class="na">name=</span><span class="s">"api_secret"</span> <span class="na">value=</span><span class="s">'q4trxd3rj8w38qfykqn-l9zcmxxlnibzwciof6pu'</span><span class="nt">&gt;</span>
   <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"submit"</span> <span class="na">value=</span><span class="s">"Submit"</span><span class="nt">&gt;</span>
 <span class="nt">&lt;/form&gt;</span>
-</pre><pre class="highlight javascript">
+</pre><pre class="highlight javascript"><span class="o">&lt;</span><span class="nx">script</span> <span class="nx">src</span><span class="o">=</span><span class="s2">"http://code.jquery.com/jquery-1.11.0.min.js"</span><span class="o">&gt;&lt;</span><span class="sr">/</span><span class="err">script&gt;</span>
+<span class="o">&lt;</span><span class="nx">script</span><span class="o">&gt;</span>
 <span class="nx">$</span><span class="p">(</span><span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
-  <span class="kd">var</span> <span class="nx">options</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="na">apiId</span><span class="p">:</span> <span class="s1">'1vd9o4427lyi0ccb2uem'</span><span class="p">,</span>
-    <span class="na">apiSecret</span><span class="p">:</span> <span class="s1">'q4trxd3rj8w38qfykqn-l9zcmxxlnibzwciof6pu'</span><span class="p">,</span>
-    <span class="na">version</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
-    <span class="na">ids</span><span class="p">:</span> <span class="p">[</span><span class="s1">'AB1CD2'</span><span class="p">,</span> <span class="s1">'BA3DC4'</span><span class="p">]</span>
-  <span class="p">};</span>
-
-  <span class="c1">// Assuming there is an HTML element
-</span>  <span class="c1">// &lt;div id="dashboard"&gt;&lt;/div&gt;
-</span>  <span class="nx">$</span><span class="p">(</span><span class="s1">'#dashboard'</span><span class="p">).</span><span class="nx">dashboard</span><span class="p">(</span><span class="nx">options</span><span class="p">);</span>
+  <span class="nx">$</span><span class="p">.</span><span class="nx">ajax</span><span class="p">({</span>
+    <span class="na">method</span><span class="p">:</span> <span class="s1">'post'</span><span class="p">,</span>
+    <span class="na">url</span><span class="p">:</span> <span class="s1">'https://api.covermymeds.com/requests/search'</span><span class="p">,</span>
+    <span class="na">data</span><span class="p">:</span> <span class="p">{</span>
+      <span class="na">api_id</span><span class="p">:</span> <span class="s1">'1vd9o4427lyi0ccb2uem'</span><span class="p">,</span>
+      <span class="na">api_secret</span><span class="p">:</span> <span class="s1">'q4trxd3rj8w38qfykqn-l9zcmxxlnibzwciof6pu'</span><span class="p">,</span>
+      <span class="na">v</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+      <span class="na">ids</span><span class="p">:</span> <span class="p">[</span><span class="s1">'GA3MW8'</span><span class="p">]</span>
+    <span class="p">},</span>
+    <span class="na">success</span><span class="p">:</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">data</span><span class="p">)</span> <span class="p">{</span>
+      <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">"Request search results: "</span> <span class="o">+</span> <span class="nx">JSON</span><span class="p">.</span><span class="nx">stringify</span><span class="p">(</span><span class="nx">data</span><span class="p">));</span>
+    <span class="p">}</span>
+  <span class="p">});</span>
 <span class="p">});</span>
+<span class="o">&lt;</span><span class="sr">/</span><span class="err">script&gt;</span>
 </pre><pre class="highlight python"><span class="kn">import</span> <span class="nn">requests</span>
 
 <span class="c"># POST /requests/search/</span>
@@ -880,6 +945,24 @@ Make sure to check out our <a href="https://github.com/covermymeds/api-jquery-pl
   <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"hidden"</span> <span class="na">name=</span><span class="s">"api_secret"</span> <span class="na">value=</span><span class="s">'q4trxd3rj8w38qfykqn-l9zcmxxlnibzwciof6pu'</span><span class="nt">&gt;</span>
   <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"submit"</span> <span class="na">value=</span><span class="s">"Submit"</span><span class="nt">&gt;</span>
 <span class="nt">&lt;/form&gt;</span>
+</pre><pre class="highlight javascript"><span class="o">&lt;</span><span class="nx">script</span> <span class="nx">src</span><span class="o">=</span><span class="s2">"http://code.jquery.com/jquery-1.11.0.min.js"</span><span class="o">&gt;&lt;</span><span class="sr">/</span><span class="err">script&gt;</span>
+<span class="o">&lt;</span><span class="nx">script</span><span class="o">&gt;</span>
+<span class="nx">$</span><span class="p">(</span><span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+  <span class="nx">$</span><span class="p">.</span><span class="nx">ajax</span><span class="p">({</span>
+    <span class="na">method</span><span class="p">:</span> <span class="s1">'post'</span><span class="p">,</span>
+    <span class="na">url</span><span class="p">:</span> <span class="s1">'https://api.covermymeds.com/requests/tokens'</span><span class="p">,</span>
+    <span class="na">data</span><span class="p">:</span> <span class="p">{</span>
+      <span class="na">request_ids</span><span class="p">:</span> <span class="p">[</span><span class="s1">'GA3MW8'</span><span class="p">],</span>
+      <span class="na">v</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+      <span class="na">api_id</span><span class="p">:</span> <span class="s1">'1vd9o4427lyi0ccb2uem'</span><span class="p">,</span>
+      <span class="na">api_secret</span><span class="p">:</span> <span class="s1">'q4trxd3rj8w38qfykqn-l9zcmxxlnibzwciof6pu'</span>
+    <span class="p">},</span>
+    <span class="na">success</span><span class="p">:</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">data</span><span class="p">)</span> <span class="p">{</span>
+      <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">'Token created! '</span> <span class="o">+</span> <span class="nx">JSON</span><span class="p">.</span><span class="nx">stringify</span><span class="p">(</span><span class="nx">data</span><span class="p">));</span>
+    <span class="p">}</span>
+  <span class="p">});</span>
+<span class="p">});</span>
+<span class="o">&lt;</span><span class="sr">/</span><span class="err">script&gt;</span>
 </pre><pre class="highlight python"><span class="kn">import</span> <span class="nn">requests</span>
 
 <span class="c"># POST /requests/tokens/</span>
@@ -941,6 +1024,24 @@ Make sure to check out our <a href="https://github.com/covermymeds/api-jquery-pl
     <span class="p">},</span> <span class="kc">true</span><span class="p">);</span>
   <span class="p">}());</span>
 <span class="nt">&lt;/script&gt;</span>
+</pre><pre class="highlight javascript"><span class="o">&lt;</span><span class="nx">script</span> <span class="nx">src</span><span class="o">=</span><span class="s2">"http://code.jquery.com/jquery-1.11.0.min.js"</span><span class="o">&gt;&lt;</span><span class="sr">/</span><span class="err">script&gt;</span>
+<span class="o">&lt;</span><span class="nx">script</span><span class="o">&gt;</span>
+<span class="nx">$</span><span class="p">(</span><span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+  <span class="kd">var</span> <span class="nx">tokenId</span> <span class="o">=</span> <span class="s1">'eyu6thc8oy9upcop04k1'</span><span class="p">;</span>
+  <span class="nx">$</span><span class="p">.</span><span class="nx">ajax</span><span class="p">({</span>
+    <span class="na">method</span><span class="p">:</span> <span class="s1">'delete'</span><span class="p">,</span>
+    <span class="na">url</span><span class="p">:</span> <span class="s1">'https://api.covermymeds.com/requests/tokens/'</span> <span class="o">+</span> <span class="nx">tokenId</span><span class="p">,</span>
+    <span class="na">data</span><span class="p">:</span> <span class="p">{</span>
+      <span class="na">v</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+      <span class="na">api_id</span><span class="p">:</span> <span class="s1">'1vd9o4427lyi0ccb2uem'</span><span class="p">,</span>
+      <span class="na">api_secret</span><span class="p">:</span> <span class="s1">'q4trxd3rj8w38qfykqn-l9zcmxxlnibzwciof6pu'</span>
+    <span class="p">},</span>
+    <span class="na">success</span><span class="p">:</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">data</span><span class="p">)</span> <span class="p">{</span>
+      <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">'Token deleted successfully.'</span><span class="p">);</span>
+    <span class="p">}</span>
+  <span class="p">});</span>
+<span class="p">});</span>
+<span class="o">&lt;</span><span class="sr">/</span><span class="err">script&gt;</span>
 </pre><pre class="highlight python"><span class="kn">import</span> <span class="nn">requests</span>
 
 <span class="c"># DELETE /requests/tokens/{id}</span>
