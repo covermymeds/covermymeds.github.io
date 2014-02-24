@@ -53,6 +53,18 @@
         ]);
       });
     </script>
+    <script type="text/javascript">
+      var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', 'UA-7780355-1']);
+      _gaq.push(['_setDomainName', 'covermymeds.com']);
+      _gaq.push(['_trackPageview']);
+
+      (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+    </script>
   </head>
 
   <body class="index">
@@ -106,7 +118,6 @@
   <span class="nt">&lt;input</span> <span class="na">id=</span><span class="s">"requests_token_id"</span> <span class="na">name=</span><span class="s">"token_ids[]"</span> <span class="na">placeholder=</span><span class="s">"(required)"</span> <span class="na">type=</span><span class="s">"text"</span><span class="nt">&gt;</span>
   <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"hidden"</span> <span class="na">name=</span><span class="s">"v"</span> <span class="na">value=</span><span class="s">"1"</span><span class="nt">&gt;</span>
   <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"hidden"</span> <span class="na">name=</span><span class="s">"api_id"</span> <span class="na">value=</span><span class="s">"1vd9o4427lyi0ccb2uem"</span><span class="nt">&gt;</span>
-  <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"hidden"</span> <span class="na">name=</span><span class="s">"api_secret"</span> <span class="na">value=</span><span class="s">"q4trxd3rj8w38qfykqn-l9zcmxxlnibzwciof6pu"</span><span class="nt">&gt;</span>
   <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"submit"</span> <span class="na">value=</span><span class="s">"Submit"</span><span class="nt">&gt;</span>
 <span class="nt">&lt;/form&gt;</span>
 </pre><pre class="highlight javascript"><span class="c1">// Uncomment &lt;script&gt; tags if needed
@@ -160,29 +171,30 @@
 
 <h3 id="retrieving-a-pa">Retrieving a PA</h3>
 
-<p>GET a PA using the <code class="prettyprint">/requests/</code> resource.  You must authenticate your request with an api_secret, or by using a request token for the PA.</p>
+<p>GET a PA using the <code class="prettyprint">/requests/</code> resource.  You must authenticate your request with a token for the PA.</p>
 
-<p>You can display the PA you created in the CoverMyMeds system by constructing a <a href="(https://www.covermymeds.com/request/:id?access_token_id=ttookkeenn)">URL like this</a>: <code class="prettyprint">https://www.covermymeds.com/request/:id?access_token_id=ttookkeenn</code>.</p>
+<p>You can display the PA you created in the CoverMyMeds system by following the link in <code class="prettyprint">[requests][tokens][html_url]</code>, or you can build your own from a known token value by formatting it like this:
+<code class="prettyprint">https://www.covermymeds.com/request/:id?access_token_id={access_token}</code>.</p>
 
 <p><aside class="success">
-Make sure to check out our <a href="https://github.com/covermymeds/api-jquery-plugins">javascript components</a> that implement a full-featured API client that you may use in your web, mobile, or desktop app (in a browser-control).  These are used in a <a href="http://covermymeds.github.io/ehr-example/">toy EHR application</a> so you can see how they work.  One significant advantage of this approach is that the Task List included in this library has built in pagination, filtering and search-which you could of course implement on your own but it would take a bit of work.
+Make sure to check out our <a href="https://github.com/covermymeds/api-jquery-plugins">Javascript components</a> that implement a full-featured API client that you may use in your web, mobile, or desktop app (in a browser-control).  These are used in a <a href="http://covermymeds.github.io/ehr-example/">toy EHR application</a> so you can see how they work.  One significant advantage of this approach is that the Task List included in this library has built in pagination, filtering and search — which you could, of course, implement on your own, but it would take a bit of work.
 </aside></p>
 
 <h1 id="overview">Overview</h1>
 
 <p>This API allows companies offering Electronic Health Record (EHR), stand-alone e-prescribing, or Practice Management Systems (&ldquo;Client Systems&rdquo;) to offer a very compelling prior authorization solution to their customers. Integrating with the API should be straightforward for both “on-premise” client server applications and browser-based systems. The API uses vanilla web services (REST), and is backed by <a href="https://github.com/covermymeds">development libraries</a> that make using it a piece of cake.</p>
 
-<p>Because PA will eventually become a named HIPAA standard, most EHR systems will need to support an electronic PA solution.  A few may choose to build this themselves from the raw NCPDP ePA transactions, however this involves an incredible amount of work-our experience over the past five years shows that making ePA worth using in the real world is a monumental task that many will wish to avoid.  So that EHR systems can focus on other things, CoverMyMeds&#39; API offers a number of powerful features that you won&rsquo;t get on your own. After completing this integration, your ePA system will:</p>
+<p>Because PA will eventually become a named HIPAA standard, most EHR systems will need to support an electronic PA solution.  Some may choose to build this themselves from the raw NCPDP ePA transactions, though this involves an incredible amount of work — our experience over the past five years shows that making ePA worth using in the real world is a monumental task that many will wish to avoid.  So that EHR systems can focus on other things, CoverMyMeds&#39; API offers a number of powerful built-in features. After completing this integration, your ePA system will:</p>
 
 <ul>
 <li>Support the <a href="http://www.ncpdp.org/NCPDP/media/pdf/pressrelease/072213_NCPDP_ePA_FINAL.pdf">NCPDP ePA standard</a></li>
 <li>Work for all plans, not just those that support ePA</li>
-<li>Turn PA faxes and phone calls from more than 80% of US pharmacies into a task-list in your system</li>
+<li>Turn PA faxes and phone calls from more than 80% of US pharmacies into a task list in your system</li>
 </ul>
 
 <h2 id="workflow">Workflow</h2>
 
-<p>Prior Authorization may be initiated “prospectively” in the doctor’s office, or “reactively” after a claim rejection in the pharmacy. The pharmacy industry generally favors moving toward the prospective use case, ideally at the point of prescribing. However, because the majority of PAs are initiated reactively today, we believe it is important to address both use cases. CoverMyMeds’ Prescriber API allows a clinical system vendor&rsquo;s product (Client System) to easily support a paperless process for both workflows.</p>
+<p>Prior Authorization may be initiated “prospectively” in the doctor’s office, or “reactively” after a claim rejection in the pharmacy. The pharmacy industry generally favors moving toward prospective prior authorization, ideally at the point of prescribing. However, because the majority of PAs are initiated reactively today, we believe it is important to address both use cases. CoverMyMeds’ Prescriber API allows a clinical system vendor&rsquo;s product (Client System) to easily support a paperless process for both workflows.</p>
 
 <p><img src="images/cmm-api-diagram.jpg"></p>
 
@@ -193,7 +205,7 @@ Make sure to check out our <a href="https://github.com/covermymeds/api-jquery-pl
 <p>You will be supporting three user-interface components in your EHR:</p>
 
 <ol>
-<li><p>A checkbox next to each prescription in your e-prescribing &ldquo;shopping cart.&rdquo;  This allows the prescriber to start a prior authorization when writing a new prescription.  Optionally, you should also consider adding a &ldquo;Start PA&rdquo; button next to each existing prescription.  Walk through an <a href="http://covermymeds.github.io/ehr-example/#/patients">example E-Prescribing workflow</a>.</p></li>
+<li><p>A checkbox next to each prescription in your e-prescribing &ldquo;shopping cart.&rdquo;  This allows the prescriber to start a prior authorization when writing a new prescription.  Optionally, you should also consider adding a &ldquo;Start PA&rdquo; button next to each existing prescription.  Walk through an <a href="http://covermymeds.github.io/ehr-example/#/patients">example e-Prescribing workflow</a>.</p></li>
 <li><p>A &ldquo;New PA&rdquo; form that allows users to start a prior authorization when one was not started during the e-prescribing process.  You may see an <a href="http://covermymeds.github.io/ehr-example/#/requests/new">example New PA Form</a>.</p></li>
 <li><p>A Task List which displays the PAs that were started from the e-prescribing or New PA form, in addition to the PAs that were started in the pharmacy after your prescriber sent a prescription (most pharmacies are also integrated with CoverMyMeds). The actual requests are worked and managed on a &ldquo;themed&rdquo; page served by CoverMyMeds after clicking through the Task List.  You may see an <a href="http://covermymeds.github.io/ehr-example/#/dashboard">example Task List</a>.</p></li>
 </ol>
@@ -217,13 +229,13 @@ Make sure to check out our <a href="https://github.com/covermymeds/api-jquery-pl
 
 <p>Once created, PAs are worked in the Client System through the Task List.  You may keep your Task List updated by storing PA data upon creation, and then updating it with the Callback service.  Or, should you choose not to implement the Callback service, you may retrieve updated PA information at &ldquo;task list creation time&rdquo; through the <code class="prettyprint">GET /requests/</code> or <code class="prettyprint">POST /requests/search/</code>.  In either case, you have full control over which Client Users are allowed to access each PA request.</p>
 
-<p>When a user clicks an item in your Task List, the actual PA will be displayed on a page served by CMM.  You will construct a URL to each request page&ndash;a seamless transition through single-sign is mediated by the token contained in each link.</p>
+<p>When a user clicks an item in your Task List, the actual PA will be displayed on a page served by CMM.  You will construct a URL to each request page — a seamless transition through single-sign is mediated by the token contained in each link.</p>
 
 <p>Upon each change in status to a prior authorization (e.g., the health plan approves the request), CMM&rsquo;s Callback service will POST the request data to your server at the URL you have provided in your Developer Account.  The Client System may also retrieve the latest PA status through the <code class="prettyprint">GET /requests/</code> resource, or for multiple requests through the <code class="prettyprint">POST /requests/search/</code> resource.  These URLs may be &ldquo;polled&rdquo; at a reasonable interval (i.e., hourly) for systems that choose not to provide use the Callback service.</p>
 
 <p>Upon each new PA being created in an integrated pharmacy, CoverMyMeds will use the Callback service to send you the new Prior Authorization.  We do not currently support a method to retrieve integrated pharmacy PAs without using the Callback service.</p>
 
-<p>Plans that participate in the ePA process with CoverMyMeds receive electronic PA requests, and provide electronic determinations (approved/denied), sometimes in real-time.  Plans that do not participate in the ePA process receive a PA request via fax, on their appropriate drug-specific form. Determinations for non-participating plans are provided directly to the prescriber (outside of the CMM workflow), however approval or denial may be tracked in by the user through the request page served by CoverMyMeds.</p>
+<p>Plans that participate in the ePA process with CoverMyMeds receive electronic PA requests, and provide electronic determinations (approved/denied), sometimes in real-time.  Plans that do not participate in the ePA process receive a PA request via fax, on their appropriate drug-specific form. Determinations for non-participating plans are provided directly to the prescriber (outside of the CMM workflow), though approval or denial may be tracked in by the user through the request page served by CoverMyMeds.</p>
 
 <h1 id="api">API</h1>
 
@@ -261,7 +273,7 @@ Make sure to check out our <a href="https://github.com/covermymeds/api-jquery-pl
 
 <h2 id="library-code">Library Code</h2>
 
-<p>You can use <a href="https://github.com/covermymeds/api-jquery-plugins">our jQuery plugins</a> that allow you to easily build your integration in a browser or browser control in your desktop software.  You can see these in use in our <a href="https://covermymeds.github.io/ehr-example/">sample EHR application</a>.</p>
+<p>You can use <a href="https://github.com/covermymeds/api-jquery-plugins">our jQuery plugins</a> that allow you to easily build your integration in a browser or browser control in your desktop software.  You can see these in use in our <a href="http://covermymeds.github.io/ehr-example/">sample EHR application</a>.</p>
 
 <p>We can also provide bindings for other languages upon request.</p>
 
@@ -322,11 +334,11 @@ Make sure to check out our <a href="https://github.com/covermymeds/api-jquery-pl
 
 <p>You must specify the <code class="prettyprint">request[prescription][drug_id]</code> when a new PA is created through the <code class="prettyprint">POST /requests/</code> resource.  Optionally, you may also include quantity and days supply, values which are usually required in the prior authorization submission to the plan.</p>
 
-<p><code class="prettyprint">drug_id</code> may be an NDC code (9 or 11 digit), or CMM&rsquo;s internal drug_id returned from the <code class="prettyprint">GET /drugs/</code> resource.  Submitting an NDC is really just sugar-we will convert the NDC code you submitted to our internal identifier when we create the request.  Most plans will approve requests at the &ldquo;label name&rdquo; (drug, strength, form) or an even higher level, so you may pick a &ldquo;representative&rdquo; NDC code when submitting your request.</p>
+<p><code class="prettyprint">drug_id</code> may be an NDC code (9 or 11 digit), or CMM&rsquo;s internal <code class="prettyprint">drug_id</code> returned from the <code class="prettyprint">GET /drugs/</code> resource.  Submitting an NDC is really just sugar — we will convert the NDC code you submitted to our internal identifier when we create the request.  Most plans will approve requests at the &ldquo;label name&rdquo; (drug, strength, form) or an even higher level, so you may pick a &ldquo;representative&rdquo; NDC code when submitting your request.</p>
 
 <p>Submitting an NDC code is advantageous when you are initiating the request from the e-prescribing workflow where the user has already &ldquo;picked&rdquo; a drug in your system, and you know the NDC code. The <code class="prettyprint">/drugs/</code> resource is a good way to show a type-ahead search, such as you will need in the New PA form, so using CMM&rsquo;s internal drug_id can be convenient here.</p>
 
-<p>The <code class="prettyprint">GET /drugs/</code> resource allows you to implement a drug search so the user can pick a drug for their request.  When picked, you get our internal drug <code class="prettyprint">id</code>.  Partial and full drug names are supported.  For example, click here for a search for <a href="https://api.covermymeds.com/drugs/?v=1&amp;amp;api_id=1vd9o4427lyi0ccb2uem&amp;amp;q=Nex">&ldquo;Nex&rdquo;</a>.</p>
+<p>The <code class="prettyprint">GET /drugs/</code> resource allows you to implement a drug search so the user can pick a drug for their request.  When a drug is picked, you get our internal drug <code class="prettyprint">id</code>.  Partial and full drug names are supported.  For example, click here for a search for <a href="https://api.covermymeds.com/drugs/?v=1&amp;amp;api_id=1vd9o4427lyi0ccb2uem&amp;amp;q=Nex">&ldquo;Nex&rdquo;</a>.</p>
 
 <p>You can use the <code class="prettyprint">/drugs/</code> resource to implement a &ldquo;type-ahead&rdquo; search.  We <a href="https://github.com/covermymeds/api-jquery-plugins/blob/master/src/jquery.drugsearch.js">publish a jquery plugin</a> that allows you to do this without any effort at all.</p>
 
@@ -390,25 +402,25 @@ Make sure to check out our <a href="https://github.com/covermymeds/api-jquery-pl
 }
 </code></p>
 
-<p>When you create a new PA through the <code class="prettyprint">POST /requests/</code> resource, you may specify the form_id, or you may leave it blank so that the user may pick the form through CMM&rsquo;s form search dialog.  This dialog will be presented when the user first visits the PA request.</p>
+<p>When you create a new PA through the <code class="prettyprint">POST /requests/</code> resource, you may specify the <code class="prettyprint">form_id</code>, or you may leave it blank so that the user may pick the form through CMM&rsquo;s form search dialog.  This dialog will be presented when the user first visits the PA request.</p>
 
-<p>The <code class="prettyprint">GET /forms/</code> resource allows you to implement a form search so the user may pick the appropriate prior authorization &ldquo;form&rdquo; for their request, allowing the Client System to specify a form_id when creating a request.  The <code class="prettyprint">/forms/</code> resource works with both &ldquo;paper&rdquo; forms, and electronic prior authorization (ePA) requests.</p>
+<p>The <code class="prettyprint">GET /forms/</code> resource allows you to implement a form search so the user may pick the appropriate prior authorization &ldquo;form&rdquo; for their request, allowing the Client System to specify a <code class="prettyprint">form_id</code> when creating a request.  The <code class="prettyprint">/forms/</code> resource works with both &ldquo;paper&rdquo; forms, and electronic prior authorization (ePA) requests.</p>
 
 <p>As a rule of thumb, it is best to include the form search as part of interactions that are conducted by administrative staff, such as the New PA Form, and to skip the search during the e-prescribing workflow.</p>
 
-<p>You can use this resource to implement a &ldquo;type-ahead&rdquo; search.  We <a href="https://github.com/covermymeds/api-jquery-plugins/blob/master/src/jquery.formsearch.js">publish a jquery plugin</a> that allows you to do this without any effort at all.</p>
+<p>You can use this resource to implement a &ldquo;type-ahead&rdquo; search.  We <a href="https://github.com/covermymeds/api-jquery-plugins/blob/master/src/jquery.formsearch.js">publish a jQuery plugin</a> that allows you to do this without any effort at all.</p>
 
-<p>POST requests to the <code class="prettyprint">/forms/</code> resource run our algorithm to determine the appropriate form based on the drug, state, and a text query. The text query is processed against our data for plan names, PBM names, form names, BIN, PCN, Group ID, and CMS Contract IDs.  The result is a &ldquo;scored&rdquo; list of the most appropriate forms for the request.  The top-result is usually the most appropriate for the user to pick.</p>
+<p>POST requests to the <code class="prettyprint">/forms/</code> resource run our algorithm to determine the appropriate form based on the drug, state, and a text query. The text query is processed against our data for plan names, PBM names, form names, BIN, PCN, Group ID, and CMS Contract IDs.  The result is a &ldquo;scored&rdquo; list of the most appropriate forms for the request.  The top result is usually the most appropriate for the user to pick.</p>
 
 <h1 id="/requests/">/requests/</h1>
 
-<p>The <code class="prettyprint">/requests/</code> resource is the workhorse of the API.  You will use it to create new prior authorizations (<code class="prettyprint">POST /requests/</code>), retrieve them (<code class="prettyprint">GET /requests/</code> or <code class="prettyprint">POST /requests/search/</code>), and (if you are not storing all data) get a long list of them for your Task List (<code class="prettyprint">POST /requests/search/</code>).  Several additional features are provided for working with prior authorizations such as using the <a href="#displaying-a-pa-on-the-cmm-site">CMM request page</a>, <a href="#theming">theming</a>, and the <a href="#callbacks">Callback system</a>.</p>
+<p>The <code class="prettyprint">/requests/</code> resource is the workhorse of the API.  You will use it to create new prior authorizations (<code class="prettyprint">POST /requests/</code>), retrieve a single PA (<code class="prettyprint">GET /requests/</code>), and retrieve multiple PAs, for use in your Task List or other bulk operations (<code class="prettyprint">POST /requests/search/</code>).  Several additional features are provided for working with prior authorizations such as using the <a href="#displaying-a-pa-on-the-cmm-site">CMM request page</a>, <a href="#theming">theming</a>, and the <a href="#callbacks">Callback system</a>.</p>
 
-<p>For convenience, the HTTP response is the same across <code class="prettyprint">POST /requests/</code>, <code class="prettyprint">GET /requests/</code>, and <code class="prettyprint">POST /requests/search/</code> resources, and is the same form data that is used in the Callback system.  The HTTP request schema is the same for <code class="prettyprint">GET /requests/</code> and <code class="prettyprint">POST /requests/search/</code> except that the GET request is sent as a query string, and the POST request is sent as form data so that it isn&rsquo;t limited in length.</p>
+<p>For convenience, the HTTP response is the same across <code class="prettyprint">POST /requests/</code>, <code class="prettyprint">GET /requests/</code>, and <code class="prettyprint">POST /requests/search/</code> resources, and is the same form data that is used in the Callback system.  </p>
 
-<p>A <code class="prettyprint">/requests/tokens/</code> resource is also provided for managing authentication tokens for each request.  Note that tokens are an actual resource, not just an attribute of each <code class="prettyprint">request</code>.  This means they have their own API at <code class="prettyprint">/requests/tokens/</code> with verbs to provide CRUD services for them.  This also means referring to requests in the <code class="prettyprint">/request/tokens/</code> resource is different than you might otherwise expect.  Here, a request <code class="prettyprint">id</code> is called a <code class="prettyprint">request_id</code>.  Use the buttons to expose the request and response schemas to understand the naming convention.</p>
+<p>A <code class="prettyprint">/requests/tokens/</code> resource is provided for managing authentication tokens for each request.  Note that tokens are an actual resource, not just an attribute of each <code class="prettyprint">request</code>.  This means they have their own API at <code class="prettyprint">/requests/tokens/</code> with verbs to provide CRUD services for them.  This also means referring to requests in the <code class="prettyprint">/request/tokens/</code> resource is different than you might otherwise expect.  Here, a request <code class="prettyprint">id</code> is called a <code class="prettyprint">request_id</code>.  Use the buttons to expose the request and response schemas to understand the naming convention.</p>
 
-<p>Authentication to the <code class="prettyprint">/requests/</code> resource varies by use case. The POST verb requires just an <code class="prettyprint">api_id</code> because data is being &ldquo;put into&rdquo; the system by a user that already has access to it.  The other verbs require either the <code class="prettyprint">api_secret</code> or the <code class="prettyprint">token_id</code> for each request.  Client System developers may decide which method to use, remembering that the <code class="prettyprint">api_secret</code> should not be exposed.  This makes the token-based authentication convenient for a mostly client-side implementation.</p>
+<p>Authentication to the <code class="prettyprint">/requests/</code> resources varies by use case. The POST verb requires just an <code class="prettyprint">api_id</code> because data is being &ldquo;put into&rdquo; the system by a user that already has access to it.  The other <code class="prettyprint">/requests/</code> verbs require tokens and can be used client-side.  The <code class="prettyprint">/requests/tokens</code> resources require the <code class="prettyprint">api_secret</code>.</p>
 
 <p>Note that <code class="prettyprint">api_id</code> is required in all requests.</p>
 
@@ -429,20 +441,20 @@ Make sure to check out our <a href="https://github.com/covermymeds/api-jquery-pl
 <tr>
 <td></td>
 <td>GET</td>
-<td>api_secret OR token_ids</td>
-<td>If token_ids are used, the PA id is not required since each token always points to a single request</td>
+<td>tokens</td>
+<td>Singular <code class="prettyprint">token_id</code></td>
 </tr>
 <tr>
 <td>/requests/search/</td>
 <td>POST</td>
-<td>api_secret OR token_ids</td>
-<td>If token_ids are used, the PA id is not required since each token always points to a single request</td>
+<td>tokens</td>
+<td>One or more <code class="prettyprint">token_ids</code></td>
 </tr>
 <tr>
 <td>/requests/tokens/</td>
 <td>POST</td>
 <td>api_secret</td>
-<td>existing token_ids aren&rsquo;t a valid authentication mechanism to create new tokens for a request because tokens are their own resource</td>
+<td>existing tokens aren&rsquo;t a valid authentication mechanism to create new tokens for a request because tokens are their own resource</td>
 </tr>
 <tr>
 <td>/requests/tokens/{id}/</td>
@@ -670,11 +682,11 @@ Make sure to check out our <a href="https://github.com/covermymeds/api-jquery-pl
 }
 </code></p>
 
-<p>Use the POST method to create a new prior authorization request. The HTTP response contains a link to the prior authorization and meta-data about the request, including the new PA <code class="prettyprint">id</code> and <code class="prettyprint">tokens</code>, which should be saved in your system, and managed to provide appropriate access to the PA in the future.  See the <a href="#access-tokens">Authentication section</a> for a detailed discussion.  Click the buttons above to show the HTTP Request and Response schemas.</p>
+<p>Use the POST method to create a new prior authorization request. The HTTP response contains a link to the prior authorization and metadata about the request, including the new PA <code class="prettyprint">id</code> and <code class="prettyprint">tokens</code>, which should be saved in your system, and managed to provide appropriate access to the PA in the future.  See the <a href="#access-tokens">Authentication section</a> for a detailed discussion.  Click the buttons above to show the HTTP Request and Response schemas.</p>
 
 <p>The response schema for this resource is identical to that of the <code class="prettyprint">GET /requests/</code> and <code class="prettyprint">POST /requests/search/</code> resources.</p>
 
-<p>You should consider whether to actually show the request to the user after it is created.  It is usually best to show the request page when a PA is created from the New Request Form, since that feature is likely to be used by an administrative staff person who wants to complete the PA in one sitting. However, when the PA is created in the e-prescribing workflow, it can be best to simply let the user know that the PA was created and let it be worked later by an administrative task person from the Task List.  The <a href="https://covermymeds.github.io/ehr-example/">sample implementation</a> we provide uses a nice approach in that the confirmation message allows the prescriber to click to view the PA, but doesn&rsquo;t otherwise interrupt the prescribing workflow.</p>
+<p>You should consider whether to actually show the request to the user after it is created.  It is usually best to show the request page when a PA is created from the New Request Form, since that feature is likely to be used by an administrative staff person who wants to complete the PA in one sitting. However, when the PA is created in the e-prescribing workflow, it can be best to simply let the user know that the PA was created and let it be worked later by an administrative task person from the Task List.  The <a href="http://covermymeds.github.io/ehr-example/">sample implementation</a> we provide uses a nice approach in that the confirmation message allows the prescriber to click to view the PA, but doesn&rsquo;t otherwise interrupt the prescribing workflow.</p>
 
 <h2 id="get-/requests/{id}">GET /requests/{id}</h2>
 <pre class="highlight html"><span class="nt">&lt;form</span> <span class="na">method=</span><span class="s">"get"</span> <span class="na">action=</span><span class="s">"https://api.covermymeds.com/requests/"</span> <span class="na">id=</span><span class="s">"get_request"</span><span class="nt">&gt;</span>
@@ -837,7 +849,7 @@ Make sure to check out our <a href="https://github.com/covermymeds/api-jquery-pl
 }
 </code></p>
 
-<p>Use this method to retrieve information about PAs that already exist.  Note that this resource may be authenticated with either an <code class="prettyprint">api_secret</code>, or with <code class="prettyprint">token_ids</code>.</p>
+<p>Use this method to retrieve information about a singular PA that already exists.  </p>
 
 <p>The response schema for this resource is identical to that of the <code class="prettyprint">POST /requests/</code> and <code class="prettyprint">POST /requests/search/</code> resources.</p>
 
@@ -987,13 +999,13 @@ Make sure to check out our <a href="https://github.com/covermymeds/api-jquery-pl
 }
 </code></p>
 
-<p>Use this method to return a list of prior authorizations to populate your Task List, or to perform other bulk operations.  Note that this resource may be authenticated with either an <code class="prettyprint">api_secret</code>, or with <code class="prettyprint">token_ids</code> for each PA.</p>
+<p>Use this method to return a list of prior authorizations to populate your Task List, or to perform other bulk operations.  </p>
 
 <p>The response schema for this resource is identical to that of the <code class="prettyprint">POST /requests/</code> and <code class="prettyprint">GET /requests/</code> resources.</p>
 
 <p>If you wish to display a returned PA to the user, you should display it on the CMM website as described in the <a href="#displaying-a-pa-on-the-cmm-site">Using /requests section</a>.</p>
 
-<p>Because this data is light-weight, filtering and pagination are not supported by the server resource.  If you are implementing your own Task List, it is important to provide search and filtering from your client application.  Our Task List <a href="https://github.com/covermymeds/api-jquery-plugins/blob/master/src/jquery.dashboard.js">javascript component</a> can handle this for you.</p>
+<p>Because this data is lightweight, filtering and pagination are not supported by the server resource.  If you are implementing your own Task List, it is important to provide search and filtering from your client application.  Our Task List <a href="https://github.com/covermymeds/api-jquery-plugins/blob/master/src/jquery.dashboard.js">Javascript component</a> can handle this for you.</p>
 
 <h1 id="/requests/tokens/">/requests/tokens/</h1>
 
@@ -1049,7 +1061,7 @@ Make sure to check out our <a href="https://github.com/covermymeds/api-jquery-pl
 }
 </code></p>
 
-<p>Each PA may have zero, one, or more tokens.  Use this resource to create new tokens for a PA request. You may wish to create multiple tokens for a request so that you can assign a unique token for each user that will view a request, or to regenerate tokens if you believe they may have been compromised.</p>
+<p>Each PA may have zero, one, or more <code class="prettyprint">tokens</code>.  Use this resource to create new <code class="prettyprint">tokens</code> for a PA request. You may wish to create multiple <code class="prettyprint">tokens</code> for a request so that you can assign a unique <code class="prettyprint">token</code> for each user that will view a request, or to regenerate <code class="prettyprint">tokens</code> if you believe they may have been compromised.</p>
 
 <h2 id="delete-/requests/tokens/{id}/">DELETE /requests/tokens/{id}/</h2>
 <pre class="highlight html"><span class="nt">&lt;form</span> <span class="na">method=</span><span class="s">"post"</span> <span class="na">action=</span><span class="s">"https://api.covermymeds.com/requests/tokens/"</span> <span class="na">id=</span><span class="s">"delete_token"</span><span class="nt">&gt;</span>
@@ -1117,13 +1129,13 @@ Make sure to check out our <a href="https://github.com/covermymeds/api-jquery-pl
 
 <h2 id="displaying-a-pa-on-the-cmm-site">Displaying a PA on the CMM site</h2>
 
-<p>Supporting a great user experience across thousands of health plan&rsquo;s distinct prior authorization forms, NCPDP ePA transactions, and proprietary integrations presents many user interface challenges.</p>
+<p>Supporting a great user experience across thousands of health plans&#39; distinct prior authorization forms, NCPDP ePA transactions, and proprietary integrations presents many user interface challenges.</p>
 
 <p>To solve this problem, it is best to let CoverMyMeds serve the actual prior authorization request page from our server.  The request page provides a user interface and workflow tools to allow the user to manage their prior authorizations.  We encourage you to &ldquo;theme&rdquo; the page for your Client System.  Details on how to do this are included in the <a href="#theming">Theming</a> section.</p>
 
 <p><img src="images/CoverMyMeds_pa_detail.png"></p>
 
-<p>Clicking an item in your Task List should direct the user to the CMM request page.  The link to each request page provides a seamless transition through single-sign on mediated by the token contained in each link.</p>
+<p>Clicking an item in your Task List should direct the user to the CMM request page.  The link to each request page provides a seamless transition through single-sign-on mediated by the token contained in each link.</p>
 
 <p>You can get a URL to each request in <code class="prettyprint">[requests][tokens][html_url]</code>, or you can build your own from a known token value.</p>
 
@@ -1131,6 +1143,12 @@ Make sure to check out our <a href="https://github.com/covermymeds/api-jquery-pl
 <code class="prettyprint">https://www.covermymeds.com/request/:id?access_token_id={access_token}</code></p>
 
 <p>Here is an <a href="https://www.covermymeds.com/request/view/NY8VC9?access_token_id=srjme2li80trjj4ts7y7">actual link to a request</a>.</p>
+
+<p>It is important to fill in the contact information for your user.  This will be used by the CoverMyMeds system when the user sends a PA to the plan or to another user of the system.  The <code class="prettyprint">remote_user</code> parameter currently supports name, phone, and fax number.  Additional values may be added over time.  Thus, a complete URL would look like this:</p>
+
+<p><code class="prettyprint">https://www.covermymeds.com/request/:id?access_token_id={access_token}&amp;remote_user[display_name]={display_name}&amp;remote_user[phone_number]={phone_number}&amp;remote_user[fax_number]={fax_number}</code></p>
+
+<p>Here is an <a href="https://www.covermymeds.com/request/view/NY8VC9?access_token_id=srjme2li80trjj4ts7y7&remote_user[display_name]=Dr.%20Mark&remote_user[phone_number]=555-555-5556&remote_user[fax_number]=555-555-5557">actual link with remote user information</a>.</p>
 
 <h2 id="theming">Theming</h2>
 <pre class="highlight plaintext">&lt;div&gt;
@@ -1241,7 +1259,7 @@ It is important to note that pharmacy-initiated PAs are pushed to URLs that are 
 
 <p>Upon a new prescriber-credential being created, CoverMyMeds will contact the associated prescriber using our contact data and will confirm that they wish to have data delivered to your Client System.</p>
 
-<p>If the NPI is currently associated with an existing CoverMyMeds user account, we will use the Callback System to send existing prior authorizations to the  <code class="prettyprint">delivery_url</code>.  See <a href="#importing-existing-pas">importing existing PAs</a> for more information.  This import will occur after our credentialing process is completed-so you should not expect to see the import happen right after POSTing data to us.</p>
+<p>If the NPI is currently associated with an existing CoverMyMeds user account, we will use the Callback System to send existing prior authorizations to the  <code class="prettyprint">delivery_url</code>.  See <a href="#importing-existing-pas">importing existing PAs</a> for more information.  This import will occur after our credentialing process is completed — so you should not expect to see the import happen right after POSTing data to us.</p>
 
 <h2 id="get-/prescribers/credentials/">GET /prescribers/credentials/</h2>
 <pre class="highlight html"><span class="nt">&lt;form</span> <span class="na">method=</span><span class="s">"get"</span> <span class="na">action=</span><span class="s">"https://api.covermymeds.com/prescribers/credentials/"</span> <span class="na">id=</span><span class="s">"get_prescribers_credentials"</span><span class="nt">&gt;</span>
@@ -1379,7 +1397,7 @@ It is important to note that pharmacy-initiated PAs are pushed to URLs that are 
 </code></p>
 
 <p>Use <code class="prettyprint">DELETE /prescribers/credentials/</code> to unlink a prescriber-credential.  Once run,
-pharmacy-initiated transactions for the NPI will not be sent to the delivery_url.  This is equivalent to &ldquo;deleting&rdquo; a prescriber record, and should be performed when a prescriber leaves your system.</p>
+pharmacy-initiated transactions for the NPI will not be sent to the <code class="prettyprint">delivery_url</code>.  This is equivalent to &ldquo;deleting&rdquo; a prescriber record, and should be performed when a prescriber leaves your system.</p>
 
 <h1 id="callbacks">Callbacks</h1>
 
@@ -1421,7 +1439,7 @@ pharmacy-initiated transactions for the NPI will not be sent to the delivery_url
 
 <p>Visit the <a href="https://api.covermymeds.com/consumers/signin">Developer Account</a> page to register and manage your preferences.</p>
 
-<p>When you register your Client System, you will be issued an <code class="prettyprint">api_id</code> and an <code class="prettyprint">api_secret</code>. These values will be used to log into your Developer Account in the future.  Because we cannot send you your api_secret over email, and we cannot reset it without breaking your existing integration, there isn&rsquo;t a convenient way to offer a &ldquo;password recovery&rdquo; system.  So try not to lose your api_secret.</p>
+<p>When you register your Client System, you will be issued an <code class="prettyprint">api_id</code> and an <code class="prettyprint">api_secret</code>. These values will be used to log into your Developer Account in the future.  Because we cannot send you your <code class="prettyprint">api_secret</code> over email, and we cannot reset it without breaking your existing integration, there isn&rsquo;t a convenient way to offer a &ldquo;password recovery&rdquo; system.  So try not to lose your <code class="prettyprint">api_secret</code>. </p>
 
 <p>You can also use your Developer Account to:</p>
 
@@ -1436,18 +1454,16 @@ pharmacy-initiated transactions for the NPI will not be sent to the delivery_url
 
 <h2 id="authorization">Authorization</h2>
 
-<p>Every API request requires your <code class="prettyprint">api_id</code> for authentication of your requests.  If the resource your are accessing could be destructive or reveal private information, additional authorization information is also required.</p>
+<p>Every API request requires the <code class="prettyprint">api_id</code> for <em>authentication</em> of your requests.  If the resource your are accessing could be destructive or reveal private information, additional <em>authorization</em> information is also required.</p>
 
-<p>You may authorize all requests with your <code class="prettyprint">api_secret</code>.  As a much safer alternative to using your <code class="prettyprint">api_secret</code>, which you should never expose in client-side code, and which has a risk of exposing PA data across your users, it is strongly encouraged that you use <code class="prettyprint">tokens</code> which are unique to each PA.</p>
+<p>Authorization is provided by either the <code class="prettyprint">api_secret</code> or request <code class="prettyprint">tokens</code>.  Tokens are used for all <code class="prettyprint">/requests/</code> methods that access existing PAs, and the <code class="prettyprint">api_secret</code> is used for everything else.  You can see information about the authorization method in each resource description.</p>
 
-<p>Tokens are also used to provide single-sign-on (SSO) for the Request page that is served by CMM, so you should be familiar with them anyway.</p>
+<p>We use tokens for accessing existing requests for two primary reasons.  The first is that they minimize the chance that data from multiple PAs could be exposed in bulk through compromise of an <code class="prettyprint">api_secret</code> and the second is that they can be used in a 100% client-side implementation (e.g., javascript) relatively safely.</p>
 
-<p>You can read a <a href="#requests">detailed description</a> of authorization methods for the <code class="prettyprint">/requests/</code> resource.</p>
-
-<p>The <code class="prettyprint">api_secret</code> and <code class="prettyprint">tokens</code> are effectively a type of password. Because the <code class="prettyprint">api_secret</code> is used across your integration, it should never be exposed to your user.  Exposing a token is less problematic because it is used for only one request-which by definition your user already has seen. The section below includes more information on handling tokens and managing access control in your integration.</p>
+<p>The <code class="prettyprint">api_secret</code> and <code class="prettyprint">tokens</code> are effectively a type of password. Because the <code class="prettyprint">api_secret</code> is used across your integration, it should never be exposed to your user.  Exposing a token is less problematic because it is used for only one request — which by definition your user already has seen. The section below includes more information on handling tokens and managing access control in your integration.</p>
 
 <p><aside class="warning">
-While most resources will accept the <code class="prettyprint">api_key</code> and <code class="prettyprint">api_secret</code> as form or query string data, it is best to pass them instead in the HTTP authentication header, to minimize the chance that they could be recorded in someone&rsquo;s network or logging infrastructure. For clarity of our code samples, we have omitted this detail in our example code in this document.  If you are unsure about how to set the authentication headers in your library, get in touch and we should be able to help.
+While all resources will accept the <code class="prettyprint">api_secret</code> or <code class="prettyprint">token_id</code> as query string data, it is best to pass them instead in the HTTP authentication header, to minimize the chance that they could be recorded in someone&rsquo;s network or logging infrastructure. For clarity of our code samples, we have omitted this detail in our example code in this document.  If you are unsure about how to set the authentication headers in your library, get in touch and we should be able to help.
 </aside></p>
 
 <h2 id="access-control">Access Control</h2>
@@ -1456,13 +1472,13 @@ While most resources will accept the <code class="prettyprint">api_key</code> an
 
 <p>Together, these concepts are used to provision access to database records in your system, such as patients.  The relationship between database records and users may be relatively simple, such as a foreign key in the record that points to a user.  Or, it may be more complex, perhaps managing a many-to-many relationship that includes the user group and other hierarchies.  Additional complexity is involved when one considers how user-level changes should modify record access over time.  For example, if a new user is added to a record that was previously created, should this user now have access to the record?</p>
 
-<p>You already know how to do all of this stuff for your users-so we have designed the API to avoid compromising your carefully designed access controls.  We do this by skipping the user concept entirely, and instead, we use <code class="prettyprint">tokens</code> that grant access to their associated prior authorization to anyone in their possession.</p>
+<p>You already know how to do all of this stuff for your users, so we have designed the API to avoid compromising your carefully designed access controls.  We do this by skipping the user concept entirely — instead, we use <code class="prettyprint">tokens</code> that grant access to their associated prior authorization to anyone in their possession.</p>
 
-<p>An initial token is created with each new PA through the  <code class="prettyprint">POST /requests/</code> resource.  The Client System may create new <code class="prettyprint">tokens</code> and may destroy existing access <code class="prettyprint">tokens</code> through the <code class="prettyprint">/requests/tokens/</code> resource.  Each PA may have zero or more access tokens at any one time.  If a PA does not have any access tokens, it inaccessible through the API-it is effectively deleted.  To undelete this PA, a new <code class="prettyprint">access_token</code> may be created.</p>
+<p>An initial <code class="prettyprint">token</code> is created with each new PA through the  <code class="prettyprint">POST /requests/</code> resource.  The Client System may create new <code class="prettyprint">tokens</code> and may destroy existing access <code class="prettyprint">tokens</code> through the <code class="prettyprint">/requests/tokens/</code> resource.  Each PA may have zero or more access <code class="prettyprint">tokens</code> at any one time.  If a PA does not have any access <code class="prettyprint">tokens</code>, it is inaccessible through the API — it is effectively deleted.  To undelete this PA, a new <code class="prettyprint">access_token</code> may be created.</p>
 
 <h3 id="storing-tokens">Storing Tokens</h3>
 
-<p>Tokens should be stored by the Client System such that they can be used appropriately for any given user context.  To take a simple example, imagine that your system has a single user access control scheme.  The token management associated with this scheme would be easy-just keep a list of tokens with each user (perhaps all of the system-wide tokens in one table with a foreign key to the user).</p>
+<p><code class="prettyprint">Tokens</code> should be stored by the Client System such that they can be used appropriately for any given user context.  To take a simple example, imagine that your system has a single user access control scheme.  The <code class="prettyprint">token</code> management associated with this scheme would be easy-just keep a list of <code class="prettyprint">tokens</code> with each user (perhaps all of the system-wide <code class="prettyprint">tokens</code> in one table with a foreign key to the user).</p>
 
 <p>Your system will probably be a bit more complicated than that. You&rsquo;ll probably want to provide access so that nursing and administrative staff can see prior authorizations for their doctors, and everyone can see the work in their workgroup.  Remember to think about the three ways that prior authorizations may be created:</p>
 
@@ -1472,20 +1488,20 @@ While most resources will accept the <code class="prettyprint">api_key</code> an
 <li>By the pharmacy, associated with a prescriber NPI</li>
 </ol>
 
-<p>The first two usage scenarios involve a user directly.  The last usage scenario involves a prescriber that is associated with one or more users.  For the first scenario, access tokens should be stored so that they may be retrieved by the other users that share work with the creating user.  In the second and third scenario, access tokens should be stored so that they may be retrieved by all users that have access to the prescriber’s data.</p>
+<p>The first two usage scenarios involve a user directly.  The last usage scenario involves a prescriber that is associated with one or more users.  For the first scenario, access <code class="prettyprint">tokens</code> should be stored so that they may be retrieved by the other users that share work with the creating user.  In the second and third scenario, access <code class="prettyprint">tokens</code> should be stored so that they may be retrieved by all users that have access to the prescriber’s data.</p>
 
 <h3 id="using-tokens">Using Tokens</h3>
 
-<p>So that you may use client-side code to perform the integration, the <code class="prettyprint">/requests/</code> resource does not require the use of the api_secret.</p>
+<p>So that you may use client-side code to perform the integration, the <code class="prettyprint">/requests/</code> resource does not require the use of the <code class="prettyprint">api_secret</code>.</p>
 
-<p>This means that access tokens are effectively passwords.  Their security comes from being hard to guess (they are long random strings), and from not revealing them to users that should not be able to see their associated PA.</p>
+<p>This means that access <code class="prettyprint">tokens</code> are effectively passwords.  Their security comes from being hard to guess (they are long random strings), and from not revealing them to users that should not be able to see their associated PA.</p>
 
-<p>Each access token is unique for each request (i.e., they aren&rsquo;t re-used)-this makes their use lower risk than typical password-based authentication systems-which could provide access to large volumes of protected health information if they are compromised.</p>
+<p>Each access <code class="prettyprint">token</code> is unique for each request (i.e., they aren&rsquo;t re-used).  This makes their use lower risk than typical password-based authentication systems, which could provide access to large volumes of protected health information if they are compromised.</p>
 
-<p>You may choose to actively manage <code class="prettyprint">tokens</code>. This is unnecessary unless the tokens are compromised, but you may wish to consider it if you are using tokens in a client-side application.  For example, you could regenerate tokens for a particular request if a user of the system shouldn&rsquo;t have access to the PA request anymore.  While low risk, it would be possible that this user had previously recorded the <code class="prettyprint">access_token</code>.</p>
+<p>You may choose to actively manage <code class="prettyprint">tokens</code>. This is unnecessary unless the <code class="prettyprint">tokens</code> are compromised, but you may wish to consider it if you are using <code class="prettyprint">tokens</code> in a client-side application.  For example, you could regenerate <code class="prettyprint">tokens</code> for a particular request if a user of the system shouldn&rsquo;t have access to the PA request anymore.  While low risk, it would be possible that this user had previously recorded the <code class="prettyprint">access_token</code>.</p>
 
 <p><aside class="notice">
-A technique to consider in a client-side implementation is to make server-side requests with tokens, then to return the API response data (without the tokens) into a page where it can be used by a javascript client that is also loaded on the page. When clicked, the user is following a link to your server, and then redirected to the CMM page with the access token.
+A technique to consider in a client-side implementation is to make server-side requests with <code class="prettyprint">tokens</code>, then to return the API response data (without the <code class="prettyprint">tokens</code>) into a page where it can be used by a Javascript client that is also loaded on the page. When clicked, the user is following a link to your server, and then redirected to the CMM page with the access <code class="prettyprint">token</code>.
 </aside></p>
 
 <h1 id="handling-errors">Handling Errors</h1>
@@ -1532,7 +1548,7 @@ A technique to consider in a client-side implementation is to make server-side r
 </tbody></table>
 
 <p><aside class="warning">
-Be careful that your implementation doesn&rsquo;t create blocking requests that could impair the use of your application if an API request returns an error or failure.  For server-side requests, a timeout of 5000 milliseconds should prevent any real harm while making sure that requests aren&rsquo;t aborted. For client-side integrations, AJAX can be a useful technique so that your application can be loaded while API requests are made asynchronously.  Our <a href="https://github.com/covermymeds/api-jquery-plugins">javascript components</a> are already designed for this type of architecture.
+Be careful that your implementation doesn&rsquo;t create blocking requests that could impair the use of your application if an API request returns an error or failure.  For server-side requests, a timeout of 5000 milliseconds should prevent any real harm while making sure that requests aren&rsquo;t aborted. For client-side integrations, AJAX can be a useful technique so that your application can be loaded while API requests are made asynchronously.  Our <a href="https://github.com/covermymeds/api-jquery-plugins">Javascript components</a> are already designed for this type of architecture.
 </aside></p>
 
 <h2 id="system-status">System Status</h2>
@@ -1548,7 +1564,7 @@ Be careful that your implementation doesn&rsquo;t create blocking requests that 
 
 <h1 id="getting-help">Getting Help</h1>
 
-<p>It will greatly simplify your integration if you understand how the CoverMyMeds website system works, since you are essentially reproducing it in your application.  You should <a href="https://www.covermymeds.com/signup">create a CMM account</a> and play around with it.  You should also make sure to check out the <a href="https://covermymeds.github.io/ehr-example/">EHR Demo Application</a>.</p>
+<p>It will greatly simplify your integration if you understand how the CoverMyMeds website system works, since you are essentially reproducing it in your application.  You should <a href="https://www.covermymeds.com/signup">create a CMM account</a> and play around with it.  You should also make sure to check out the <a href="http://covermymeds.github.io/ehr-example/">EHR Demo Application</a>.</p>
 
 <p>CoverMyMeds provides complete technical assistance during the integration. Questions may be sent to <a href="mailto:developers@covermymeds.com">developers@covermymeds.com</a> until a regular contact is assigned.  You may also call us for immediate help, although our general support staff are not always able to answer development-related questions.</p>
 
@@ -1663,7 +1679,7 @@ Saturday: 8:00AM - 3:00PM EST
 
 <p>CoverMyMeds deploys a set of Policies and Procedures, together with Technical, Physical, and Administrative Safeguards to maintain compliance with the HIPAA Privacy Rule, Security Rule, Transactions and Code Sets Rule, and their implementing regulations.</p>
 
-<p>For our users who are Covered Entities (e.g., providers, plans, or PBMs), CoverMyMeds functions as a Business Associate. In some situations, we may also function as a Health Care Clearinghouse (a type of Covered Entity). For example, we meet his definition when health care providers use a system that integrates with us, such as using this API, or when we communicate with the plan or PBM using the ePA standard.</p>
+<p>For our users who are Covered Entities (e.g., providers, plans, or PBMs), CoverMyMeds functions as a Business Associate. In some situations, we may also function as a Health Care Clearinghouse (a type of Covered Entity). For example, we meet this definition when health care providers use a system that integrates with us, such as using this API, or when we communicate with the plan or PBM using the ePA standard.</p>
 
 <p>CoverMyMeds also publishes a Privacy Policy and Terms of Service. These materials may be found in our online <a href="https://www.covermymeds.com/main/privacy_center/">Privacy Center</a>.</p>
 
@@ -1679,7 +1695,7 @@ Saturday: 8:00AM - 3:00PM EST
 
 <h2 id="controls-and-security-assessments">Controls and Security Assessments</h2>
 
-<p>Security and privacy compliance is a cornerstone of our business.  We maintain an active internal program, and employ professional 3rd party auditors to evaluate our effectiveness.</p>
+<p>Security and privacy compliance is a cornerstone of our business.  We maintain an active internal program, and employ professional third-party auditors to evaluate our effectiveness.</p>
 
 <p>Our programs have also been evaluated and assessed by many of the largest hospital systems, pharmacy chains, health plans and PBMs in the industry.  We welcome our Client System partners to conduct their own assessment, including security audits, onsite site reviews, and other measures.</p>
 
