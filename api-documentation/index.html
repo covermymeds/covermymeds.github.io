@@ -174,7 +174,7 @@
 <p>GET a PA using the <code class="prettyprint">/requests/</code> resource.  You must authenticate your request with a token for the PA.</p>
 
 <p>You can display the PA you created in the CoverMyMeds system by following the link in <code class="prettyprint">[requests][tokens][html_url]</code>, or you can build your own from a known token value by formatting it like this:
-<code class="prettyprint">https://www.covermymeds.com/request/:id?access_token_id={access_token}</code>.</p>
+<code class="prettyprint">https://www.covermymeds.com/request/:id?token_id={access_token}</code>.</p>
 
 <p><aside class="success">
 Make sure to check out our <a href="https://github.com/covermymeds/api-jquery-plugins">Javascript components</a> that implement a full-featured API client that you may use in your web, mobile, or desktop app (in a browser-control).  These are used in a <a href="http://covermymeds.github.io/ehr-example/">toy EHR application</a> so you can see how they work.  One significant advantage of this approach is that the Task List included in this library has built in pagination, filtering and search — which you could, of course, implement on your own, but it would take a bit of work.
@@ -1140,15 +1140,15 @@ Make sure to check out our <a href="https://github.com/covermymeds/api-jquery-pl
 <p>You can get a URL to each request in <code class="prettyprint">[requests][tokens][html_url]</code>, or you can build your own from a known token value.</p>
 
 <p>You format a link like this:
-<code class="prettyprint">https://www.covermymeds.com/request/:id?access_token_id={access_token}</code></p>
+<code class="prettyprint">https://www.covermymeds.com/request/:id?token_id={access_token}</code></p>
 
-<p>Here is an <a href="https://www.covermymeds.com/request/view/NY8VC9?access_token_id=srjme2li80trjj4ts7y7">actual link to a request</a>.</p>
+<p>Here is an <a href="https://www.covermymeds.com/request/view/NY8VC9?token_id=srjme2li80trjj4ts7y7">actual link to a request</a>.</p>
 
 <p>It is important to fill in the contact information for your user.  This will be used by the CoverMyMeds system when the user sends a PA to the plan or to another user of the system.  The <code class="prettyprint">remote_user</code> parameter currently supports name, phone, and fax number.  Additional values may be added over time.  Thus, a complete URL would look like this:</p>
 
-<p><code class="prettyprint">https://www.covermymeds.com/request/:id?access_token_id={access_token}&amp;remote_user[display_name]={display_name}&amp;remote_user[phone_number]={phone_number}&amp;remote_user[fax_number]={fax_number}</code></p>
+<p><code class="prettyprint">https://www.covermymeds.com/request/:id?token_id={access_token}&amp;remote_user[display_name]={display_name}&amp;remote_user[phone_number]={phone_number}&amp;remote_user[fax_number]={fax_number}</code></p>
 
-<p>Here is an <a href="https://www.covermymeds.com/request/view/NY8VC9?access_token_id=srjme2li80trjj4ts7y7&remote_user[display_name]=Dr.%20Mark&remote_user[phone_number]=555-555-5556&remote_user[fax_number]=555-555-5557">actual link with remote user information</a>.</p>
+<p>Here is an <a href="https://www.covermymeds.com/request/view/NY8VC9?token_id=srjme2li80trjj4ts7y7&remote_user[display_name]=Dr.%20Mark&remote_user[phone_number]=555-555-5556&remote_user[fax_number]=555-555-5557">actual link with remote user information</a>.</p>
 
 <h2 id="theming">Theming</h2>
 <pre class="highlight plaintext">&lt;div&gt;
