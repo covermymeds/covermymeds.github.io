@@ -182,6 +182,11 @@ Make sure to check out our <a href="https://github.com/covermymeds/api-jquery-pl
 
 <h1 id="overview">Overview</h1>
 
+<p><video id="overview-video" class="video-js vjs-default-skin vjs-big-play-centered" data-setup='{"controls":true,"autoplay":false,"preload":"auto","width":"100%","height":"329"}'>
+  <source src="http://video.covermymeds.com/assets/EHR_demo.mp4" type="video/mp4" />
+  <source src="http://video.covermymeds.com/assets/EHR_demo.webm" type="video/webm" />
+</video></p>
+
 <p>This API allows companies offering Electronic Health Record (EHR), stand-alone e-prescribing, or Practice Management Systems (&ldquo;Client Systems&rdquo;) to offer a very compelling prior authorization solution to their customers. Integrating with the API should be straightforward for both “on-premise” client server applications and browser-based systems. The API uses vanilla web services (REST), and is backed by <a href="https://github.com/covermymeds">development libraries</a> that make using it a piece of cake.</p>
 
 <p>Because PA will eventually become a named HIPAA standard, most EHR systems will need to support an electronic PA solution.  Some may choose to build this themselves from the raw NCPDP ePA transactions, though this involves an incredible amount of work — our experience over the past five years shows that making ePA worth using in the real world is a monumental task that many will wish to avoid.  So that EHR systems can focus on other things, CoverMyMeds&#39; API offers a number of powerful built-in features. After completing this integration, your ePA system will:</p>
@@ -422,6 +427,8 @@ Make sure to check out our <a href="https://github.com/covermymeds/api-jquery-pl
 
 <p>Authentication to the <code class="prettyprint">/requests/</code> resources varies by use case. The POST verb requires just an <code class="prettyprint">api_id</code> because data is being &ldquo;put into&rdquo; the system by a user that already has access to it.  The other <code class="prettyprint">/requests/</code> verbs require tokens and can be used client-side.  The <code class="prettyprint">/requests/tokens</code> resources require the <code class="prettyprint">api_secret</code>.</p>
 
+<p>When a user indicates that a request should be deleted, a <code class="prettyprint">DELETE</code> event is added to the <code class="prettyprint">events</code> array.  This allows you to decide if you should remove the PA from one users task list, or the task list for all of your users.  The <code class="prettyprint">remote_user</code> object associated with the event contains a copy of the <code class="prettyprint">?remote_user[]</code> attributes that were presented when the user accesed the PA request on the CMM portal.  This allows you to know which user wishes to delete the request.  More information about <code class="prettyprint">remote_user</code> attribtes can be found under &ldquo;<a href="#displaying-a-pa-on-the-cmm-site">using requests</a>&rdquo;</p>
+
 <p>Note that <code class="prettyprint">api_id</code> is required in all requests.</p>
 
 <table><thead>
@@ -517,6 +524,7 @@ Make sure to check out our <a href="https://github.com/covermymeds/api-jquery-pl
   &quot;request[urgent]&quot;:                             &quot;boolean&quot;,
   &quot;request[form_id]&quot;:                            &quot;string&quot;,
   &quot;request[state]&quot;:                              &quot;string&quot;,
+  &quot;request[memo]&quot;:                               &quot;string&quot;,
   &quot;request[patient][first_name]&quot;:                &quot;string&quot;,
   &quot;request[patient][middle_name]&quot;:               &quot;string&quot;,
   &quot;request[patient][last_name]&quot;:                 &quot;string&quot;,
@@ -587,13 +595,20 @@ Make sure to check out our <a href="https://github.com/covermymeds/api-jquery-pl
   &quot;html_url&quot;:              &quot;string&quot;,
   &quot;pdf_url&quot;:               &quot;string&quot;,
   &quot;thumbnail_urls&quot;:        &quot;string&quot;,
-  &quot;workflow_status&quot;:       &quot;string&quot;,
-  &quot;plan_outcome&quot;:          &quot;string&quot;,
+  &quot;workflow_status&quot;:       &quot;string&quot;, // Possible Values: &quot;New&quot;, &quot;PA Request&quot;, &quot;PA Response&quot;, &quot;Provider Cancel&quot;, &quot;Question Request&quot;, &quot;Question Response&quot;, &quot;Appeal Request&quot;, &quot;Appeal Response&quot;, &quot;Failure&quot;, &quot;Expired&quot;
+  &quot;plan_outcome&quot;:          &quot;string&quot;, // Possible Values: &quot;Favorable&quot;, &quot;Unfavorable&quot;, &quot;Cancelled&quot;, &quot;Pending&quot;, &quot;Unknown&quot;, &quot;Unsent&quot;, &quot;N/A&quot;
   &quot;attachments_included&quot;:  &quot;boolean&quot;,
   &quot;is_epa&quot;:                &quot;boolean&quot;,
   &quot;urgent&quot;:                &quot;boolean&quot;,
   &quot;form_id&quot;:               &quot;string&quot;,
   &quot;state&quot;:                 &quot;string&quot;,
+  &quot;memo&quot;:                  &quot;string&quot;,
+  &quot;created_at&quot;:            &quot;ISO8601 datetime string&quot;,
+  &quot;events&quot;: {
+    &quot;type&quot;:             &quot;string&quot;, // Possible Values: &quot;DELETED&quot;
+    &quot;time&quot;:             &quot;ISO8601 datetime string&quot;,
+    &quot;remote_user&quot;:      &quot;object&quot;,
+  },
   &quot;patient&quot;: {
     &quot;first_name&quot;:        &quot;string&quot;,
     &quot;middle_name&quot;:       &quot;string&quot;,
@@ -754,8 +769,8 @@ Make sure to check out our <a href="https://github.com/covermymeds/api-jquery-pl
   &quot;html_url&quot;:              &quot;string&quot;,
   &quot;pdf_url&quot;:               &quot;string&quot;,
   &quot;thumbnail_urls&quot;:        &quot;string&quot;,
-  &quot;workflow_status&quot;:       &quot;string&quot;,
-  &quot;plan_outcome&quot;:          &quot;string&quot;,
+  &quot;workflow_status&quot;:       &quot;string&quot;, // Possible Values: &quot;New&quot;, &quot;PA Request&quot;, &quot;PA Response&quot;, &quot;Provider Cancel&quot;, &quot;Question Request&quot;, &quot;Question Response&quot;, &quot;Appeal Request&quot;, &quot;Appeal Response&quot;, &quot;Failure&quot;, &quot;Expired&quot;
+  &quot;plan_outcome&quot;:          &quot;string&quot;, // Possible Values: &quot;Favorable&quot;, &quot;Unfavorable&quot;, &quot;Cancelled&quot;, &quot;Pending&quot;, &quot;Unknown&quot;, &quot;Unsent&quot;, &quot;N/A&quot;
   &quot;attachments_included&quot;:  &quot;boolean&quot;,
   &quot;is_epa&quot;:                &quot;boolean&quot;,
   &quot;urgent&quot;:                &quot;boolean&quot;,
@@ -904,8 +919,8 @@ Make sure to check out our <a href="https://github.com/covermymeds/api-jquery-pl
   &quot;html_url&quot;:              &quot;string&quot;,
   &quot;pdf_url&quot;:               &quot;string&quot;,
   &quot;thumbnail_urls&quot;:        &quot;string&quot;,
-  &quot;workflow_status&quot;:       &quot;string&quot;,
-  &quot;plan_outcome&quot;:          &quot;string&quot;,
+  &quot;workflow_status&quot;:       &quot;string&quot;, // Possible Values: &quot;New&quot;, &quot;PA Request&quot;, &quot;PA Response&quot;, &quot;Provider Cancel&quot;, &quot;Question Request&quot;, &quot;Question Response&quot;, &quot;Appeal Request&quot;, &quot;Appeal Response&quot;, &quot;Failure&quot;, &quot;Expired&quot;
+  &quot;plan_outcome&quot;:          &quot;string&quot;, // Possible Values: &quot;Favorable&quot;, &quot;Unfavorable&quot;, &quot;Cancelled&quot;, &quot;Pending&quot;, &quot;Unknown&quot;, &quot;Unsent&quot;, &quot;N/A&quot;
   &quot;attachments_included&quot;:  &quot;boolean&quot;,
   &quot;is_epa&quot;:                &quot;boolean&quot;,
   &quot;urgent&quot;:                &quot;boolean&quot;,
