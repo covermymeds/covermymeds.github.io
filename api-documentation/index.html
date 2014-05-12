@@ -183,8 +183,8 @@ Make sure to check out our <a href="https://github.com/covermymeds/api-jquery-pl
 <h1 id="overview">Overview</h1>
 
 <p><video id="overview-video" class="video-js vjs-default-skin vjs-big-play-centered" data-setup='{"controls":true,"autoplay":false,"preload":"auto","width":"100%","height":"329"}'>
-  <source src="http://video.covermymeds.com/assets/EHR_demo.mp4" type="video/mp4" />
-  <source src="http://video.covermymeds.com/assets/EHR_demo.webm" type="video/webm" />
+  <source src="//video.covermymeds.com/assets/EHR_demo.mp4" type="video/mp4" />
+  <source src="//video.covermymeds.com/assets/EHR_demo.webm" type="video/webm" />
 </video></p>
 
 <p>This API allows companies offering Electronic Health Record (EHR), stand-alone e-prescribing, or Practice Management Systems (&ldquo;Client Systems&rdquo;) to offer a very compelling prior authorization solution to their customers. Integrating with the API should be straightforward for both “on-premise” client server applications and browser-based systems. The API uses vanilla web services (REST), and is backed by <a href="https://github.com/covermymeds">development libraries</a> that make using it a piece of cake.</p>
@@ -421,7 +421,7 @@ Make sure to check out our <a href="https://github.com/covermymeds/api-jquery-pl
 
 <p>The <code class="prettyprint">/requests/</code> resource is the workhorse of the API.  You will use it to create new prior authorizations (<code class="prettyprint">POST /requests/</code>), retrieve a single PA (<code class="prettyprint">GET /requests/</code>), and retrieve multiple PAs, for use in your Task List or other bulk operations (<code class="prettyprint">POST /requests/search/</code>).  Several additional features are provided for working with prior authorizations such as using the <a href="#displaying-a-pa-on-the-cmm-site">CMM request page</a>, <a href="#theming">theming</a>, and the <a href="#callbacks">Callback system</a>.</p>
 
-<p>For convenience, the HTTP response is the same across <code class="prettyprint">POST /requests/</code>, <code class="prettyprint">GET /requests/</code>, and <code class="prettyprint">POST /requests/search/</code> resources, and is the same form data that is used in the Callback system.  </p>
+<p>For convenience, the HTTP response is the same across <code class="prettyprint">POST /requests/</code>, <code class="prettyprint">GET /requests/</code>, and <code class="prettyprint">POST /requests/search/</code> resources, and is the same form data that is used in the Callback system.</p>
 
 <p>A <code class="prettyprint">/requests/tokens/</code> resource is provided for managing authentication tokens for each request.  Note that tokens are an actual resource, not just an attribute of each <code class="prettyprint">request</code>.  This means they have their own API at <code class="prettyprint">/requests/tokens/</code> with verbs to provide CRUD services for them.  This also means referring to requests in the <code class="prettyprint">/request/tokens/</code> resource is different than you might otherwise expect.  Here, a request <code class="prettyprint">id</code> is called a <code class="prettyprint">request_id</code>.  Use the buttons to expose the request and response schemas to understand the naming convention.</p>
 
@@ -597,6 +597,7 @@ Make sure to check out our <a href="https://github.com/covermymeds/api-jquery-pl
   &quot;thumbnail_urls&quot;:        &quot;string&quot;,
   &quot;workflow_status&quot;:       &quot;string&quot;, // Possible Values: &quot;New&quot;, &quot;PA Request&quot;, &quot;PA Response&quot;, &quot;Provider Cancel&quot;, &quot;Question Request&quot;, &quot;Question Response&quot;, &quot;Appeal Request&quot;, &quot;Appeal Response&quot;, &quot;Failure&quot;, &quot;Expired&quot;
   &quot;plan_outcome&quot;:          &quot;string&quot;, // Possible Values: &quot;Favorable&quot;, &quot;Unfavorable&quot;, &quot;Cancelled&quot;, &quot;Pending&quot;, &quot;Unknown&quot;, &quot;Unsent&quot;, &quot;N/A&quot;
+  &quot;response_from_plan&quot;:    &quot;string&quot;,
   &quot;attachments_included&quot;:  &quot;boolean&quot;,
   &quot;is_epa&quot;:                &quot;boolean&quot;,
   &quot;urgent&quot;:                &quot;boolean&quot;,
@@ -771,6 +772,7 @@ Make sure to check out our <a href="https://github.com/covermymeds/api-jquery-pl
   &quot;thumbnail_urls&quot;:        &quot;string&quot;,
   &quot;workflow_status&quot;:       &quot;string&quot;, // Possible Values: &quot;New&quot;, &quot;PA Request&quot;, &quot;PA Response&quot;, &quot;Provider Cancel&quot;, &quot;Question Request&quot;, &quot;Question Response&quot;, &quot;Appeal Request&quot;, &quot;Appeal Response&quot;, &quot;Failure&quot;, &quot;Expired&quot;
   &quot;plan_outcome&quot;:          &quot;string&quot;, // Possible Values: &quot;Favorable&quot;, &quot;Unfavorable&quot;, &quot;Cancelled&quot;, &quot;Pending&quot;, &quot;Unknown&quot;, &quot;Unsent&quot;, &quot;N/A&quot;
+  &quot;response_from_plan&quot;:    &quot;string&quot;,
   &quot;attachments_included&quot;:  &quot;boolean&quot;,
   &quot;is_epa&quot;:                &quot;boolean&quot;,
   &quot;urgent&quot;:                &quot;boolean&quot;,
@@ -864,7 +866,7 @@ Make sure to check out our <a href="https://github.com/covermymeds/api-jquery-pl
 }
 </code></p>
 
-<p>Use this method to retrieve information about a singular PA that already exists.  </p>
+<p>Use this method to retrieve information about a singular PA that already exists.</p>
 
 <p>The response schema for this resource is identical to that of the <code class="prettyprint">POST /requests/</code> and <code class="prettyprint">POST /requests/search/</code> resources.</p>
 
@@ -921,6 +923,7 @@ Make sure to check out our <a href="https://github.com/covermymeds/api-jquery-pl
   &quot;thumbnail_urls&quot;:        &quot;string&quot;,
   &quot;workflow_status&quot;:       &quot;string&quot;, // Possible Values: &quot;New&quot;, &quot;PA Request&quot;, &quot;PA Response&quot;, &quot;Provider Cancel&quot;, &quot;Question Request&quot;, &quot;Question Response&quot;, &quot;Appeal Request&quot;, &quot;Appeal Response&quot;, &quot;Failure&quot;, &quot;Expired&quot;
   &quot;plan_outcome&quot;:          &quot;string&quot;, // Possible Values: &quot;Favorable&quot;, &quot;Unfavorable&quot;, &quot;Cancelled&quot;, &quot;Pending&quot;, &quot;Unknown&quot;, &quot;Unsent&quot;, &quot;N/A&quot;
+  &quot;response_from_plan&quot;:    &quot;string&quot;,
   &quot;attachments_included&quot;:  &quot;boolean&quot;,
   &quot;is_epa&quot;:                &quot;boolean&quot;,
   &quot;urgent&quot;:                &quot;boolean&quot;,
@@ -1014,7 +1017,7 @@ Make sure to check out our <a href="https://github.com/covermymeds/api-jquery-pl
 }
 </code></p>
 
-<p>Use this method to return a list of prior authorizations to populate your Task List, or to perform other bulk operations.  </p>
+<p>Use this method to return a list of prior authorizations to populate your Task List, or to perform other bulk operations.</p>
 
 <p>The response schema for this resource is identical to that of the <code class="prettyprint">POST /requests/</code> and <code class="prettyprint">GET /requests/</code> resources.</p>
 
@@ -1454,7 +1457,7 @@ pharmacy-initiated transactions for the NPI will not be sent to the <code class=
 
 <p>Visit the <a href="https://api.covermymeds.com/consumers/signin">Developer Account</a> page to register and manage your preferences.</p>
 
-<p>When you register your Client System, you will be issued an <code class="prettyprint">api_id</code> and an <code class="prettyprint">api_secret</code>. These values will be used to log into your Developer Account in the future.  Because we cannot send you your <code class="prettyprint">api_secret</code> over email, and we cannot reset it without breaking your existing integration, there isn&rsquo;t a convenient way to offer a &ldquo;password recovery&rdquo; system.  So try not to lose your <code class="prettyprint">api_secret</code>. </p>
+<p>When you register your Client System, you will be issued an <code class="prettyprint">api_id</code> and an <code class="prettyprint">api_secret</code>. These values will be used to log into your Developer Account in the future.  Because we cannot send you your <code class="prettyprint">api_secret</code> over email, and we cannot reset it without breaking your existing integration, there isn&rsquo;t a convenient way to offer a &ldquo;password recovery&rdquo; system.  So try not to lose your <code class="prettyprint">api_secret</code>.</p>
 
 <p>You can also use your Developer Account to:</p>
 
