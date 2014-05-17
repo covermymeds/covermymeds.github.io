@@ -256,7 +256,9 @@ Make sure to check out our <a href="https://github.com/covermymeds/api-jquery-pl
 
 <h2 id="versioning">Versioning</h2>
 
-<p>We attempt not to make breaking changes to the API, but if we must, a new major version number will be used.  Currently, the API is on version &ldquo;1&rdquo;.</p>
+<p>Currently, the API is on version &ldquo;1&rdquo;.  Without changing the version number we may add additional fields to any response or accept additional fields on any resource.  Your system should be written to be tolerant of additional fields.</p>
+
+<p>If we need to remove a field, change a data type, or move/rename a field we will increment the version number.</p>
 
 <p>You must specify the version of the API you are using in all requests with the <code class="prettyprint">v</code> attribute.  Use the interactive documentation to see how this is done.</p>
 
@@ -267,6 +269,14 @@ Make sure to check out our <a href="https://github.com/covermymeds/api-jquery-pl
 <p>The base URI for the API is <code class="prettyprint">https://api.covermymeds.com</code>.  We consider supporting developers to be a &ldquo;production&rdquo; application for us, so we do not provide distinct development, testing, or staging URLs to our partners.  This helps keep us on our toes and makes the API resilient, and many companies with API strategies we admire seem to be taking the same approach.</p>
 
 <p>We encourage users to &ldquo;play around&rdquo; with our system.  There is little you can do that will cause any real harm.  Just remember that everything actually works.  For example, when you send a fax, it will actually be transmitted.  This is usually good, but remember to send faxes to yourself and not a provider or plan.  Similarly, it is possible to submit electronic transactions to health plans, although this isn&rsquo;t possible until you are working with a <a href="#prescribers">Credentialed Prescriber</a>.</p>
+
+<p>CoverMyMeds provides &ldquo;always succeeds&rdquo; and &ldquo;always fails&rdquo; fax numbers that you can use for testing.</p>
+
+<p><code class="keep-with-text">614-999-9999 # faxes sent to this number will always succeed
+614-555-5555 # faxes sent to this number will always fail
+</code></p>
+
+<p>If you wish to simulate the entire life cycle of a PA request, including plan responses, contact us.  We can setup a mock payer for you to test PA approval or denial scenarios.</p>
 
 <h2 id="interactive-documentation">Interactive Documentation</h2>
 
@@ -1173,7 +1183,7 @@ Make sure to check out our <a href="https://github.com/covermymeds/api-jquery-pl
   &lt;img alt="EHR Logo" src="data:image/png;base64, abcZSDFasfdskfads" /&gt;
 &lt;/div&gt;
 
-&lt;style&gt;
+&lt;style type="text/css"&gt;
   #custom-theming {
     background-color: "black" };
 &lt;/style&gt;
@@ -1187,6 +1197,19 @@ Make sure to check out our <a href="https://github.com/covermymeds/api-jquery-pl
 <p>If you are not opening a new window for the request page, it may be a good idea to include a &ldquo;Back to EHR&rdquo; link (if your system can be addressed by URL).</p>
 
 <p>The theming data is not stored with each request.  So remember that if you change it, requests that were created previously will reflect your new theme.</p>
+
+<h2 id="disabling-covermymeds-functionality">Disabling CoverMyMeds Functionality</h2>
+<pre class="highlight plaintext">&lt;style type="text/css"&gt;
+  .api-configurable.fax-control     { display: none; }
+  .api-configurable.email-control   { display: none; }
+  .api-configurable.delete-control  { display: none; }
+&lt;/style&gt;
+</pre>
+<p>You may wish to disable some functionality on the CMM request page such as the &ldquo;Fax&rdquo; or &ldquo;Delete&rdquo; buttons.  We provide documented css selectors that you can use in your <a href="#theming">custom theming</a> for this purpose.</p>
+
+<p><img alt="ui-hooks" src="images/CoverMyMeds_pa_ui_hooks.png" /></p>
+
+<p>The &ldquo;First PA video&rdquo; and &ldquo;Chat with CoverMyMeds&rdquo; sections can also be disabled on request.</p>
 
 <h1 id="/prescribers/">/prescribers/</h1>
 
@@ -1484,6 +1507,24 @@ pharmacy-initiated transactions for the NPI will not be sent to the <code class=
 While all resources will accept the <code class="prettyprint">api_secret</code> or <code class="prettyprint">token_id</code> as query string data, it is best to pass them instead in the HTTP authentication header, to minimize the chance that they could be recorded in someone&rsquo;s network or logging infrastructure. For clarity of our code samples, we have omitted this detail in our example code in this document.  If you are unsure about how to set the authentication headers in your library, get in touch and we should be able to help.
 </aside></p>
 
+<h3 id="http-header-based-authorization">HTTP Header Based Authorization</h3>
+
+<p>For endpoints that require both your <code class="prettyprint">api_id</code> and <code class="prettyprint">api_secret</code> you can use conventional HTTP Basic authorization:</p>
+
+<p><code class="prettyprint">Authorization: Basic Base64Encode(&lt;your-api_id&gt;:&lt;your-api_secret&gt;)</code></p>
+
+<p>For example, if your <code class="prettyprint">api_id</code> is <code class="prettyprint">123</code> and your <code class="prettyprint">api_secret</code> is <code class="prettyprint">abc</code>, your <code class="prettyprint">Authorization</code> header value would be:</p>
+
+<p><code class="prettyprint">Basic MTIzOmFiYwo=</code></p>
+
+<p>For endpoints that only require the <code class="prettyprint">token_id</code> to access the PA request we use a variation on HTTP Bearer authorization:</p>
+
+<p><code class="prettyprint">Authorization: Bearer &lt;your-api_id&gt;+&lt;your-token_id&gt;</code></p>
+
+<p>For example, with an <code class="prettyprint">api_id</code> of <code class="prettyprint">123</code> and a <code class="prettyprint">token_id</code> of <code class="prettyprint">a1b2c3d4e5</code>, your <code class="prettyprint">Authorization</code> header value would be:</p>
+
+<p><code class="prettyprint">Bearer 123+a1b2c3d4e5</code></p>
+
 <h2 id="access-control">Access Control</h2>
 
 <p>Most Client Systems have the concept of a user. This user concept is frequently extended to include constructs such as user groups, organizations, and perhaps also practice locations, which may have composite properties of groups and organizations while adding another dimension.</p>
@@ -1496,7 +1537,7 @@ While all resources will accept the <code class="prettyprint">api_secret</code> 
 
 <h3 id="storing-tokens">Storing Tokens</h3>
 
-<p><code class="prettyprint">Tokens</code> should be stored by the Client System such that they can be used appropriately for any given user context.  To take a simple example, imagine that your system has a single user access control scheme.  The <code class="prettyprint">token</code> management associated with this scheme would be easy-just keep a list of <code class="prettyprint">tokens</code> with each user (perhaps all of the system-wide <code class="prettyprint">tokens</code> in one table with a foreign key to the user).</p>
+<p><code class="prettyprint">Tokens</code> should be stored by the Client System such that they can be used appropriately for any given user context.  To take a simple example, imagine that your system has a single user access control scheme.  The <code class="prettyprint">token</code> management associated with this scheme would be easy—just keep a list of <code class="prettyprint">tokens</code> with each user (perhaps all of the system-wide <code class="prettyprint">tokens</code> in one table with a foreign key to the user).</p>
 
 <p>Your system will probably be a bit more complicated than that. You&rsquo;ll probably want to provide access so that nursing and administrative staff can see prior authorizations for their doctors, and everyone can see the work in their workgroup.  Remember to think about the three ways that prior authorizations may be created:</p>
 
