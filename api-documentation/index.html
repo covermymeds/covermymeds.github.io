@@ -177,7 +177,7 @@
 <code class="prettyprint">https://www.covermymeds.com/request/:id?token_id={access_token}</code>.</p>
 
 <p><aside class="success">
-Make sure to check out our <a href="https://github.com/covermymeds/api-jquery-plugins">Javascript components</a> that implement a full-featured API client that you may use in your web, mobile, or desktop app (in a browser-control).  These are used in a <a href="http://covermymeds.github.io/ehr-example/">toy EHR application</a> so you can see how they work.  One significant advantage of this approach is that the Task List included in this library has built in pagination, filtering and search — which you could, of course, implement on your own, but it would take a bit of work.
+Make sure to check out our <a href="https://github.com/covermymeds/api-jquery-plugins">JavaScript components</a> that implement a full-featured API client that you may use in your web, mobile, or desktop app (in a browser-control).  These are used in a <a href="http://covermymeds.github.io/ehr-example/">toy EHR application</a> so you can see how they work.  One significant advantage of this approach is that the Task List included in this library has built in pagination, filtering and search — which you could, of course, implement on your own, but it would take a bit of work.
 </aside></p>
 
 <h1 id="overview">Overview</h1>
@@ -246,11 +246,11 @@ Make sure to check out our <a href="https://github.com/covermymeds/api-jquery-pl
 
 <h2 id="rest">REST</h2>
 
-<p>This is a <a href="http://en.wikipedia.org/wiki/Representational_state_transfer">REST</a> API, which allows you to use any HTTP client you wish, including your favorite language&rsquo;s HTTP library, curl, javascript, or html and a browser. In addition to Client System integrations, this documentation is built with the API, as are many components of our own website, and our <a href="http://covermymeds.github.io/ehr-example/">sample EHR application</a>.</p>
+<p>This is a <a href="http://en.wikipedia.org/wiki/Representational_state_transfer">REST</a> API, which allows you to use any HTTP client you wish, including your favorite language&rsquo;s HTTP library, curl, JavaScript, or HTML and a browser. In addition to Client System integrations, this documentation is built with the API, as are many components of our own website, and our <a href="http://covermymeds.github.io/ehr-example/">sample EHR application</a>.</p>
 
 <p>The API is designed with predictable resource-oriented URLs and HTTP response codes to indicate <a href="#handling-errors">errors</a>. We use built-in HTTP features like HTTP verbs.</p>
 
-<p>Requests to the API are URL-encoded query or form data.  This encoding will be handled automatically by most HTTP libraries.  For example, jQuery&rsquo;s ajax methods take a javascript object, and automatically convert it to request data appropriately.</p>
+<p>Requests to the API are URL-encoded query or form data.  This encoding will be handled automatically by most HTTP libraries.  For example, jQuery&rsquo;s AJAX methods take a JavaScript object, and automatically convert it to request data appropriately.</p>
 
 <p>JSON is returned in all responses from the API, including errors.</p>
 
@@ -355,7 +355,7 @@ Make sure to check out our <a href="https://github.com/covermymeds/api-jquery-pl
 
 <p>The <code class="prettyprint">GET /drugs/</code> resource allows you to implement a drug search so the user can pick a drug for their request.  When a drug is picked, you get our internal drug <code class="prettyprint">id</code>.  Partial and full drug names are supported.  For example, click here for a search for <a href="https://api.covermymeds.com/drugs/?v=1&amp;amp;api_id=1vd9o4427lyi0ccb2uem&amp;amp;q=Nex">&ldquo;Nex&rdquo;</a>.</p>
 
-<p>You can use the <code class="prettyprint">/drugs/</code> resource to implement a &ldquo;type-ahead&rdquo; search.  We <a href="https://github.com/covermymeds/api-jquery-plugins/blob/master/src/jquery.drugsearch.js">publish a jquery plugin</a> that allows you to do this without any effort at all.</p>
+<p>You can use the <code class="prettyprint">/drugs/</code> resource to implement a &ldquo;type-ahead&rdquo; search.  We <a href="https://github.com/covermymeds/api-jquery-plugins/blob/master/src/jquery.drugsearch.js">publish a jQuery plugin</a> that allows you to do this without any effort at all.</p>
 
 <h1 id="/forms/">/forms/</h1>
 
@@ -529,180 +529,200 @@ Make sure to check out our <a href="https://github.com/covermymeds/api-jquery-pl
 </span></pre>
 <p><button class="show-schema">Show HTTP Request Schema</button>
 <code class="schema" style="display: none;">{
-  &quot;v&quot;:                                           &quot;integer&quot;,
-  &quot;api_id&quot;:                                      &quot;string&quot;,
-  &quot;request[urgent]&quot;:                             &quot;boolean&quot;,
-  &quot;request[form_id]&quot;:                            &quot;string&quot;,
-  &quot;request[state]&quot;:                              &quot;string&quot;,
-  &quot;request[memo]&quot;:                               &quot;string&quot;,
-  &quot;request[patient][first_name]&quot;:                &quot;string&quot;,
-  &quot;request[patient][middle_name]&quot;:               &quot;string&quot;,
-  &quot;request[patient][last_name]&quot;:                 &quot;string&quot;,
-  &quot;request[patient][date_of_birth]&quot;:             &quot;string&quot;,
-  &quot;request[patient][gender]&quot;:                    &quot;string&quot;,
-  &quot;request[patient][email]&quot;:                     &quot;string&quot;,
-  &quot;request[patient][member_id]&quot;:                 &quot;string&quot;,
-  &quot;request[patient][phone_number]&quot;:              &quot;string&quot;,
-  &quot;request[patient][address][street_1]&quot;:         &quot;string&quot;,
-  &quot;request[patient][address][street_2]&quot;:         &quot;string&quot;,
-  &quot;request[patient][address][city]&quot;:             &quot;string&quot;,
-  &quot;request[patient][address][state]&quot;:            &quot;string&quot;,
-  &quot;request[patient][address][zip]&quot;:              &quot;string&quot;,
-  &quot;request[payer][form_search_text]&quot;:            &quot;string&quot;,
-  &quot;request[payer][bin]&quot;:                         &quot;string&quot;,
-  &quot;request[payer][pcn]&quot;:                         &quot;string&quot;,
-  &quot;request[payer][group_id]&quot;:                    &quot;string&quot;,
-  &quot;request[payer][medical_benefit_name]&quot;:        &quot;string&quot;,
-  &quot;request[payer][drug_benefit_name]&quot;:           &quot;string&quot;,
-  &quot;request[prescriber][npi]&quot;:                    &quot;string&quot;,
-  &quot;request[prescriber][first_name]&quot;:             &quot;string&quot;,
-  &quot;request[prescriber][last_name]&quot;:              &quot;string&quot;,
-  &quot;request[prescriber][clinic_name]&quot;:            &quot;string&quot;,
-  &quot;request[prescriber][address][street_1]&quot;:      &quot;string&quot;,
-  &quot;request[prescriber][address][street_2]&quot;:      &quot;string&quot;,
-  &quot;request[prescriber][address][city]&quot;:          &quot;string&quot;,
-  &quot;request[prescriber][address][state]&quot;:         &quot;string&quot;,
-  &quot;request[prescriber][address][zip]&quot;:           &quot;string&quot;,
-  &quot;request[prescriber][fax_number]&quot;:             &quot;string&quot;,
-  &quot;request[prescriber][phone_number]&quot;:           &quot;string&quot;,
-  &quot;request[prescription][drug_id]&quot;:              &quot;string&quot;,
-  &quot;request[prescription][name]&quot;:                 &quot;string&quot;,
-  &quot;request[prescription][strength]&quot;:             &quot;string&quot;,
-  &quot;request[prescription][frequency]&quot;:            &quot;string&quot;,
-  &quot;request[prescription][enumerated_fields]&quot;:    &quot;string&quot;,
-  &quot;request[prescription][refills]&quot;:              &quot;string&quot;,
-  &quot;request[prescription][dispense_as_written]&quot;:  &quot;string&quot;,
-  &quot;request[prescription][quantity]&quot;:             &quot;string&quot;,
-  &quot;request[prescription][days_supply]&quot;:          &quot;string&quot;,
-  &quot;request[pharmacy][name]&quot;:                     &quot;string&quot;,
-  &quot;request[pharmacy][address][street_1]&quot;:        &quot;string&quot;,
-  &quot;request[pharmacy][address][street_2]&quot;:        &quot;string&quot;,
-  &quot;request[pharmacy][address][city]&quot;:            &quot;string&quot;,
-  &quot;request[pharmacy][address][state]&quot;:           &quot;string&quot;,
-  &quot;request[pharmacy][address][zip]&quot;:             &quot;string&quot;,
-  &quot;request[pharmacy][fax_number]&quot;:               &quot;string&quot;,
-  &quot;request[pharmacy][phone_number]&quot;:             &quot;string&quot;,
-  &quot;request[enumerated_fields][icd9_0]&quot;:          &quot;string&quot;,
-  &quot;request[enumerated_fields][icd9_1]&quot;:          &quot;string&quot;,
-  &quot;request[enumerated_fields][icd9_2]&quot;:          &quot;string&quot;,
-  &quot;request[enumerated_fields][failed_med_0]&quot;:    &quot;string&quot;,
-  &quot;request[enumerated_fields][failed_med_1]&quot;:    &quot;string&quot;,
-  &quot;request[enumerated_fields][failed_med_2]&quot;:    &quot;string&quot;,
-  &quot;request[enumerated_fields][failed_med_3]&quot;:    &quot;string&quot;,
-  &quot;request[enumerated_fields][failed_med_4]&quot;:    &quot;string&quot;,
-  &quot;request[enumerated_fields][failed_med_5]&quot;:    &quot;string&quot;,
-  &quot;request[enumerated_fields][failed_med_6]&quot;:    &quot;string&quot;,
-  &quot;request[enumerated_fields][failed_med_7]&quot;:    &quot;string&quot;,
-  &quot;request[enumerated_fields][failed_med_8]&quot;:    &quot;string&quot;,
-  &quot;request[enumerated_fields][failed_med_9]&quot;:    &quot;string&quot;
+  &quot;v&quot;:                         &quot;integer&quot;,
+  &quot;api_id&quot;:                    &quot;string&quot;,
+  &quot;request&quot;: {
+    &quot;urgent&quot;:                  &quot;boolean&quot;,
+    &quot;form_id&quot;:                 &quot;string&quot;,
+    &quot;state&quot;:                   &quot;string&quot;,
+    &quot;memo&quot;:                    &quot;string&quot;,
+    &quot;patient&quot;: {
+      &quot;first_name&quot;:            &quot;string&quot;,
+      &quot;middle_name&quot;:           &quot;string&quot;,
+      &quot;last_name&quot;:             &quot;string&quot;,
+      &quot;date_of_birth&quot;:         &quot;string&quot;,
+      &quot;gender&quot;:                &quot;string&quot;,
+      &quot;email&quot;:                 &quot;string&quot;,
+      &quot;member_id&quot;:             &quot;string&quot;,
+      &quot;phone_number&quot;:          &quot;string&quot;,
+      &quot;address&quot;: {
+        &quot;street_1&quot;:            &quot;string&quot;,
+        &quot;street_2&quot;:            &quot;string&quot;,
+        &quot;city&quot;:                &quot;string&quot;,
+        &quot;state&quot;:               &quot;string&quot;,
+        &quot;zip&quot;:                 &quot;string&quot;
+      }
+    },
+    &quot;payer&quot;: {
+      &quot;form_search_text&quot;:      &quot;string&quot;,
+      &quot;bin&quot;:                   &quot;string&quot;,
+      &quot;pcn&quot;:                   &quot;string&quot;,
+      &quot;group_id&quot;:              &quot;string&quot;,
+      &quot;medical_benefit_name&quot;:  &quot;string&quot;,
+      &quot;drug_benefit_name&quot;:     &quot;string&quot;
+    },
+    &quot;prescriber&quot;: {
+      &quot;npi&quot;:                   &quot;string&quot;,
+      &quot;first_name&quot;:            &quot;string&quot;,
+      &quot;last_name&quot;:             &quot;string&quot;,
+      &quot;clinic_name&quot;:           &quot;string&quot;,
+      &quot;fax_number&quot;:            &quot;string&quot;,
+      &quot;phone_number&quot;:          &quot;string&quot;,
+      &quot;address&quot;: {
+        &quot;street_1&quot;:            &quot;string&quot;,
+        &quot;street_2&quot;:            &quot;string&quot;,
+        &quot;city&quot;:                &quot;string&quot;,
+        &quot;state&quot;:               &quot;string&quot;,
+        &quot;zip&quot;:                 &quot;string&quot;
+      }
+    },
+    &quot;prescription&quot;: {
+      &quot;drug_id&quot;:               &quot;string&quot;,
+      &quot;name&quot;:                  &quot;string&quot;,
+      &quot;strength&quot;:              &quot;string&quot;,
+      &quot;frequency&quot;:             &quot;string&quot;,
+      &quot;enumerated_fields&quot;:     &quot;string&quot;,
+      &quot;refills&quot;:               &quot;string&quot;,
+      &quot;dispense_as_written&quot;:   &quot;string&quot;,
+      &quot;quantity&quot;:              &quot;string&quot;,
+      &quot;days_supply&quot;:           &quot;string&quot;
+    },
+    &quot;pharmacy&quot;: {
+      &quot;name&quot;:                  &quot;string&quot;,
+      &quot;fax_number&quot;:            &quot;string&quot;,
+      &quot;phone_number&quot;:          &quot;string&quot;,
+      &quot;address&quot;: {
+        &quot;street_1&quot;:            &quot;string&quot;,
+        &quot;street_2&quot;:            &quot;string&quot;,
+        &quot;city&quot;:                &quot;string&quot;,
+        &quot;state&quot;:               &quot;string&quot;,
+        &quot;zip&quot;:                 &quot;string&quot;
+      }
+    },
+    &quot;enumerated_fields&quot;: {
+      &quot;icd9_0&quot;:                &quot;string&quot;,
+      &quot;icd9_1&quot;:                &quot;string&quot;,
+      &quot;icd9_2&quot;:                &quot;string&quot;,
+      &quot;failed_med_0&quot;:          &quot;string&quot;,
+      &quot;failed_med_1&quot;:          &quot;string&quot;,
+      &quot;failed_med_2&quot;:          &quot;string&quot;,
+      &quot;failed_med_3&quot;:          &quot;string&quot;,
+      &quot;failed_med_4&quot;:          &quot;string&quot;,
+      &quot;failed_med_5&quot;:          &quot;string&quot;,
+      &quot;failed_med_6&quot;:          &quot;string&quot;,
+      &quot;failed_med_7&quot;:          &quot;string&quot;,
+      &quot;failed_med_8&quot;:          &quot;string&quot;,
+      &quot;failed_med_9&quot;:          &quot;string&quot;
+    }
+  }
 }
 </code></p>
 
 <p><button class="show-schema">Show HTTP Response Schema</button>
 <code class="schema" style="display: none;">{
-  &quot;id&quot;:                    &quot;string&quot;,
-  &quot;api_id&quot;:                &quot;string&quot;,
-  &quot;html_url&quot;:              &quot;string&quot;,
-  &quot;pdf_url&quot;:               &quot;string&quot;,
-  &quot;thumbnail_urls&quot;:        &quot;string&quot;,
-  &quot;workflow_status&quot;:       &quot;string&quot;, // Possible Values: &quot;New&quot;, &quot;PA Request&quot;, &quot;PA Response&quot;, &quot;Provider Cancel&quot;, &quot;Question Request&quot;, &quot;Question Response&quot;, &quot;Appeal Request&quot;, &quot;Appeal Response&quot;, &quot;Failure&quot;, &quot;Expired&quot;
-  &quot;plan_outcome&quot;:          &quot;string&quot;, // Possible Values: &quot;Favorable&quot;, &quot;Unfavorable&quot;, &quot;Cancelled&quot;, &quot;Pending&quot;, &quot;Unknown&quot;, &quot;Unsent&quot;, &quot;N/A&quot;
-  &quot;response_from_plan&quot;:    &quot;string&quot;,
-  &quot;attachments_included&quot;:  &quot;boolean&quot;,
-  &quot;is_epa&quot;:                &quot;boolean&quot;,
-  &quot;urgent&quot;:                &quot;boolean&quot;,
-  &quot;form_id&quot;:               &quot;string&quot;,
-  &quot;state&quot;:                 &quot;string&quot;,
-  &quot;memo&quot;:                  &quot;string&quot;,
-  &quot;created_at&quot;:            &quot;ISO8601 datetime string&quot;,
+  &quot;id&quot;:                       &quot;string&quot;,
+  &quot;api_id&quot;:                   &quot;string&quot;,
+  &quot;html_url&quot;:                 &quot;string&quot;,
+  &quot;pdf_url&quot;:                  &quot;string&quot;,
+  &quot;thumbnail_urls&quot;:           &quot;string&quot;,
+  &quot;workflow_status&quot;:          &quot;string&quot;, // Possible Values:   &quot;New&quot;, &quot;PA Request&quot;, &quot;PA Response&quot;, &quot;Provider Cancel&quot;, &quot;Question Request&quot;, &quot;Question Response&quot;, &quot;Appeal Request&quot;, &quot;Appeal Response&quot;, &quot;Failure&quot;, &quot;Expired&quot;
+  &quot;plan_outcome&quot;:             &quot;string&quot;, // Possible Values:   &quot;Favorable&quot;, &quot;Unfavorable&quot;, &quot;Cancelled&quot;, &quot;Pending&quot;, &quot;Unknown&quot;, &quot;Unsent&quot;, &quot;N/A&quot;
+  &quot;response_from_plan&quot;:       &quot;string&quot;,
+  &quot;attachments_included&quot;:     &quot;boolean&quot;,
+  &quot;is_epa&quot;:                   &quot;boolean&quot;,
+  &quot;urgent&quot;:                   &quot;boolean&quot;,
+  &quot;form_id&quot;:                  &quot;string&quot;,
+  &quot;state&quot;:                    &quot;string&quot;,
+  &quot;memo&quot;:                     &quot;string&quot;,
+  &quot;created_at&quot;:               &quot;ISO8601 datetime string&quot;,
   &quot;events&quot;: {
-    &quot;type&quot;:             &quot;string&quot;, // Possible Values: &quot;DELETED&quot;
-    &quot;time&quot;:             &quot;ISO8601 datetime string&quot;,
-    &quot;remote_user&quot;:      &quot;object&quot;,
+    &quot;type&quot;:                   &quot;string&quot;, // Possible Values:   &quot;DELETED&quot;
+    &quot;time&quot;:                   &quot;ISO8601 datetime string&quot;,
+    &quot;remote_user&quot;:            &quot;object&quot;,
   },
   &quot;patient&quot;: {
-    &quot;first_name&quot;:        &quot;string&quot;,
-    &quot;middle_name&quot;:       &quot;string&quot;,
-    &quot;last_name&quot;:         &quot;string&quot;,
-    &quot;date_of_birth&quot;:     &quot;string&quot;,
-    &quot;gender&quot;:            &quot;string&quot;,
-    &quot;email&quot;:             &quot;string&quot;,
-    &quot;member_id&quot;:         &quot;string&quot;,
-    &quot;phone_number&quot;:      &quot;string&quot;,
+    &quot;first_name&quot;:             &quot;string&quot;,
+    &quot;middle_name&quot;:            &quot;string&quot;,
+    &quot;last_name&quot;:              &quot;string&quot;,
+    &quot;date_of_birth&quot;:          &quot;string&quot;,
+    &quot;gender&quot;:                 &quot;string&quot;,
+    &quot;email&quot;:                  &quot;string&quot;,
+    &quot;member_id&quot;:              &quot;string&quot;,
+    &quot;phone_number&quot;:           &quot;string&quot;,
     &quot;address&quot;: {
-      &quot;street_1&quot;:          &quot;string&quot;,
-      &quot;street_2&quot;:          &quot;string&quot;,
-      &quot;city&quot;:              &quot;string&quot;,
-      &quot;state&quot;:             &quot;string&quot;,
-      &quot;zip&quot;:               &quot;string&quot;
+      &quot;street_1&quot;:             &quot;string&quot;,
+      &quot;street_2&quot;:             &quot;string&quot;,
+      &quot;city&quot;:                 &quot;string&quot;,
+      &quot;state&quot;:                &quot;string&quot;,
+      &quot;zip&quot;:                  &quot;string&quot;
     }
   },
   &quot;payer&quot;: {
-    &quot;form_search_text&quot;:      &quot;string&quot;,
-    &quot;bin&quot;:                   &quot;string&quot;,
-    &quot;pcn&quot;:                   &quot;string&quot;,
-    &quot;group_id&quot;:              &quot;string&quot;,
-    &quot;medical_benefit_name&quot;:  &quot;string&quot;,
-    &quot;drug_benefit_name&quot;:     &quot;string&quot;,
+    &quot;form_search_text&quot;:       &quot;string&quot;,
+    &quot;bin&quot;:                    &quot;string&quot;,
+    &quot;pcn&quot;:                    &quot;string&quot;,
+    &quot;group_id&quot;:               &quot;string&quot;,
+    &quot;medical_benefit_name&quot;:   &quot;string&quot;,
+    &quot;drug_benefit_name&quot;:      &quot;string&quot;,
   },
   &quot;prescriber&quot;: {
-    &quot;npi&quot;:          &quot;string&quot;,
-    &quot;first_name&quot;:   &quot;string&quot;,
-    &quot;last_name&quot;:    &quot;string&quot;,
-    &quot;clinic_name&quot;:  &quot;string&quot;,
+    &quot;npi&quot;:                    &quot;string&quot;,
+    &quot;first_name&quot;:             &quot;string&quot;,
+    &quot;last_name&quot;:              &quot;string&quot;,
+    &quot;clinic_name&quot;:            &quot;string&quot;,
     &quot;address&quot;: {
-      &quot;street_1&quot;:  &quot;string&quot;,
-      &quot;street_2&quot;:  &quot;string&quot;,
-      &quot;city&quot;:      &quot;string&quot;,
-      &quot;state&quot;:     &quot;string&quot;,
-      &quot;zip&quot;:       &quot;string&quot;
+      &quot;street_1&quot;:             &quot;string&quot;,
+      &quot;street_2&quot;:             &quot;string&quot;,
+      &quot;city&quot;:                 &quot;string&quot;,
+      &quot;state&quot;:                &quot;string&quot;,
+      &quot;zip&quot;:                  &quot;string&quot;
     },
-    &quot;fax_number&quot;:    &quot;string&quot;,
-    &quot;phone_number&quot;:  &quot;string&quot;
+    &quot;fax_number&quot;:             &quot;string&quot;,
+    &quot;phone_number&quot;:           &quot;string&quot;
   },
   &quot;prescription&quot;: {
-    &quot;drug_id&quot;:              &quot;string&quot;,
-    &quot;name&quot;:                 &quot;string&quot;,
-    &quot;strength&quot;:             &quot;string&quot;,
-    &quot;frequency&quot;:            &quot;string&quot;,
-    &quot;enumerated_fields&quot;:    &quot;string&quot;,
-    &quot;refills&quot;:              &quot;string&quot;,
-    &quot;dispense_as_written&quot;:  &quot;string&quot;,
-    &quot;quantity&quot;:             &quot;string&quot;,
-    &quot;days_supply&quot;:          &quot;string&quot;
+    &quot;drug_id&quot;:                &quot;string&quot;,
+    &quot;name&quot;:                   &quot;string&quot;,
+    &quot;strength&quot;:               &quot;string&quot;,
+    &quot;frequency&quot;:              &quot;string&quot;,
+    &quot;enumerated_fields&quot;:      &quot;string&quot;,
+    &quot;refills&quot;:                &quot;string&quot;,
+    &quot;dispense_as_written&quot;:    &quot;string&quot;,
+    &quot;quantity&quot;:               &quot;string&quot;,
+    &quot;days_supply&quot;:            &quot;string&quot;
   },
   &quot;pharmacy&quot;: {
-    &quot;name&quot;:     &quot;string&quot;,
+    &quot;name&quot;:                   &quot;string&quot;,
     &quot;address&quot;: {
-      &quot;street_1&quot;:  &quot;string&quot;,
-      &quot;street_2&quot;:  &quot;string&quot;,
-      &quot;city&quot;:      &quot;string&quot;,
-      &quot;state&quot;:     &quot;string&quot;,
-      &quot;zip&quot;:       &quot;string&quot;
+      &quot;street_1&quot;:             &quot;string&quot;,
+      &quot;street_2&quot;:             &quot;string&quot;,
+      &quot;city&quot;:                 &quot;string&quot;,
+      &quot;state&quot;:                &quot;string&quot;,
+      &quot;zip&quot;:                  &quot;string&quot;
     },
-    &quot;fax_number&quot;:    &quot;string&quot;,
-    &quot;phone_number&quot;:  &quot;string&quot;
+    &quot;fax_number&quot;:             &quot;string&quot;,
+    &quot;phone_number&quot;:           &quot;string&quot;
   },
   &quot;enumerated_fields&quot;: {
-    &quot;icd9_0&quot;:        &quot;string&quot;,
-    &quot;icd9_1&quot;:        &quot;string&quot;,
-    &quot;icd9_2&quot;:        &quot;string&quot;,
-    &quot;failed_med_0&quot;:  &quot;string&quot;,
-    &quot;failed_med_1&quot;:  &quot;string&quot;,
-    &quot;failed_med_2&quot;:  &quot;string&quot;,
-    &quot;failed_med_3&quot;:  &quot;string&quot;,
-    &quot;failed_med_4&quot;:  &quot;string&quot;,
-    &quot;failed_med_5&quot;:  &quot;string&quot;,
-    &quot;failed_med_6&quot;:  &quot;string&quot;,
-    &quot;failed_med_7&quot;:  &quot;string&quot;,
-    &quot;failed_med_8&quot;:  &quot;string&quot;,
-    &quot;failed_med_9&quot;:  &quot;string&quot;
+    &quot;icd9_0&quot;:                 &quot;string&quot;,
+    &quot;icd9_1&quot;:                 &quot;string&quot;,
+    &quot;icd9_2&quot;:                 &quot;string&quot;,
+    &quot;failed_med_0&quot;:           &quot;string&quot;,
+    &quot;failed_med_1&quot;:           &quot;string&quot;,
+    &quot;failed_med_2&quot;:           &quot;string&quot;,
+    &quot;failed_med_3&quot;:           &quot;string&quot;,
+    &quot;failed_med_4&quot;:           &quot;string&quot;,
+    &quot;failed_med_5&quot;:           &quot;string&quot;,
+    &quot;failed_med_6&quot;:           &quot;string&quot;,
+    &quot;failed_med_7&quot;:           &quot;string&quot;,
+    &quot;failed_med_8&quot;:           &quot;string&quot;,
+    &quot;failed_med_9&quot;:           &quot;string&quot;
   },
-  &quot;tokens&quot;:  {
+  &quot;tokens&quot;: {
     &quot;tokens&quot;: [
       {
-      &quot;id&quot;: &quot;string&quot;
-    }
+        &quot;id&quot;:                 &quot;string&quot;
+      }
     ]
   }
 }
@@ -775,101 +795,101 @@ Make sure to check out our <a href="https://github.com/covermymeds/api-jquery-pl
 
 <p><button class="show-schema">Show HTTP Response Schema</button>
 <code class="schema" style="display: none;">{
-  &quot;id&quot;:                    &quot;string&quot;,
-  &quot;api_id&quot;:                &quot;string&quot;,
-  &quot;html_url&quot;:              &quot;string&quot;,
-  &quot;pdf_url&quot;:               &quot;string&quot;,
-  &quot;thumbnail_urls&quot;:        &quot;string&quot;,
-  &quot;workflow_status&quot;:       &quot;string&quot;, // Possible Values: &quot;New&quot;, &quot;PA Request&quot;, &quot;PA Response&quot;, &quot;Provider Cancel&quot;, &quot;Question Request&quot;, &quot;Question Response&quot;, &quot;Appeal Request&quot;, &quot;Appeal Response&quot;, &quot;Failure&quot;, &quot;Expired&quot;
-  &quot;plan_outcome&quot;:          &quot;string&quot;, // Possible Values: &quot;Favorable&quot;, &quot;Unfavorable&quot;, &quot;Cancelled&quot;, &quot;Pending&quot;, &quot;Unknown&quot;, &quot;Unsent&quot;, &quot;N/A&quot;
-  &quot;response_from_plan&quot;:    &quot;string&quot;,
-  &quot;attachments_included&quot;:  &quot;boolean&quot;,
-  &quot;is_epa&quot;:                &quot;boolean&quot;,
-  &quot;urgent&quot;:                &quot;boolean&quot;,
-  &quot;form_id&quot;:               &quot;string&quot;,
-  &quot;state&quot;:                 &quot;string&quot;,
+  &quot;id&quot;:                       &quot;string&quot;,
+  &quot;api_id&quot;:                   &quot;string&quot;,
+  &quot;html_url&quot;:                 &quot;string&quot;,
+  &quot;pdf_url&quot;:                  &quot;string&quot;,
+  &quot;thumbnail_urls&quot;:           &quot;string&quot;,
+  &quot;workflow_status&quot;:          &quot;string&quot;, // Possible Values:   &quot;New&quot;, &quot;PA Request&quot;, &quot;PA Response&quot;, &quot;Provider Cancel&quot;, &quot;Question Request&quot;, &quot;Question Response&quot;, &quot;Appeal Request&quot;, &quot;Appeal Response&quot;, &quot;Failure&quot;, &quot;Expired&quot;
+  &quot;plan_outcome&quot;:             &quot;string&quot;, // Possible Values:   &quot;Favorable&quot;, &quot;Unfavorable&quot;, &quot;Cancelled&quot;, &quot;Pending&quot;, &quot;Unknown&quot;, &quot;Unsent&quot;, &quot;N/A&quot;
+  &quot;response_from_plan&quot;:       &quot;string&quot;,
+  &quot;attachments_included&quot;:     &quot;boolean&quot;,
+  &quot;is_epa&quot;:                   &quot;boolean&quot;,
+  &quot;urgent&quot;:                   &quot;boolean&quot;,
+  &quot;form_id&quot;:                  &quot;string&quot;,
+  &quot;state&quot;:                    &quot;string&quot;,
   &quot;patient&quot;: {
-    &quot;first_name&quot;:        &quot;string&quot;,
-    &quot;middle_name&quot;:       &quot;string&quot;,
-    &quot;last_name&quot;:         &quot;string&quot;,
-    &quot;date_of_birth&quot;:     &quot;string&quot;,
-    &quot;gender&quot;:            &quot;string&quot;,
-    &quot;email&quot;:             &quot;string&quot;,
-    &quot;member_id&quot;:         &quot;string&quot;,
-    &quot;phone_number&quot;:      &quot;string&quot;,
+    &quot;first_name&quot;:             &quot;string&quot;,
+    &quot;middle_name&quot;:            &quot;string&quot;,
+    &quot;last_name&quot;:              &quot;string&quot;,
+    &quot;date_of_birth&quot;:          &quot;string&quot;,
+    &quot;gender&quot;:                 &quot;string&quot;,
+    &quot;email&quot;:                  &quot;string&quot;,
+    &quot;member_id&quot;:              &quot;string&quot;,
+    &quot;phone_number&quot;:           &quot;string&quot;,
     &quot;address&quot;: {
-      &quot;street_1&quot;:  &quot;string&quot;,
-      &quot;street_2&quot;:  &quot;string&quot;,
-      &quot;city&quot;:      &quot;string&quot;,
-      &quot;state&quot;:     &quot;string&quot;,
-      &quot;zip&quot;:       &quot;string&quot;
+      &quot;street_1&quot;:             &quot;string&quot;,
+      &quot;street_2&quot;:             &quot;string&quot;,
+      &quot;city&quot;:                 &quot;string&quot;,
+      &quot;state&quot;:                &quot;string&quot;,
+      &quot;zip&quot;:                  &quot;string&quot;
     }
   },
   &quot;payer&quot;: {
-    &quot;form_search_text&quot;:      &quot;string&quot;,
-    &quot;bin&quot;:                   &quot;string&quot;,
-    &quot;pcn&quot;:                   &quot;string&quot;,
-    &quot;group_id&quot;:              &quot;string&quot;,
-    &quot;medical_benefit_name&quot;:  &quot;string&quot;,
-    &quot;drug_benefit_name&quot;:     &quot;string&quot;,
+    &quot;form_search_text&quot;:       &quot;string&quot;,
+    &quot;bin&quot;:                    &quot;string&quot;,
+    &quot;pcn&quot;:                    &quot;string&quot;,
+    &quot;group_id&quot;:               &quot;string&quot;,
+    &quot;medical_benefit_name&quot;:   &quot;string&quot;,
+    &quot;drug_benefit_name&quot;:      &quot;string&quot;,
   },
   &quot;prescriber&quot;: {
-    &quot;npi&quot;:          &quot;string&quot;,
-    &quot;first_name&quot;:   &quot;string&quot;,
-    &quot;last_name&quot;:    &quot;string&quot;,
-    &quot;clinic_name&quot;:  &quot;string&quot;,
+    &quot;npi&quot;:                    &quot;string&quot;,
+    &quot;first_name&quot;:             &quot;string&quot;,
+    &quot;last_name&quot;:              &quot;string&quot;,
+    &quot;clinic_name&quot;:            &quot;string&quot;,
     &quot;address&quot;: {
-      &quot;street_1&quot;:  &quot;string&quot;,
-      &quot;street_2&quot;:  &quot;string&quot;,
-      &quot;city&quot;:      &quot;string&quot;,
-      &quot;state&quot;:     &quot;string&quot;,
-      &quot;zip&quot;:       &quot;string&quot;
+      &quot;street_1&quot;:             &quot;string&quot;,
+      &quot;street_2&quot;:             &quot;string&quot;,
+      &quot;city&quot;:                 &quot;string&quot;,
+      &quot;state&quot;:                &quot;string&quot;,
+      &quot;zip&quot;:                  &quot;string&quot;
     },
-    &quot;fax_number&quot;:    &quot;string&quot;,
-    &quot;phone_number&quot;:  &quot;string&quot;
+    &quot;fax_number&quot;:             &quot;string&quot;,
+    &quot;phone_number&quot;:           &quot;string&quot;
   },
   &quot;prescription&quot;: {
-    &quot;drug_id&quot;:              &quot;string&quot;,
-    &quot;name&quot;:                 &quot;string&quot;,
-    &quot;strength&quot;:             &quot;string&quot;,
-    &quot;frequency&quot;:            &quot;string&quot;,
-    &quot;enumerated_fields&quot;:    &quot;string&quot;,
-    &quot;refills&quot;:              &quot;string&quot;,
-    &quot;dispense_as_written&quot;:  &quot;string&quot;,
-    &quot;quantity&quot;:             &quot;string&quot;,
-    &quot;days_supply&quot;:          &quot;string&quot;
+    &quot;drug_id&quot;:                &quot;string&quot;,
+    &quot;name&quot;:                   &quot;string&quot;,
+    &quot;strength&quot;:               &quot;string&quot;,
+    &quot;frequency&quot;:              &quot;string&quot;,
+    &quot;enumerated_fields&quot;:      &quot;string&quot;,
+    &quot;refills&quot;:                &quot;string&quot;,
+    &quot;dispense_as_written&quot;:    &quot;string&quot;,
+    &quot;quantity&quot;:               &quot;string&quot;,
+    &quot;days_supply&quot;:            &quot;string&quot;
   },
   &quot;pharmacy&quot;: {
-    &quot;name&quot;:     &quot;string&quot;,
-    &quot;address&quot;:  {
-      &quot;street_1&quot;:  &quot;string&quot;,
-      &quot;street_2&quot;:  &quot;string&quot;,
-      &quot;city&quot;:      &quot;string&quot;,
-      &quot;state&quot;:     &quot;string&quot;,
-      &quot;zip&quot;:       &quot;string&quot;
+    &quot;name&quot;:                   &quot;string&quot;,
+    &quot;address&quot;: {
+      &quot;street_1&quot;:             &quot;string&quot;,
+      &quot;street_2&quot;:             &quot;string&quot;,
+      &quot;city&quot;:                 &quot;string&quot;,
+      &quot;state&quot;:                &quot;string&quot;,
+      &quot;zip&quot;:                  &quot;string&quot;
     },
-    &quot;fax_number&quot;:    &quot;string&quot;,
-    &quot;phone_number&quot;:  &quot;string&quot;
+    &quot;fax_number&quot;:             &quot;string&quot;,
+    &quot;phone_number&quot;:           &quot;string&quot;
   },
   &quot;enumerated_fields&quot;: {
-    &quot;icd9_0&quot;:        &quot;string&quot;,
-    &quot;icd9_1&quot;:        &quot;string&quot;,
-    &quot;icd9_2&quot;:        &quot;string&quot;,
-    &quot;failed_med_0&quot;:  &quot;string&quot;,
-    &quot;failed_med_1&quot;:  &quot;string&quot;,
-    &quot;failed_med_2&quot;:  &quot;string&quot;,
-    &quot;failed_med_3&quot;:  &quot;string&quot;,
-    &quot;failed_med_4&quot;:  &quot;string&quot;,
-    &quot;failed_med_5&quot;:  &quot;string&quot;,
-    &quot;failed_med_6&quot;:  &quot;string&quot;,
-    &quot;failed_med_7&quot;:  &quot;string&quot;,
-    &quot;failed_med_8&quot;:  &quot;string&quot;,
-    &quot;failed_med_9&quot;:  &quot;string&quot;
+    &quot;icd9_0&quot;:                 &quot;string&quot;,
+    &quot;icd9_1&quot;:                 &quot;string&quot;,
+    &quot;icd9_2&quot;:                 &quot;string&quot;,
+    &quot;failed_med_0&quot;:           &quot;string&quot;,
+    &quot;failed_med_1&quot;:           &quot;string&quot;,
+    &quot;failed_med_2&quot;:           &quot;string&quot;,
+    &quot;failed_med_3&quot;:           &quot;string&quot;,
+    &quot;failed_med_4&quot;:           &quot;string&quot;,
+    &quot;failed_med_5&quot;:           &quot;string&quot;,
+    &quot;failed_med_6&quot;:           &quot;string&quot;,
+    &quot;failed_med_7&quot;:           &quot;string&quot;,
+    &quot;failed_med_8&quot;:           &quot;string&quot;,
+    &quot;failed_med_9&quot;:           &quot;string&quot;
   },
   &quot;tokens&quot;: {
     &quot;tokens&quot;: [
       {
-        &quot;id&quot;: &quot;string&quot;
+        &quot;id&quot;:                 &quot;string&quot;
       }
     ]
   }
@@ -926,101 +946,101 @@ Make sure to check out our <a href="https://github.com/covermymeds/api-jquery-pl
 
 <p><button class="show-schema">Show HTTP Response Schema</button>
 <code class="schema" style="display: none;">{
-  &quot;id&quot;:                    &quot;string&quot;,
-  &quot;api_id&quot;:                &quot;string&quot;,
-  &quot;html_url&quot;:              &quot;string&quot;,
-  &quot;pdf_url&quot;:               &quot;string&quot;,
-  &quot;thumbnail_urls&quot;:        &quot;string&quot;,
-  &quot;workflow_status&quot;:       &quot;string&quot;, // Possible Values: &quot;New&quot;, &quot;PA Request&quot;, &quot;PA Response&quot;, &quot;Provider Cancel&quot;, &quot;Question Request&quot;, &quot;Question Response&quot;, &quot;Appeal Request&quot;, &quot;Appeal Response&quot;, &quot;Failure&quot;, &quot;Expired&quot;
-  &quot;plan_outcome&quot;:          &quot;string&quot;, // Possible Values: &quot;Favorable&quot;, &quot;Unfavorable&quot;, &quot;Cancelled&quot;, &quot;Pending&quot;, &quot;Unknown&quot;, &quot;Unsent&quot;, &quot;N/A&quot;
-  &quot;response_from_plan&quot;:    &quot;string&quot;,
-  &quot;attachments_included&quot;:  &quot;boolean&quot;,
-  &quot;is_epa&quot;:                &quot;boolean&quot;,
-  &quot;urgent&quot;:                &quot;boolean&quot;,
-  &quot;form_id&quot;:               &quot;string&quot;,
-  &quot;state&quot;:                 &quot;string&quot;,
+  &quot;id&quot;:                       &quot;string&quot;,
+  &quot;api_id&quot;:                   &quot;string&quot;,
+  &quot;html_url&quot;:                 &quot;string&quot;,
+  &quot;pdf_url&quot;:                  &quot;string&quot;,
+  &quot;thumbnail_urls&quot;:           &quot;string&quot;,
+  &quot;workflow_status&quot;:          &quot;string&quot;, // Possible Values:   &quot;New&quot;, &quot;PA Request&quot;, &quot;PA Response&quot;, &quot;Provider Cancel&quot;, &quot;Question Request&quot;, &quot;Question Response&quot;, &quot;Appeal Request&quot;, &quot;Appeal Response&quot;, &quot;Failure&quot;, &quot;Expired&quot;
+  &quot;plan_outcome&quot;:             &quot;string&quot;, // Possible Values:   &quot;Favorable&quot;, &quot;Unfavorable&quot;, &quot;Cancelled&quot;, &quot;Pending&quot;, &quot;Unknown&quot;, &quot;Unsent&quot;, &quot;N/A&quot;
+  &quot;response_from_plan&quot;:       &quot;string&quot;,
+  &quot;attachments_included&quot;:     &quot;boolean&quot;,
+  &quot;is_epa&quot;:                   &quot;boolean&quot;,
+  &quot;urgent&quot;:                   &quot;boolean&quot;,
+  &quot;form_id&quot;:                  &quot;string&quot;,
+  &quot;state&quot;:                    &quot;string&quot;,
   &quot;patient&quot;: {
-    &quot;first_name&quot;:            &quot;string&quot;,
-    &quot;middle_name&quot;:           &quot;string&quot;,
-    &quot;last_name&quot;:             &quot;string&quot;,
-    &quot;date_of_birth&quot;:         &quot;string&quot;,
-    &quot;gender&quot;:                &quot;string&quot;,
-    &quot;email&quot;:                 &quot;string&quot;,
-    &quot;member_id&quot;:             &quot;string&quot;,
-    &quot;phone_number&quot;:          &quot;string&quot;,
+    &quot;first_name&quot;:             &quot;string&quot;,
+    &quot;middle_name&quot;:            &quot;string&quot;,
+    &quot;last_name&quot;:              &quot;string&quot;,
+    &quot;date_of_birth&quot;:          &quot;string&quot;,
+    &quot;gender&quot;:                 &quot;string&quot;,
+    &quot;email&quot;:                  &quot;string&quot;,
+    &quot;member_id&quot;:              &quot;string&quot;,
+    &quot;phone_number&quot;:           &quot;string&quot;,
     &quot;address&quot;: {
-      &quot;street_1&quot;:              &quot;string&quot;,
-      &quot;street_2&quot;:              &quot;string&quot;,
-      &quot;city&quot;:                  &quot;string&quot;,
-      &quot;state&quot;:                 &quot;string&quot;,
-      &quot;zip&quot;:                   &quot;string&quot;
+      &quot;street_1&quot;:             &quot;string&quot;,
+      &quot;street_2&quot;:             &quot;string&quot;,
+      &quot;city&quot;:                 &quot;string&quot;,
+      &quot;state&quot;:                &quot;string&quot;,
+      &quot;zip&quot;:                  &quot;string&quot;
     }
   },
   &quot;payer&quot;: {
-    &quot;form_search_text&quot;:      &quot;string&quot;,
-    &quot;bin&quot;:                   &quot;string&quot;,
-    &quot;pcn&quot;:                   &quot;string&quot;,
-    &quot;group_id&quot;:              &quot;string&quot;,
-    &quot;medical_benefit_name&quot;:  &quot;string&quot;,
-    &quot;drug_benefit_name&quot;:     &quot;string&quot;,
+    &quot;form_search_text&quot;:       &quot;string&quot;,
+    &quot;bin&quot;:                    &quot;string&quot;,
+    &quot;pcn&quot;:                    &quot;string&quot;,
+    &quot;group_id&quot;:               &quot;string&quot;,
+    &quot;medical_benefit_name&quot;:   &quot;string&quot;,
+    &quot;drug_benefit_name&quot;:      &quot;string&quot;,
   },
   &quot;prescriber&quot;: {
-    &quot;npi&quot;:                   &quot;string&quot;,
-    &quot;first_name&quot;:            &quot;string&quot;,
-    &quot;last_name&quot;:             &quot;string&quot;,
-    &quot;clinic_name&quot;:           &quot;string&quot;,
+    &quot;npi&quot;:                    &quot;string&quot;,
+    &quot;first_name&quot;:             &quot;string&quot;,
+    &quot;last_name&quot;:              &quot;string&quot;,
+    &quot;clinic_name&quot;:            &quot;string&quot;,
     &quot;address&quot;: {
-      &quot;street_1&quot;:              &quot;string&quot;,
-      &quot;street_2&quot;:              &quot;string&quot;,
-      &quot;city&quot;:                  &quot;string&quot;,
-      &quot;state&quot;:                 &quot;string&quot;,
-      &quot;zip&quot;:                   &quot;string&quot;
+      &quot;street_1&quot;:             &quot;string&quot;,
+      &quot;street_2&quot;:             &quot;string&quot;,
+      &quot;city&quot;:                 &quot;string&quot;,
+      &quot;state&quot;:                &quot;string&quot;,
+      &quot;zip&quot;:                  &quot;string&quot;
     },
-    &quot;fax_number&quot;:            &quot;string&quot;,
-    &quot;phone_number&quot;:          &quot;string&quot;
+    &quot;fax_number&quot;:             &quot;string&quot;,
+    &quot;phone_number&quot;:           &quot;string&quot;
   },
   &quot;prescription&quot;: {
-    &quot;drug_id&quot;:               &quot;string&quot;,
-    &quot;name&quot;:                  &quot;string&quot;,
-    &quot;strength&quot;:              &quot;string&quot;,
-    &quot;frequency&quot;:             &quot;string&quot;,
-    &quot;enumerated_fields&quot;:     &quot;string&quot;,
-    &quot;refills&quot;:               &quot;string&quot;,
-    &quot;dispense_as_written&quot;:   &quot;string&quot;,
-    &quot;quantity&quot;:              &quot;string&quot;,
-    &quot;days_supply&quot;:           &quot;string&quot;
+    &quot;drug_id&quot;:                &quot;string&quot;,
+    &quot;name&quot;:                   &quot;string&quot;,
+    &quot;strength&quot;:               &quot;string&quot;,
+    &quot;frequency&quot;:              &quot;string&quot;,
+    &quot;enumerated_fields&quot;:      &quot;string&quot;,
+    &quot;refills&quot;:                &quot;string&quot;,
+    &quot;dispense_as_written&quot;:    &quot;string&quot;,
+    &quot;quantity&quot;:               &quot;string&quot;,
+    &quot;days_supply&quot;:            &quot;string&quot;
   },
   &quot;pharmacy&quot;: {
-    &quot;name&quot;:                  &quot;string&quot;,
+    &quot;name&quot;:                   &quot;string&quot;,
     &quot;address&quot;: {
-      &quot;street_1&quot;:              &quot;string&quot;,
-      &quot;street_2&quot;:              &quot;string&quot;,
-      &quot;city&quot;:                  &quot;string&quot;,
-      &quot;state&quot;:                 &quot;string&quot;,
-      &quot;zip&quot;:                   &quot;string&quot;
+      &quot;street_1&quot;:             &quot;string&quot;,
+      &quot;street_2&quot;:             &quot;string&quot;,
+      &quot;city&quot;:                 &quot;string&quot;,
+      &quot;state&quot;:                &quot;string&quot;,
+      &quot;zip&quot;:                  &quot;string&quot;
     },
-    &quot;fax_number&quot;:            &quot;string&quot;,
-    &quot;phone_number&quot;:          &quot;string&quot;
+    &quot;fax_number&quot;:             &quot;string&quot;,
+    &quot;phone_number&quot;:           &quot;string&quot;
   },
   &quot;enumerated_fields&quot;: {
-    &quot;icd9_0&quot;:                &quot;string&quot;,
-    &quot;icd9_1&quot;:                &quot;string&quot;,
-    &quot;icd9_2&quot;:                &quot;string&quot;,
-    &quot;failed_med_0&quot;:          &quot;string&quot;,
-    &quot;failed_med_1&quot;:          &quot;string&quot;,
-    &quot;failed_med_2&quot;:          &quot;string&quot;,
-    &quot;failed_med_3&quot;:          &quot;string&quot;,
-    &quot;failed_med_4&quot;:          &quot;string&quot;,
-    &quot;failed_med_5&quot;:          &quot;string&quot;,
-    &quot;failed_med_6&quot;:          &quot;string&quot;,
-    &quot;failed_med_7&quot;:          &quot;string&quot;,
-    &quot;failed_med_8&quot;:          &quot;string&quot;,
-    &quot;failed_med_9&quot;:          &quot;string&quot;
+    &quot;icd9_0&quot;:                 &quot;string&quot;,
+    &quot;icd9_1&quot;:                 &quot;string&quot;,
+    &quot;icd9_2&quot;:                 &quot;string&quot;,
+    &quot;failed_med_0&quot;:           &quot;string&quot;,
+    &quot;failed_med_1&quot;:           &quot;string&quot;,
+    &quot;failed_med_2&quot;:           &quot;string&quot;,
+    &quot;failed_med_3&quot;:           &quot;string&quot;,
+    &quot;failed_med_4&quot;:           &quot;string&quot;,
+    &quot;failed_med_5&quot;:           &quot;string&quot;,
+    &quot;failed_med_6&quot;:           &quot;string&quot;,
+    &quot;failed_med_7&quot;:           &quot;string&quot;,
+    &quot;failed_med_8&quot;:           &quot;string&quot;,
+    &quot;failed_med_9&quot;:           &quot;string&quot;
   },
   &quot;tokens&quot;: {
     &quot;tokens&quot;: [
       {
-        &quot;id&quot;:                &quot;string&quot;
+        &quot;id&quot;:                 &quot;string&quot;
       }
     ]
   }
@@ -1033,7 +1053,7 @@ Make sure to check out our <a href="https://github.com/covermymeds/api-jquery-pl
 
 <p>If you wish to display a returned PA to the user, you should display it on the CMM website as described in the <a href="#displaying-a-pa-on-the-cmm-site">Using /requests section</a>.</p>
 
-<p>Because this data is lightweight, filtering and pagination are not supported by the server resource.  If you are implementing your own Task List, it is important to provide search and filtering from your client application.  Our Task List <a href="https://github.com/covermymeds/api-jquery-plugins/blob/master/src/jquery.dashboard.js">Javascript component</a> can handle this for you.</p>
+<p>Because this data is lightweight, filtering and pagination are not supported by the server resource.  If you are implementing your own Task List, it is important to provide search and filtering from your client application.  Our Task List <a href="https://github.com/covermymeds/api-jquery-plugins/blob/master/src/jquery.dashboard.js">JavaScript component</a> can handle this for you.</p>
 
 <h1 id="/requests/tokens/">/requests/tokens/</h1>
 
@@ -1499,7 +1519,7 @@ pharmacy-initiated transactions for the NPI will not be sent to the <code class=
 
 <p>Authorization is provided by either the <code class="prettyprint">api_secret</code> or request <code class="prettyprint">tokens</code>.  Tokens are used for all <code class="prettyprint">/requests/</code> methods that access existing PAs, and the <code class="prettyprint">api_secret</code> is used for everything else.  You can see information about the authorization method in each resource description.</p>
 
-<p>We use tokens for accessing existing requests for two primary reasons.  The first is that they minimize the chance that data from multiple PAs could be exposed in bulk through compromise of an <code class="prettyprint">api_secret</code> and the second is that they can be used in a 100% client-side implementation (e.g., javascript) relatively safely.</p>
+<p>We use tokens for accessing existing requests for two primary reasons.  The first is that they minimize the chance that data from multiple PAs could be exposed in bulk through compromise of an <code class="prettyprint">api_secret</code> and the second is that they can be used in a 100% client-side implementation (e.g., JavaScript) relatively safely.</p>
 
 <p>The <code class="prettyprint">api_secret</code> and <code class="prettyprint">tokens</code> are effectively a type of password. Because the <code class="prettyprint">api_secret</code> is used across your integration, it should never be exposed to your user.  Exposing a token is less problematic because it is used for only one request — which by definition your user already has seen. The section below includes more information on handling tokens and managing access control in your integration.</p>
 
@@ -1560,7 +1580,7 @@ While all resources will accept the <code class="prettyprint">api_secret</code> 
 <p>You may choose to actively manage <code class="prettyprint">tokens</code>. This is unnecessary unless the <code class="prettyprint">tokens</code> are compromised, but you may wish to consider it if you are using <code class="prettyprint">tokens</code> in a client-side application.  For example, you could regenerate <code class="prettyprint">tokens</code> for a particular request if a user of the system shouldn&rsquo;t have access to the PA request anymore.  While low risk, it would be possible that this user had previously recorded the <code class="prettyprint">access_token</code>.</p>
 
 <p><aside class="notice">
-A technique to consider in a client-side implementation is to make server-side requests with <code class="prettyprint">tokens</code>, then to return the API response data (without the <code class="prettyprint">tokens</code>) into a page where it can be used by a Javascript client that is also loaded on the page. When clicked, the user is following a link to your server, and then redirected to the CMM page with the access <code class="prettyprint">token</code>.
+A technique to consider in a client-side implementation is to make server-side requests with <code class="prettyprint">tokens</code>, then to return the API response data (without the <code class="prettyprint">tokens</code>) into a page where it can be used by a JavaScript client that is also loaded on the page. When clicked, the user is following a link to your server, and then redirected to the CMM page with the access <code class="prettyprint">token</code>.
 </aside></p>
 
 <h1 id="handling-errors">Handling Errors</h1>
@@ -1607,7 +1627,7 @@ A technique to consider in a client-side implementation is to make server-side r
 </tbody></table>
 
 <p><aside class="warning">
-Be careful that your implementation doesn&rsquo;t create blocking requests that could impair the use of your application if an API request returns an error or failure.  For server-side requests, a timeout of 5000 milliseconds should prevent any real harm while making sure that requests aren&rsquo;t aborted. For client-side integrations, AJAX can be a useful technique so that your application can be loaded while API requests are made asynchronously.  Our <a href="https://github.com/covermymeds/api-jquery-plugins">Javascript components</a> are already designed for this type of architecture.
+Be careful that your implementation doesn&rsquo;t create blocking requests that could impair the use of your application if an API request returns an error or failure.  For server-side requests, a timeout of 5000 milliseconds should prevent any real harm while making sure that requests aren&rsquo;t aborted. For client-side integrations, AJAX can be a useful technique so that your application can be loaded while API requests are made asynchronously.  Our <a href="https://github.com/covermymeds/api-jquery-plugins">JavaScript components</a> are already designed for this type of architecture.
 </aside></p>
 
 <h2 id="system-status">System Status</h2>
@@ -1642,8 +1662,8 @@ Saturday: 8:00AM - 3:00PM EST
 <ul>
 <li><a href="https://www.covermymeds.com/signup">Sign up for a CMM account</a> to see how our original website works</li>
 <li><a href="https://api.covermymeds.com/consumers/signin">Register your Client System or manage your Developer Account</a></li>
-<li><a href="https://github.com/covermymeds/api-jquery-plugins">Javascript API client plugins</a></li>
-<li><a href="https://github.com/covermymeds/ehr-example">EHR demo app</a> that uses the javascript components</li>
+<li><a href="https://github.com/covermymeds/api-jquery-plugins">JavaScript API client plugins</a></li>
+<li><a href="https://github.com/covermymeds/ehr-example">EHR demo app</a> that uses the JavaScript components</li>
 <li><a href="http://help.covermymeds.com/entries/73340-What-are-the-CoverMyMeds-browser-and-system-requirements-">Supported Browsers</a></li>
 <li><a href="https://www.covermymeds.com/main/privacy_center/">Privacy Center</a></li>
 <li><a href="https://www.covermymeds.com/main/help/">Help Center</a></li>
