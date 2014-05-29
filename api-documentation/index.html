@@ -1220,9 +1220,9 @@ Make sure to check out our <a href="https://github.com/covermymeds/api-jquery-pl
 
 <h2 id="disabling-covermymeds-functionality">Disabling CoverMyMeds Functionality</h2>
 <pre class="highlight plaintext">&lt;style type="text/css"&gt;
-  .api-configurable.fax-control     { display: none; }
-  .api-configurable.email-control   { display: none; }
-  .api-configurable.delete-control  { display: none; }
+  .api-configurable.fax-control     { display: none !important; }
+  .api-configurable.email-control   { display: none !important; }
+  .api-configurable.delete-control  { display: none !important; }
 &lt;/style&gt;
 </pre>
 <p>You may wish to disable some functionality on the CMM request page such as the &ldquo;Fax&rdquo; or &ldquo;Delete&rdquo; buttons.  We provide documented css selectors that you can use in your <a href="#theming">custom theming</a> for this purpose.</p>
