@@ -1427,7 +1427,7 @@ Make sure to check out our <a href="https://github.com/covermymeds/api-jquery-pl
 }
 </code></p>
 
-<p>The <code class="prettyprint">question_sets</code> property contains all of the display information required to render the PA to the screen.  It does not include any of of user&rsquo;s answers. (those are contained in the <code class="prettyprint">data</code> property).</p>
+<p>The <code class="prettyprint">question_sets</code> property contains all of the display information required to render the PA to the screen.  It does not include any of the user&rsquo;s answers. (those are contained in the <code class="prettyprint">data</code> property).</p>
 
 <p>The <code class="prettyprint">coded_reference</code> sub-property has a <code class="prettyprint">ref</code> property.  The <code class="prettyprint">ref</code> property is used to retrieve href information from the <code class="prettyprint">provided_coded_references</code> section, so that coded reference options can be obtained from CoverMyMeds.  Optionally, you can use your own coded references data.</p>
 
@@ -1576,9 +1576,12 @@ Make sure to check out our <a href="https://github.com/covermymeds/api-jquery-pl
 <li><code class="prettyprint">comparison</code></li>
 </ul>
 
-<p>When the <code class="prettyprint">STATEMENT</code> type is used, two additional properties will be present:
- - <code class="prettyprint">content_plain</code>
- - <code class="prettyprint">content_html</code></p>
+<p>When the <code class="prettyprint">STATEMENT</code> type is used, two additional properties will be present:</p>
+
+<ul>
+<li><code class="prettyprint">content_plain</code></li>
+<li><code class="prettyprint">content_html</code></li>
+</ul>
 
 <h2 id="branching-logic">Branching logic</h2>
 
