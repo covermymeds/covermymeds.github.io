@@ -199,11 +199,11 @@ Make sure to check out our <a href="https://github.com/covermymeds/api-jquery-pl
 
 <h2 id="workflow">Workflow</h2>
 
-<p>Prior Authorization may be initiated “prospectively” in the doctor’s office, or “reactively” after a claim rejection in the pharmacy. The pharmacy industry generally favors moving toward prospective prior authorization, ideally at the point of prescribing. However, because the majority of PAs are initiated reactively today, we believe it is important to address both use cases. CoverMyMeds’ Prescriber API allows a clinical system vendor&rsquo;s product (Client System) to easily support a paperless process for both workflows.</p>
+<p>Prior Authorization may be initiated “prospectively” in the doctor’s office, or “retrospectively” after a claim rejection in the pharmacy. The pharmacy industry generally favors moving toward prospective prior authorization, ideally at the point of prescribing. However, because the majority of PAs are initiated retrospectively today, we believe it is important to address both use cases. CoverMyMeds’ Prescriber API allows a clinical system vendor&rsquo;s product (Client System) to easily support a paperless process for both workflows.</p>
 
 <p><img src="images/cmm-api-diagram.jpg"></p>
 
-<p><em>The core workflow concept in the CoverMyMeds API is a “PA Task List” that is populated by both reactive pharmacy (rejected claim) transactions and prospective physician (e-prescribing) transactions.</em></p>
+<p><em>The core workflow concept in the CoverMyMeds API is a “PA Task List” that is populated by both retrospective pharmacy (rejected claim) transactions and prospective physician (e-prescribing) transactions.</em></p>
 
 <h2 id="integration-components">Integration Components</h2>
 
@@ -268,7 +268,7 @@ Make sure to check out our <a href="https://github.com/covermymeds/api-jquery-pl
 
 <p>The base URI for the API is <code class="prettyprint">https://api.covermymeds.com</code>.  We consider supporting developers to be a &ldquo;production&rdquo; application for us, so we do not provide distinct development, testing, or staging URLs to our partners.  This helps keep us on our toes and makes the API resilient, and many companies with API strategies we admire seem to be taking the same approach.</p>
 
-<p>We encourage users to &ldquo;play around&rdquo; with our system.  There is little you can do that will cause any real harm.  Just remember that everything actually works.  For example, when you send a fax, it will actually be transmitted.  This is usually good, but remember to send faxes to yourself and not a provider or plan.  Similarly, it is possible to submit electronic transactions to health plans, although this isn&rsquo;t possible until you are working with a <a href="#prescribers">Credentialed Prescriber</a>.</p>
+<p>We encourage users to &ldquo;play around&rdquo; with our system.  There is little you can do that will cause any real harm.  Just remember that everything actually works.  For example, when you send a fax, it will actually be transmitted.  This is usually good, but remember to send faxes to yourself and not a provider or plan.  Similarly, it is possible to submit electronic transactions to health plans, although this isn&rsquo;t possible until you are working with a <a href="#/prescribers/">Credentialed Prescriber</a>.</p>
 
 <p>CoverMyMeds provides &ldquo;always succeeds&rdquo; and &ldquo;always fails&rdquo; fax numbers that you can use for testing.</p>
 
@@ -534,13 +534,13 @@ Make sure to check out our <a href="https://github.com/covermymeds/api-jquery-pl
   &quot;request&quot;: {
     &quot;urgent&quot;:                  &quot;boolean&quot;,
     &quot;form_id&quot;:                 &quot;string&quot;,
-    &quot;state&quot;:                   &quot;string&quot;,
+    &quot;state&quot;:                   &quot;string&quot;, // Required
     &quot;memo&quot;:                    &quot;string&quot;,
     &quot;patient&quot;: {
-      &quot;first_name&quot;:            &quot;string&quot;,
+      &quot;first_name&quot;:            &quot;string&quot;, // Required
       &quot;middle_name&quot;:           &quot;string&quot;,
-      &quot;last_name&quot;:             &quot;string&quot;,
-      &quot;date_of_birth&quot;:         &quot;string&quot;,
+      &quot;last_name&quot;:             &quot;string&quot;, // Required
+      &quot;date_of_birth&quot;:         &quot;string&quot;, // Required
       &quot;gender&quot;:                &quot;string&quot;,
       &quot;email&quot;:                 &quot;string&quot;,
       &quot;member_id&quot;:             &quot;string&quot;,
@@ -577,7 +577,7 @@ Make sure to check out our <a href="https://github.com/covermymeds/api-jquery-pl
       }
     },
     &quot;prescription&quot;: {
-      &quot;drug_id&quot;:               &quot;string&quot;,
+      &quot;drug_id&quot;:               &quot;string&quot;, // Required
       &quot;name&quot;:                  &quot;string&quot;,
       &quot;strength&quot;:              &quot;string&quot;,
       &quot;frequency&quot;:             &quot;string&quot;,
@@ -625,7 +625,7 @@ Make sure to check out our <a href="https://github.com/covermymeds/api-jquery-pl
   &quot;html_url&quot;:                 &quot;string&quot;,
   &quot;pdf_url&quot;:                  &quot;string&quot;,
   &quot;thumbnail_urls&quot;:           &quot;string&quot;,
-  &quot;workflow_status&quot;:          &quot;string&quot;, // Possible Values:   &quot;New&quot;, &quot;PA Request&quot;, &quot;PA Response&quot;, &quot;Provider Cancel&quot;, &quot;Question Request&quot;, &quot;Question Response&quot;, &quot;Appeal Request&quot;, &quot;Appeal Response&quot;, &quot;Failure&quot;, &quot;Expired&quot;
+  &quot;workflow_status&quot;:          &quot;string&quot;, // Possible Values:   &quot;New&quot;, &quot;PA Request&quot;, &quot;PA Response&quot;, &quot;Provider Cancel&quot;, &quot;Question Request&quot;, &quot;Question Response&quot;, &quot;Appeal Request&quot;, &quot;Appeal Response&quot;, &quot;Failure&quot;, &quot;Expired&quot;, &quot;Archived&quot;, &quot;Shared&quot;, &quot;Cancel Request Sent&quot;, &quot;Shared \ Accessed Online&quot;, &quot;Sent to Plan&quot;, &quot;Appealed&quot;
   &quot;plan_outcome&quot;:             &quot;string&quot;, // Possible Values:   &quot;Favorable&quot;, &quot;Unfavorable&quot;, &quot;Cancelled&quot;, &quot;Pending&quot;, &quot;Unknown&quot;, &quot;Unsent&quot;, &quot;N/A&quot;
   &quot;response_from_plan&quot;:       &quot;string&quot;,
   &quot;attachments_included&quot;:     &quot;boolean&quot;,
@@ -635,11 +635,13 @@ Make sure to check out our <a href="https://github.com/covermymeds/api-jquery-pl
   &quot;state&quot;:                    &quot;string&quot;,
   &quot;memo&quot;:                     &quot;string&quot;,
   &quot;created_at&quot;:               &quot;ISO8601 datetime string&quot;,
-  &quot;events&quot;: {
-    &quot;type&quot;:                   &quot;string&quot;, // Possible Values:   &quot;DELETED&quot;
-    &quot;time&quot;:                   &quot;ISO8601 datetime string&quot;,
-    &quot;remote_user&quot;:            &quot;object&quot;,
-  },
+  &quot;events&quot;: [
+    {
+      &quot;type&quot;:                   &quot;string&quot;, // Possible Values:   &quot;DELETED&quot;
+      &quot;time&quot;:                   &quot;ISO8601 datetime string&quot;,
+      &quot;remote_user&quot;:            &quot;object&quot;,
+    },
+  ],
   &quot;patient&quot;: {
     &quot;first_name&quot;:             &quot;string&quot;,
     &quot;middle_name&quot;:            &quot;string&quot;,
@@ -728,7 +730,7 @@ Make sure to check out our <a href="https://github.com/covermymeds/api-jquery-pl
 }
 </code></p>
 
-<p>Use the POST method to create a new prior authorization request. The HTTP response contains a link to the prior authorization and metadata about the request, including the new PA <code class="prettyprint">id</code> and <code class="prettyprint">tokens</code>, which should be saved in your system, and managed to provide appropriate access to the PA in the future.  See the <a href="#access-tokens">Authentication section</a> for a detailed discussion.  Click the buttons above to show the HTTP Request and Response schemas.</p>
+<p>Use the POST method to create a new prior authorization request. The HTTP response contains a link to the prior authorization and metadata about the request, including the new PA <code class="prettyprint">id</code> and <code class="prettyprint">tokens</code>, which should be saved in your system, and managed to provide appropriate access to the PA in the future.  See the <a href="#authentication">Authentication section</a> for a detailed discussion.  Click the buttons above to show the HTTP Request and Response schemas.</p>
 
 <p>The response schema for this resource is identical to that of the <code class="prettyprint">GET /requests/</code> and <code class="prettyprint">POST /requests/search/</code> resources.</p>
 
@@ -800,7 +802,7 @@ Make sure to check out our <a href="https://github.com/covermymeds/api-jquery-pl
   &quot;html_url&quot;:                 &quot;string&quot;,
   &quot;pdf_url&quot;:                  &quot;string&quot;,
   &quot;thumbnail_urls&quot;:           &quot;string&quot;,
-  &quot;workflow_status&quot;:          &quot;string&quot;, // Possible Values:   &quot;New&quot;, &quot;PA Request&quot;, &quot;PA Response&quot;, &quot;Provider Cancel&quot;, &quot;Question Request&quot;, &quot;Question Response&quot;, &quot;Appeal Request&quot;, &quot;Appeal Response&quot;, &quot;Failure&quot;, &quot;Expired&quot;
+  &quot;workflow_status&quot;:          &quot;string&quot;, // Possible Values:   &quot;New&quot;, &quot;PA Request&quot;, &quot;PA Response&quot;, &quot;Provider Cancel&quot;, &quot;Question Request&quot;, &quot;Question Response&quot;, &quot;Appeal Request&quot;, &quot;Appeal Response&quot;, &quot;Failure&quot;, &quot;Expired&quot;, &quot;Archived&quot;, &quot;Shared&quot;, &quot;Cancel Request Sent&quot;, &quot;Shared \ Accessed Online&quot;, &quot;Sent to Plan&quot;, &quot;Appealed&quot;
   &quot;plan_outcome&quot;:             &quot;string&quot;, // Possible Values:   &quot;Favorable&quot;, &quot;Unfavorable&quot;, &quot;Cancelled&quot;, &quot;Pending&quot;, &quot;Unknown&quot;, &quot;Unsent&quot;, &quot;N/A&quot;
   &quot;response_from_plan&quot;:       &quot;string&quot;,
   &quot;attachments_included&quot;:     &quot;boolean&quot;,
@@ -951,7 +953,7 @@ Make sure to check out our <a href="https://github.com/covermymeds/api-jquery-pl
   &quot;html_url&quot;:                 &quot;string&quot;,
   &quot;pdf_url&quot;:                  &quot;string&quot;,
   &quot;thumbnail_urls&quot;:           &quot;string&quot;,
-  &quot;workflow_status&quot;:          &quot;string&quot;, // Possible Values:   &quot;New&quot;, &quot;PA Request&quot;, &quot;PA Response&quot;, &quot;Provider Cancel&quot;, &quot;Question Request&quot;, &quot;Question Response&quot;, &quot;Appeal Request&quot;, &quot;Appeal Response&quot;, &quot;Failure&quot;, &quot;Expired&quot;
+  &quot;workflow_status&quot;:          &quot;string&quot;, // Possible Values:   &quot;New&quot;, &quot;PA Request&quot;, &quot;PA Response&quot;, &quot;Provider Cancel&quot;, &quot;Question Request&quot;, &quot;Question Response&quot;, &quot;Appeal Request&quot;, &quot;Appeal Response&quot;, &quot;Failure&quot;, &quot;Expired&quot;, &quot;Archived&quot;, &quot;Shared&quot;, &quot;Cancel Request Sent&quot;, &quot;Shared \ Accessed Online&quot;, &quot;Sent to Plan&quot;, &quot;Appealed&quot;
   &quot;plan_outcome&quot;:             &quot;string&quot;, // Possible Values:   &quot;Favorable&quot;, &quot;Unfavorable&quot;, &quot;Cancelled&quot;, &quot;Pending&quot;, &quot;Unknown&quot;, &quot;Unsent&quot;, &quot;N/A&quot;
   &quot;response_from_plan&quot;:       &quot;string&quot;,
   &quot;attachments_included&quot;:     &quot;boolean&quot;,
@@ -1474,7 +1476,7 @@ pharmacy-initiated transactions for the NPI will not be sent to the <code class=
 
 <p>When you implement your endpoint, you can specify a global Callback URL in your <a href="https://api.covermymeds.com/consumers/signin">Developer Account</a>, and the HTTP method (GET, PUT, POST) we should use when making our HTTP request.  If you are supporting multiple on-premise systems, you may register a <a href="https://api.covermymeds.com/consumers/">Developer Account</a> for each webserver that will be running, and then use the appropriate <code class="prettyprint">api_id</code> in each on-premise installation.</p>
 
-<p>For convenience, you may specify individual <code class="prettyprint">delivery_url</code>s for each prescriber NPI (without registering multiple Developer Accounts) as <a href="#prescribers">detailed</a> in the <code class="prettyprint">/prescribers/</code> section.</p>
+<p>For convenience, you may specify individual <code class="prettyprint">delivery_url</code>s for each prescriber NPI (without registering multiple Developer Accounts) as <a href="#/prescribers/">detailed</a> in the <code class="prettyprint">/prescribers/</code> section.</p>
 
 <p>Your webservice should return an HTTP status 200 or 201 when you receive the request and process it successfully.  You should return an HTTP error code when the request cannot be processed.  CoverMyMeds&#39; system will queue errors and retry them if the status codes are believed to be resolvable.  We will contact you if they are not successfully processed within a reasonable time-frame.</p>
 
