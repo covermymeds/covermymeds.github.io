@@ -203,7 +203,7 @@ Make sure to check out our <a href="https://github.com/covermymeds/api-jquery-pl
 
 <p><img src="images/cmm-api-diagram.jpg"></p>
 
-<p><em>The core workflow concept in the CoverMyMeds API is a “PA Task List” that is populated by both reactive pharmacy (rejected claim) transactions and prospective physician (e-prescribing) transactions.</em></p>
+<p><em>The core workflow concept in the CoverMyMeds API is a “PA Task List” that is populated by both retrospective pharmacy (rejected claim) transactions and prospective physician (e-prescribing) transactions.</em></p>
 
 <h2 id="integration-components">Integration Components</h2>
 
@@ -234,13 +234,13 @@ Make sure to check out our <a href="https://github.com/covermymeds/api-jquery-pl
 
 <p>Once created, PAs are worked in the Client System through the Task List.  You may keep your Task List updated by storing PA data upon creation, and then updating it with the Callback service.  Or, should you choose not to implement the Callback service, you may retrieve updated PA information at &ldquo;task list creation time&rdquo; through the <code class="prettyprint">GET /requests/</code> or <code class="prettyprint">POST /requests/search/</code>.  In either case, you have full control over which Client Users are allowed to access each PA request.</p>
 
-<p>When a user clicks an item in your Task List, the actual PA will be displayed on a page served by CMM.  You will construct a URL to each request page — a seamless transition through single-sign is mediated by the token contained in each link.</p>
+<p>When a user clicks an item in your Task List, the actual PA will be displayed on a page served by CoverMyMeds.  You will construct a URL to each request page — a seamless transition through single-sign is mediated by the token contained in each link.</p>
 
-<p>Upon each change in status to a prior authorization (e.g., the health plan approves the request), CMM&rsquo;s Callback service will POST the request data to your server at the URL you have provided in your Developer Account.  The Client System may also retrieve the latest PA status through the <code class="prettyprint">GET /requests/</code> resource, or for multiple requests through the <code class="prettyprint">POST /requests/search/</code> resource.  These URLs may be &ldquo;polled&rdquo; at a reasonable interval (i.e., hourly) for systems that choose not to provide use the Callback service.</p>
+<p>Upon each change in status to a prior authorization (e.g., the health plan approves the request), CoverMyMeds&rsquo;s Callback service will POST the request data to your server at the URL you have provided in your Developer Account.  The Client System may also retrieve the latest PA status through the <code class="prettyprint">GET /requests/</code> resource, or for multiple requests through the <code class="prettyprint">POST /requests/search/</code> resource.  These URLs may be &ldquo;polled&rdquo; at a reasonable interval (i.e., hourly) for systems that choose not to provide use the Callback service.</p>
 
 <p>Upon each new PA being created in an integrated pharmacy, CoverMyMeds will use the Callback service to send you the new Prior Authorization.  We do not currently support a method to retrieve integrated pharmacy PAs without using the Callback service.</p>
 
-<p>Plans that participate in the ePA process with CoverMyMeds receive electronic PA requests, and provide electronic determinations (approved/denied), sometimes in real-time.  Plans that do not participate in the ePA process receive a PA request via fax, on their appropriate drug-specific form. Determinations for non-participating plans are provided directly to the prescriber (outside of the CMM workflow), though approval or denial may be tracked in by the user through the request page served by CoverMyMeds.</p>
+<p>Plans that participate in the ePA process with CoverMyMeds receive electronic PA requests, and provide electronic determinations (approved/denied), sometimes in real-time.  Plans that do not participate in the ePA process receive a PA request via fax, on their appropriate drug-specific form. Determinations for non-participating plans are provided directly to the prescriber (outside of the CoverMyMeds workflow), though approval or denial may be tracked in by the user through the request page served by CoverMyMeds.</p>
 
 <h1 id="api">API</h1>
 
@@ -268,7 +268,7 @@ Make sure to check out our <a href="https://github.com/covermymeds/api-jquery-pl
 
 <p>The base URI for the API is <code class="prettyprint">https://api.covermymeds.com</code>.  We consider supporting developers to be a &ldquo;production&rdquo; application for us, so we do not provide distinct development, testing, or staging URLs to our partners.  This helps keep us on our toes and makes the API resilient, and many companies with API strategies we admire seem to be taking the same approach.</p>
 
-<p>We encourage users to &ldquo;play around&rdquo; with our system.  There is little you can do that will cause any real harm.  Just remember that everything actually works.  For example, when you send a fax, it will actually be transmitted.  This is usually good, but remember to send faxes to yourself and not a provider or plan.  Similarly, it is possible to submit electronic transactions to health plans, although this isn&rsquo;t possible until you are working with a <a href="#prescribers">Credentialed Prescriber</a>.</p>
+<p>We encourage users to &ldquo;play around&rdquo; with our system.  There is little you can do that will cause any real harm.  Just remember that everything actually works.  For example, when you send a fax, it will actually be transmitted.  This is usually good, but remember to send faxes to yourself and not a provider or plan.  Similarly, it is possible to submit electronic transactions to health plans, although this isn&rsquo;t possible until you are working with a <a href="#/prescribers/">Credentialed Prescriber</a>.</p>
 
 <p>CoverMyMeds provides &ldquo;always succeeds&rdquo; and &ldquo;always fails&rdquo; fax numbers that you can use for testing.</p>
 
@@ -349,9 +349,9 @@ Make sure to check out our <a href="https://github.com/covermymeds/api-jquery-pl
 
 <p>You must specify the <code class="prettyprint">request[prescription][drug_id]</code> when a new PA is created through the <code class="prettyprint">POST /requests/</code> resource.  Optionally, you may also include quantity and days supply, values which are usually required in the prior authorization submission to the plan.</p>
 
-<p><code class="prettyprint">drug_id</code> may be an NDC code (9 or 11 digit), or CMM&rsquo;s internal <code class="prettyprint">drug_id</code> returned from the <code class="prettyprint">GET /drugs/</code> resource.  Submitting an NDC is really just sugar — we will convert the NDC code you submitted to our internal identifier when we create the request.  Most plans will approve requests at the &ldquo;label name&rdquo; (drug, strength, form) or an even higher level, so you may pick a &ldquo;representative&rdquo; NDC code when submitting your request.</p>
+<p><code class="prettyprint">drug_id</code> may be an NDC code (9 or 11 digit), or CoverMyMeds&rsquo;s internal <code class="prettyprint">drug_id</code> returned from the <code class="prettyprint">GET /drugs/</code> resource.  Submitting an NDC is really just sugar — we will convert the NDC code you submitted to our internal identifier when we create the request.  Most plans will approve requests at the &ldquo;label name&rdquo; (drug, strength, form) or an even higher level, so you may pick a &ldquo;representative&rdquo; NDC code when submitting your request.</p>
 
-<p>Submitting an NDC code is advantageous when you are initiating the request from the e-prescribing workflow where the user has already &ldquo;picked&rdquo; a drug in your system, and you know the NDC code. The <code class="prettyprint">/drugs/</code> resource is a good way to show a type-ahead search, such as you will need in the New PA form, so using CMM&rsquo;s internal drug_id can be convenient here.</p>
+<p>Submitting an NDC code is advantageous when you are initiating the request from the e-prescribing workflow where the user has already &ldquo;picked&rdquo; a drug in your system, and you know the NDC code. The <code class="prettyprint">/drugs/</code> resource is a good way to show a type-ahead search, such as you will need in the New PA form, so using CoverMyMeds&rsquo;s internal drug_id can be convenient here.</p>
 
 <p>The <code class="prettyprint">GET /drugs/</code> resource allows you to implement a drug search so the user can pick a drug for their request.  When a drug is picked, you get our internal drug <code class="prettyprint">id</code>.  Partial and full drug names are supported.  For example, click here for a search for <a href="https://api.covermymeds.com/drugs/?v=1&amp;amp;api_id=1vd9o4427lyi0ccb2uem&amp;amp;q=Nex">&ldquo;Nex&rdquo;</a>.</p>
 
@@ -417,7 +417,7 @@ Make sure to check out our <a href="https://github.com/covermymeds/api-jquery-pl
 }
 </code></p>
 
-<p>When you create a new PA through the <code class="prettyprint">POST /requests/</code> resource, you may specify the <code class="prettyprint">form_id</code>, or you may leave it blank so that the user may pick the form through CMM&rsquo;s form search dialog.  This dialog will be presented when the user first visits the PA request.</p>
+<p>When you create a new PA through the <code class="prettyprint">POST /requests/</code> resource, you may specify the <code class="prettyprint">form_id</code>, or you may leave it blank so that the user may pick the form through CoverMyMeds&rsquo;s form search dialog.  This dialog will be presented when the user first visits the PA request.</p>
 
 <p>The <code class="prettyprint">GET /forms/</code> resource allows you to implement a form search so the user may pick the appropriate prior authorization &ldquo;form&rdquo; for their request, allowing the Client System to specify a <code class="prettyprint">form_id</code> when creating a request.  The <code class="prettyprint">/forms/</code> resource works with both &ldquo;paper&rdquo; forms, and electronic prior authorization (ePA) requests.</p>
 
@@ -429,9 +429,11 @@ Make sure to check out our <a href="https://github.com/covermymeds/api-jquery-pl
 
 <h1 id="/requests/">/requests/</h1>
 
-<p>The <code class="prettyprint">/requests/</code> resource is the workhorse of the API.  You will use it to create new prior authorizations (<code class="prettyprint">POST /requests/</code>), retrieve a single PA (<code class="prettyprint">GET /requests/</code>), and retrieve multiple PAs, for use in your Task List or other bulk operations (<code class="prettyprint">POST /requests/search/</code>).  Several additional features are provided for working with prior authorizations such as using the <a href="#displaying-a-pa-on-the-cmm-site">CMM request page</a>, <a href="#theming">theming</a>, and the <a href="#callbacks">Callback system</a>.</p>
+<p>The <code class="prettyprint">/requests/</code> resource is the workhorse of the API.  You will use it to create new prior authorizations (<code class="prettyprint">POST /requests/</code>), retrieve a single PA (<code class="prettyprint">GET /requests/</code>), and retrieve multiple PAs, for use in your Task List or other bulk operations (<code class="prettyprint">POST /requests/search/</code>).  Several additional features are provided for working with prior authorizations such as using the <a href="#displaying-a-pa-on-the-covermymeds-site">CoverMyMeds request page</a>, <a href="#theming">theming</a>, and the <a href="#callbacks">Callback system</a>.</p>
 
-<p>As an alternative to using the CMM request page, you may also use the <a href="#request_pages">request_pages</a> resource.</p>
+<p>As an alternative to using the CoverMyMeds request page, you may also use the <a href="#request-pages">request-pages</a> resource.</p>
+
+<p>As an alternative to using the CoverMyMeds request page, you may also use the <a href="#request-pages">request-pages</a> resource.</p>
 
 <p>For convenience, the HTTP response is the same across <code class="prettyprint">POST /requests/</code>, <code class="prettyprint">GET /requests/</code>, and <code class="prettyprint">POST /requests/search/</code> resources, and is the same form data that is used in the Callback system.</p>
 
@@ -439,7 +441,7 @@ Make sure to check out our <a href="https://github.com/covermymeds/api-jquery-pl
 
 <p>Authentication to the <code class="prettyprint">/requests/</code> resources varies by use case. The POST verb requires just an <code class="prettyprint">api_id</code> because data is being &ldquo;put into&rdquo; the system by a user that already has access to it.  The other <code class="prettyprint">/requests/</code> verbs require tokens and can be used client-side.  The <code class="prettyprint">/requests/tokens</code> resources require the <code class="prettyprint">api_secret</code>.</p>
 
-<p>When a user indicates that a request should be deleted, a <code class="prettyprint">DELETE</code> event is added to the <code class="prettyprint">events</code> array.  This allows you to decide if you should remove the PA from one users task list, or the task list for all of your users.  The <code class="prettyprint">remote_user</code> object associated with the event contains a copy of the <code class="prettyprint">?remote_user[]</code> attributes that were presented when the user accesed the PA request on the CMM portal.  This allows you to know which user wishes to delete the request.  More information about <code class="prettyprint">remote_user</code> attribtes can be found under &ldquo;<a href="#displaying-a-pa-on-the-cmm-site">using requests</a>&rdquo;</p>
+<p>When a user indicates that a request should be deleted, a <code class="prettyprint">DELETE</code> event is added to the <code class="prettyprint">events</code> array.  This allows you to decide if you should remove the PA from one users task list, or the task list for all of your users.  The <code class="prettyprint">remote_user</code> object associated with the event contains a copy of the <code class="prettyprint">?remote_user[]</code> attributes that were presented when the user accesed the PA request on the CoverMyMeds portal.  This allows you to know which user wishes to delete the request.  More information about <code class="prettyprint">remote_user</code> attribtes can be found under &ldquo;<a href="#displaying-a-pa-on-the-covermymeds-site">using requests</a>&rdquo;</p>
 
 <p>Note that <code class="prettyprint">api_id</code> is required in all requests.</p>
 
@@ -536,13 +538,13 @@ Make sure to check out our <a href="https://github.com/covermymeds/api-jquery-pl
   &quot;request&quot;: {
     &quot;urgent&quot;:                  &quot;boolean&quot;,
     &quot;form_id&quot;:                 &quot;string&quot;,
-    &quot;state&quot;:                   &quot;string&quot;,
+    &quot;state&quot;:                   &quot;string&quot;, // Required
     &quot;memo&quot;:                    &quot;string&quot;,
     &quot;patient&quot;: {
-      &quot;first_name&quot;:            &quot;string&quot;,
+      &quot;first_name&quot;:            &quot;string&quot;, // Required
       &quot;middle_name&quot;:           &quot;string&quot;,
-      &quot;last_name&quot;:             &quot;string&quot;,
-      &quot;date_of_birth&quot;:         &quot;string&quot;,
+      &quot;last_name&quot;:             &quot;string&quot;, // Required
+      &quot;date_of_birth&quot;:         &quot;string&quot;, // Required
       &quot;gender&quot;:                &quot;string&quot;,
       &quot;email&quot;:                 &quot;string&quot;,
       &quot;member_id&quot;:             &quot;string&quot;,
@@ -579,11 +581,10 @@ Make sure to check out our <a href="https://github.com/covermymeds/api-jquery-pl
       }
     },
     &quot;prescription&quot;: {
-      &quot;drug_id&quot;:               &quot;string&quot;,
+      &quot;drug_id&quot;:               &quot;string&quot;, // Required
       &quot;name&quot;:                  &quot;string&quot;,
       &quot;strength&quot;:              &quot;string&quot;,
       &quot;frequency&quot;:             &quot;string&quot;,
-      &quot;enumerated_fields&quot;:     &quot;string&quot;,
       &quot;refills&quot;:               &quot;string&quot;,
       &quot;dispense_as_written&quot;:   &quot;string&quot;,
       &quot;quantity&quot;:              &quot;string&quot;,
@@ -627,7 +628,7 @@ Make sure to check out our <a href="https://github.com/covermymeds/api-jquery-pl
   &quot;html_url&quot;:                 &quot;string&quot;,
   &quot;pdf_url&quot;:                  &quot;string&quot;,
   &quot;thumbnail_urls&quot;:           &quot;string&quot;,
-  &quot;workflow_status&quot;:          &quot;string&quot;, // Possible Values:   &quot;New&quot;, &quot;PA Request&quot;, &quot;PA Response&quot;, &quot;Provider Cancel&quot;, &quot;Question Request&quot;, &quot;Question Response&quot;, &quot;Appeal Request&quot;, &quot;Appeal Response&quot;, &quot;Failure&quot;, &quot;Expired&quot;
+  &quot;workflow_status&quot;:          &quot;string&quot;, // Possible Values:   &quot;New&quot;, &quot;PA Request&quot;, &quot;PA Response&quot;, &quot;Provider Cancel&quot;, &quot;Question Request&quot;, &quot;Question Response&quot;, &quot;Appeal Request&quot;, &quot;Appeal Response&quot;, &quot;Failure&quot;, &quot;Expired&quot;, &quot;Archived&quot;, &quot;Shared&quot;, &quot;Cancel Request Sent&quot;, &quot;Shared \ Accessed Online&quot;, &quot;Sent to Plan&quot;, &quot;Appealed&quot;
   &quot;plan_outcome&quot;:             &quot;string&quot;, // Possible Values:   &quot;Favorable&quot;, &quot;Unfavorable&quot;, &quot;Cancelled&quot;, &quot;Pending&quot;, &quot;Unknown&quot;, &quot;Unsent&quot;, &quot;N/A&quot;
   &quot;response_from_plan&quot;:       &quot;string&quot;,
   &quot;attachments_included&quot;:     &quot;boolean&quot;,
@@ -637,11 +638,13 @@ Make sure to check out our <a href="https://github.com/covermymeds/api-jquery-pl
   &quot;state&quot;:                    &quot;string&quot;,
   &quot;memo&quot;:                     &quot;string&quot;,
   &quot;created_at&quot;:               &quot;ISO8601 datetime string&quot;,
-  &quot;events&quot;: {
-    &quot;type&quot;:                   &quot;string&quot;, // Possible Values:   &quot;DELETED&quot;
-    &quot;time&quot;:                   &quot;ISO8601 datetime string&quot;,
-    &quot;remote_user&quot;:            &quot;object&quot;,
-  },
+  &quot;events&quot;: [
+    {
+      &quot;type&quot;:                   &quot;string&quot;, // Possible Values:   &quot;DELETED&quot;
+      &quot;time&quot;:                   &quot;ISO8601 datetime string&quot;,
+      &quot;remote_user&quot;:            &quot;object&quot;,
+    },
+  ],
   &quot;patient&quot;: {
     &quot;first_name&quot;:             &quot;string&quot;,
     &quot;middle_name&quot;:            &quot;string&quot;,
@@ -687,7 +690,6 @@ Make sure to check out our <a href="https://github.com/covermymeds/api-jquery-pl
     &quot;name&quot;:                   &quot;string&quot;,
     &quot;strength&quot;:               &quot;string&quot;,
     &quot;frequency&quot;:              &quot;string&quot;,
-    &quot;enumerated_fields&quot;:      &quot;string&quot;,
     &quot;refills&quot;:                &quot;string&quot;,
     &quot;dispense_as_written&quot;:    &quot;string&quot;,
     &quot;quantity&quot;:               &quot;string&quot;,
@@ -720,17 +722,19 @@ Make sure to check out our <a href="https://github.com/covermymeds/api-jquery-pl
     &quot;failed_med_8&quot;:           &quot;string&quot;,
     &quot;failed_med_9&quot;:           &quot;string&quot;
   },
-  &quot;tokens&quot;: {
-    &quot;tokens&quot;: [
-      {
-        &quot;id&quot;:                 &quot;string&quot;
-      }
-    ]
-  }
+  &quot;tokens&quot;: [
+    {
+      &quot;id&quot;:                 &quot;string&quot;,
+      &quot;request_id&quot;:         &quot;string&quot;,
+      &quot;href&quot;:               &quot;string&quot;,
+      &quot;html_url&quot;:           &quot;string&quot;,
+      &quot;pdf_url&quot;:            &quot;string&quot;
+    }
+  ]
 }
 </code></p>
 
-<p>Use the POST method to create a new prior authorization request. The HTTP response contains a link to the prior authorization and metadata about the request, including the new PA <code class="prettyprint">id</code> and <code class="prettyprint">tokens</code>, which should be saved in your system, and managed to provide appropriate access to the PA in the future.  See the <a href="#access-tokens">Authentication section</a> for a detailed discussion.  Click the buttons above to show the HTTP Request and Response schemas.</p>
+<p>Use the POST method to create a new prior authorization request. The HTTP response contains a link to the prior authorization and metadata about the request, including the new PA <code class="prettyprint">id</code> and <code class="prettyprint">tokens</code>, which should be saved in your system, and managed to provide appropriate access to the PA in the future.  See the <a href="#authentication">Authentication section</a> for a detailed discussion.  Click the buttons above to show the HTTP Request and Response schemas.</p>
 
 <p>The response schema for this resource is identical to that of the <code class="prettyprint">GET /requests/</code> and <code class="prettyprint">POST /requests/search/</code> resources.</p>
 
@@ -802,7 +806,7 @@ Make sure to check out our <a href="https://github.com/covermymeds/api-jquery-pl
   &quot;html_url&quot;:                 &quot;string&quot;,
   &quot;pdf_url&quot;:                  &quot;string&quot;,
   &quot;thumbnail_urls&quot;:           &quot;string&quot;,
-  &quot;workflow_status&quot;:          &quot;string&quot;, // Possible Values:   &quot;New&quot;, &quot;PA Request&quot;, &quot;PA Response&quot;, &quot;Provider Cancel&quot;, &quot;Question Request&quot;, &quot;Question Response&quot;, &quot;Appeal Request&quot;, &quot;Appeal Response&quot;, &quot;Failure&quot;, &quot;Expired&quot;
+  &quot;workflow_status&quot;:          &quot;string&quot;, // Possible Values:   &quot;New&quot;, &quot;PA Request&quot;, &quot;PA Response&quot;, &quot;Provider Cancel&quot;, &quot;Question Request&quot;, &quot;Question Response&quot;, &quot;Appeal Request&quot;, &quot;Appeal Response&quot;, &quot;Failure&quot;, &quot;Expired&quot;, &quot;Archived&quot;, &quot;Shared&quot;, &quot;Cancel Request Sent&quot;, &quot;Shared \ Accessed Online&quot;, &quot;Sent to Plan&quot;, &quot;Appealed&quot;
   &quot;plan_outcome&quot;:             &quot;string&quot;, // Possible Values:   &quot;Favorable&quot;, &quot;Unfavorable&quot;, &quot;Cancelled&quot;, &quot;Pending&quot;, &quot;Unknown&quot;, &quot;Unsent&quot;, &quot;N/A&quot;
   &quot;response_from_plan&quot;:       &quot;string&quot;,
   &quot;attachments_included&quot;:     &quot;boolean&quot;,
@@ -855,7 +859,6 @@ Make sure to check out our <a href="https://github.com/covermymeds/api-jquery-pl
     &quot;name&quot;:                   &quot;string&quot;,
     &quot;strength&quot;:               &quot;string&quot;,
     &quot;frequency&quot;:              &quot;string&quot;,
-    &quot;enumerated_fields&quot;:      &quot;string&quot;,
     &quot;refills&quot;:                &quot;string&quot;,
     &quot;dispense_as_written&quot;:    &quot;string&quot;,
     &quot;quantity&quot;:               &quot;string&quot;,
@@ -888,13 +891,15 @@ Make sure to check out our <a href="https://github.com/covermymeds/api-jquery-pl
     &quot;failed_med_8&quot;:           &quot;string&quot;,
     &quot;failed_med_9&quot;:           &quot;string&quot;
   },
-  &quot;tokens&quot;: {
-    &quot;tokens&quot;: [
-      {
-        &quot;id&quot;:                 &quot;string&quot;
-      }
-    ]
-  }
+  &quot;tokens&quot;: [
+    {
+      &quot;id&quot;:                 &quot;string&quot;,
+      &quot;request_id&quot;:         &quot;string&quot;,
+      &quot;href&quot;:               &quot;string&quot;,
+      &quot;html_url&quot;:           &quot;string&quot;,
+      &quot;pdf_url&quot;:            &quot;string&quot;
+    }
+  ]
 }
 </code></p>
 
@@ -902,7 +907,7 @@ Make sure to check out our <a href="https://github.com/covermymeds/api-jquery-pl
 
 <p>The response schema for this resource is identical to that of the <code class="prettyprint">POST /requests/</code> and <code class="prettyprint">POST /requests/search/</code> resources.</p>
 
-<p>If you wish to display a returned PA to the user, you should display it on the CMM website as described in the <a href="#displaying-a-pa-on-the-cmm-site">Using /requests section</a>.</p>
+<p>If you wish to display a returned PA to the user, you should display it on the CoverMyMeds website as described in the <a href="#displaying-a-pa-on-the-covermymeds-site">Using /requests section</a>.</p>
 
 <h2 id="post-/requests/search/">POST /requests/search/</h2>
 <pre class="highlight html"><span class="nt">&lt;form</span> <span class="na">method=</span><span class="s">"post"</span> <span class="na">action=</span><span class="s">"https://api.covermymeds.com/requests/search/"</span> <span class="na">id=</span><span class="s">"post_requests_search"</span><span class="nt">&gt;</span>
@@ -953,7 +958,7 @@ Make sure to check out our <a href="https://github.com/covermymeds/api-jquery-pl
   &quot;html_url&quot;:                 &quot;string&quot;,
   &quot;pdf_url&quot;:                  &quot;string&quot;,
   &quot;thumbnail_urls&quot;:           &quot;string&quot;,
-  &quot;workflow_status&quot;:          &quot;string&quot;, // Possible Values:   &quot;New&quot;, &quot;PA Request&quot;, &quot;PA Response&quot;, &quot;Provider Cancel&quot;, &quot;Question Request&quot;, &quot;Question Response&quot;, &quot;Appeal Request&quot;, &quot;Appeal Response&quot;, &quot;Failure&quot;, &quot;Expired&quot;
+  &quot;workflow_status&quot;:          &quot;string&quot;, // Possible Values:   &quot;New&quot;, &quot;PA Request&quot;, &quot;PA Response&quot;, &quot;Provider Cancel&quot;, &quot;Question Request&quot;, &quot;Question Response&quot;, &quot;Appeal Request&quot;, &quot;Appeal Response&quot;, &quot;Failure&quot;, &quot;Expired&quot;, &quot;Archived&quot;, &quot;Shared&quot;, &quot;Cancel Request Sent&quot;, &quot;Shared \ Accessed Online&quot;, &quot;Sent to Plan&quot;, &quot;Appealed&quot;
   &quot;plan_outcome&quot;:             &quot;string&quot;, // Possible Values:   &quot;Favorable&quot;, &quot;Unfavorable&quot;, &quot;Cancelled&quot;, &quot;Pending&quot;, &quot;Unknown&quot;, &quot;Unsent&quot;, &quot;N/A&quot;
   &quot;response_from_plan&quot;:       &quot;string&quot;,
   &quot;attachments_included&quot;:     &quot;boolean&quot;,
@@ -1006,7 +1011,6 @@ Make sure to check out our <a href="https://github.com/covermymeds/api-jquery-pl
     &quot;name&quot;:                   &quot;string&quot;,
     &quot;strength&quot;:               &quot;string&quot;,
     &quot;frequency&quot;:              &quot;string&quot;,
-    &quot;enumerated_fields&quot;:      &quot;string&quot;,
     &quot;refills&quot;:                &quot;string&quot;,
     &quot;dispense_as_written&quot;:    &quot;string&quot;,
     &quot;quantity&quot;:               &quot;string&quot;,
@@ -1039,13 +1043,15 @@ Make sure to check out our <a href="https://github.com/covermymeds/api-jquery-pl
     &quot;failed_med_8&quot;:           &quot;string&quot;,
     &quot;failed_med_9&quot;:           &quot;string&quot;
   },
-  &quot;tokens&quot;: {
-    &quot;tokens&quot;: [
-      {
-        &quot;id&quot;:                 &quot;string&quot;
-      }
-    ]
-  }
+  &quot;tokens&quot;: [
+    {
+      &quot;id&quot;:                 &quot;string&quot;,
+      &quot;request_id&quot;:         &quot;string&quot;,
+      &quot;href&quot;:               &quot;string&quot;,
+      &quot;html_url&quot;:           &quot;string&quot;,
+      &quot;pdf_url&quot;:            &quot;string&quot;
+    }
+  ]
 }
 </code></p>
 
@@ -1053,7 +1059,7 @@ Make sure to check out our <a href="https://github.com/covermymeds/api-jquery-pl
 
 <p>The response schema for this resource is identical to that of the <code class="prettyprint">POST /requests/</code> and <code class="prettyprint">GET /requests/</code> resources.</p>
 
-<p>If you wish to display a returned PA to the user, you should display it on the CMM website as described in the <a href="#displaying-a-pa-on-the-cmm-site">Using /requests section</a>.</p>
+<p>If you wish to display a returned PA to the user, you should display it on the CoverMyMeds website as described in the <a href="#displaying-a-pa-on-the-covermymeds-site">Using /requests section</a>.</p>
 
 <p>Because this data is lightweight, filtering and pagination are not supported by the server resource.  If you are implementing your own Task List, it is important to provide search and filtering from your client application.  Our Task List <a href="https://github.com/covermymeds/api-jquery-plugins/blob/master/src/jquery.dashboard.js">JavaScript component</a> can handle this for you.</p>
 
@@ -1105,7 +1111,11 @@ Make sure to check out our <a href="https://github.com/covermymeds/api-jquery-pl
 <code class="schema" style="display: none;">{
   &quot;tokens&quot;:  [
     {
-      &quot;id&quot;:      &quot;string&quot;
+      &quot;id&quot;:                 &quot;string&quot;,
+      &quot;request_id&quot;:         &quot;string&quot;,
+      &quot;href&quot;:               &quot;string&quot;,
+      &quot;html_url&quot;:           &quot;string&quot;,
+      &quot;pdf_url&quot;:            &quot;string&quot;
     }
   ]
 }
@@ -1177,7 +1187,7 @@ Make sure to check out our <a href="https://github.com/covermymeds/api-jquery-pl
 
 <h1 id="using-/requests/">Using /requests/</h1>
 
-<h2 id="displaying-a-pa-on-the-cmm-site">Displaying a PA on the CMM site</h2>
+<h2 id="displaying-a-pa-on-the-covermymeds-site">Displaying a PA on the CoverMyMeds site</h2>
 
 <p>Supporting a great user experience across thousands of health plans&#39; distinct prior authorization forms, NCPDP ePA transactions, and proprietary integrations presents many user interface challenges.</p>
 
@@ -1185,7 +1195,7 @@ Make sure to check out our <a href="https://github.com/covermymeds/api-jquery-pl
 
 <p><img src="images/CoverMyMeds_pa_detail.png"></p>
 
-<p>Clicking an item in your Task List should direct the user to the CMM request page.  The link to each request page provides a seamless transition through single-sign-on mediated by the token contained in each link.</p>
+<p>Clicking an item in your Task List should direct the user to the CoverMyMeds request page.  The link to each request page provides a seamless transition through single-sign-on mediated by the token contained in each link.</p>
 
 <p>You can get a URL to each request in <code class="prettyprint">[requests][tokens][html_url]</code>, or you can build your own from a known token value.</p>
 
@@ -1210,9 +1220,9 @@ Make sure to check out our <a href="https://github.com/covermymeds/api-jquery-pl
     background-color: "black" };
 &lt;/style&gt;
 </pre>
-<p>You may specify the theming that is used on the CMM request and other related pages with the &ldquo;Custom Theming&rdquo; value that is set in your <a href="https://api.covermymeds.com/consumers/signin">Developer Account</a>.</p>
+<p>You may specify the theming that is used on the CoverMyMeds request and other related pages with the &ldquo;Custom Theming&rdquo; value that is set in your <a href="https://api.covermymeds.com/consumers/signin">Developer Account</a>.</p>
 
-<p>This value may contain HTML and inline CSS. Note that it is very possible to disrupt the formatting of the CMM page with CSS that isn&rsquo;t targeted properly, or with malformed HTML.  If you need help, please let us know and we can help you make something that looks great.</p>
+<p>This value may contain HTML and inline CSS. Note that it is very possible to disrupt the formatting of the CoverMyMeds page with CSS that isn&rsquo;t targeted properly, or with malformed HTML.  If you need help, please let us know and we can help you make something that looks great.</p>
 
 <p>You may include a logo for your EHR system by base64 encoding it as a string and using it as an image source as shown to the right.</p>
 
@@ -1227,36 +1237,34 @@ Make sure to check out our <a href="https://github.com/covermymeds/api-jquery-pl
   .api-configurable.delete-control  { display: none !important; }
 &lt;/style&gt;
 </pre>
-<p>You may wish to disable some functionality on the CMM request page such as the &ldquo;Fax&rdquo; or &ldquo;Delete&rdquo; buttons.  We provide documented css selectors that you can use in your <a href="#theming">custom theming</a> for this purpose.</p>
+<p>You may wish to disable some functionality on the CoverMyMeds request page such as the &ldquo;Fax&rdquo; or &ldquo;Delete&rdquo; buttons.  We provide documented css selectors that you can use in your <a href="#theming">custom theming</a> for this purpose.</p>
 
 <p><img alt="ui-hooks" src="images/CoverMyMeds_pa_ui_hooks.png" /></p>
 
 <p>The &ldquo;First PA video&rdquo; and &ldquo;Chat with CoverMyMeds&rdquo; sections can also be disabled.</p>
 
-<h1 id="/request_pages/">/request_pages/</h1>
+<h1 id="/request-pages/">/request-pages/</h1>
 
-<p>This resource provides the data needed to render your own PA request screen, so that the user can work through the entire PA process within your Client System.  Should you use this option, you will be serving your own Request page, rather than using the one provided by CMM.  Of course, you can serve this in a web-based application or desktop application.</p>
+<p>This resource provides the data needed to render your own PA request screen, so that the user can work through the entire PA process within your Client System.  Should you use this option, you will be serving your own Request page, rather than using the one provided by CoverMyMeds.  Of course, you can serve this in a web-based application or desktop application.</p>
 
-<p>CoverMyMeds connects to dozens of health plans electronically, and provides a &ldquo;compatibility layer&rdquo; that creates an electronic workflow for the provider in the case of plans that do not support electronic connection for ePA.  Because ePA is an emerging standard, many plans support the transaction differently.  To abstract away this complexity, we use a HATEOS architecture so that your Client System does not need to anticipate every implementation detail in the request workflow.</p>
+<p>CoverMyMeds connects to dozens of health plans electronically, providing a &ldquo;compatibility layer&rdquo; for the provider in the case of plans that do not support electronic connection for ePA.  To abstract away differences between plans&#39; implementations of the emerging ePA standard, we use a <a href="http://en.wikipedia.org/wiki/HATEOAS">Hypertext as the Engine of Application State (HATEOS)</a> architecture.  With this approach, your Client System does not need to anticipate every implementation detail in the request workflow.</p>
 
-<p><code class="prettyprint">/request_pages/{id}</code> is the starting point for a Hypertext as the Engine of Application State <a href="http://en.wikipedia.org/wiki/HATEOAS">HATEOS</a> series of RESTful interactions.  In HATEOAS, each resource includes URLs for possible next states.  Normal state transitions include things like &ldquo;Save&rdquo;, &ldquo;Send to Plan&rdquo; and &ldquo;Archive,&rdquo; but also exceptions like &ldquo;Choose your form&rdquo; (to handle user input to determine the correct PA recipient) and various error handling.</p>
+<p><code class="prettyprint">/request-pages/{id}</code> is the starting point for a series of RESTful interactions in which each resource includes URLs for possible next states.  Normal state transitions include things like &ldquo;Save&rdquo;, &ldquo;Send to Plan&rdquo; and &ldquo;Archive,&rdquo; but also exceptions like &ldquo;Choose your form&rdquo; (to handle user input to determine the correct PA recipient) and error handling actions.</p>
 
-<p>The Client System works in a &ldquo;loop&rdquo; to render a screen for each state in the PA process, and includes buttons (links) to possible next states.  Eventually this loop ends when the user no longer requests another link, or the CMM server doesn&rsquo;t supply one (i.e., we send an empty <code class="prettyprint">actions</code> attribute).  This architecture has similar symetry to the four-part ePA standard, which can itself loop to add additional information to the transactions.</p>
+<p>There are no PUT, POST, or DELETE verbs for this resource&ndash;all data manipulation occurs through the HATEOAS interactions.  The Client System works in a loop, rendering screens based on responses from the server.  Each response represents a new state in the PA process.  Users transition from state to state with actions encoded as URLs returned with each response.  The loop ends when the user no longer requests another link, or the CoverMyMeds server sends an empty <code class="prettyprint">actions</code> array.  </p>
 
-<p>The <code class="prettyprint">actions</code> system is also why POST, PUT, and DELETE verbs are not provided for this resource&ndash;all data manipulation occurs through the HATEOAS interactions.</p>
-
-<p>A Client System that uses the <code class="prettyprint">request_pages</code> resource will perform the following steps:</p>
+<p>To use the <code class="prettyprint">request-pages</code> resource:</p>
 
 <ol>
 <li>Create a new PA request with <code class="prettyprint">POST /requests/</code></li>
-<li>Grab the <code class="prettyprint">tokens</code> attribute from the HTTP response</li>
-<li>Use the <code class="prettyprint">tokens</code> to make a GET request to <code class="prettyprint">request_pages/{id}</code></li>
-<li>Render the PA form in the Client System (e.g., as HTML or natively)</li>
-<li>When the user submits a form or follows a link another HTTP request is made, the UI is rendered, and entire process starts over</li>
-<li>The process is complete when the user stops interacting with the Client System or the <code class="prettyprint">actions</code> attribute is empty.</li>
+<li>Grab the <code class="prettyprint">tokens</code> and <code class="prettyprint">id</code> attributes from the response</li>
+<li>Use the <code class="prettyprint">tokens</code> and <code class="prettyprint">id</code> to make a GET request to <code class="prettyprint">request-pages/{id}</code></li>
+<li>If there is not an error in the response, render the PA form in the Client System (for example, in HTML)</li>
+<li>When users invoke an action, the server must return a new request-page</li>
+<li>If the actions array is empty, the user is finished with the request. If not, return to step 4.</li>
 </ol>
 
-<h2 id="get-/request_pages/{id}">GET /request_pages/{id}</h2>
+<h2 id="get-/request-pages/{id}">GET /request-pages/{id}</h2>
 
 <p><button class="show-schema">Show HTTP Request Schema</button>
 <code class="schema" style="display: none;">{
@@ -1265,7 +1273,215 @@ Make sure to check out our <a href="https://github.com/covermymeds/api-jquery-pl
 }
 </code></p>
 
-<p>An example JSON schema for <code class="prettyprint">/request_pages/</code> is shown below.  To render the data into the Client System, the following process is used:</p>
+<p><button class="show-schema">Show HTTP Response Schema</button>
+<code class="schema" style="display: none;">{
+  data: {
+    pa_request: {
+      // key:value pairs
+      // &quot;key&quot; is the question_id from the corresponding question
+      // &quot;value&quot; is the answer to the question
+      // e.g. &quot;patient_fname&quot;:&quot;Jack&quot;
+    }
+  },
+  forms: {
+    pa_request: {
+      question_sets: [
+        {
+          title: &quot;string&quot;,
+          questions: [
+            // each element is one of the below
+            {
+              question_type: &quot;FREE_TEXT&quot;,
+              question_text: &quot;string&quot;,
+              question_id: &quot;string&quot;,
+              default_next_question_id: &quot;string&quot;,
+              help_text: &quot;string&quot;,
+              placeholder: &quot;string&quot;,
+              flag: &quot;REQUIRED&quot; | &quot;IMPORTANT&quot;,
+              validations: [&quot;string&quot;, ...],
+              &quot;coded_reference&quot;: {
+                &quot;qualifier&quot;: &quot;string&quot;,
+                &quot;code_system_version&quot;: &quot;integer&quot;
+                &quot;id&quot;: string
+                &quot;ref&quot;: &quot;string&quot;
+              }
+            },
+            {
+              question_type: &quot;CHOICE&quot;,
+              question_text: &quot;string&quot;,
+              question_id: &quot;string&quot;,
+              default_next_question_id: &quot;string&quot;,
+              choices: [
+                {
+                  choice_id: &quot;string&quot;,
+                  choice_text: &quot;string&quot;,
+                  additional_free_text_indicator: &quot;string&quot;,
+                  next_question_id: &quot;string&quot;
+                },
+              ],
+              select_multiple: &quot;boolean&quot;,
+              flag: &quot;REQUIRED&quot; | &quot;IMPORTANT&quot;,
+              help_text: &quot;string&quot;,
+              validations: [&quot;string&quot;, ...],
+              &quot;coded_reference&quot;: {
+                &quot;qualifier&quot;: &quot;string&quot;,
+                &quot;code_system_version&quot;: &quot;integer&quot;
+                &quot;id&quot;: string
+                &quot;ref&quot;: &quot;string&quot;
+              }
+            },
+            {
+              question_type: &quot;DATE&quot;,
+              question_text: &quot;string&quot;,
+              question_id: &quot;string&quot;,
+              default_next_question_id: &quot;string&quot;,
+              flag: &quot;REQUIRED&quot; | &quot;IMPORTANT&quot;,
+              help_text: &quot;string&quot;,
+              validations: [&quot;string&quot;, ...],
+              &quot;coded_reference&quot;: {
+                &quot;qualifier&quot;: &quot;string&quot;,
+                &quot;code_system_version&quot;: &quot;integer&quot;
+                &quot;id&quot;: string
+                &quot;ref&quot;: &quot;string&quot;
+              }
+            },
+            {
+              question_type: &quot;NUMERIC&quot;,
+              question_text: &quot;string&quot;,
+              question_id: &quot;string&quot;,
+              default_next_question_id: &quot;string&quot;,
+              flag: &quot;REQUIRED&quot; | &quot;IMPORTANT&quot;,
+              help_text: &quot;string&quot;,
+              validations: [&quot;string&quot;, ...],
+              &quot;coded_reference&quot;: {
+                &quot;qualifier&quot;: &quot;string&quot;,
+                &quot;code_system_version&quot;: &quot;integer&quot;
+                &quot;id&quot;: string
+                &quot;ref&quot;: &quot;string&quot;
+              }
+              conditions: [
+                {
+                  type: &quot;SINGLE_COMPARISON&quot;,
+                  comparison_operator: &quot;LT&quot; | &quot;GT&quot; | &quot;EQ&quot;| &quot;LE&quot; | &quot;GE&quot;,
+                  comparison_value: &quot;integer&quot;,
+                  next_question_id: &quot;string&quot;
+                },
+                {
+                  type: &quot;RANGE_COMPARISON&quot;,
+                  lower_bound_comparison_value: &quot;integer&quot;,
+                  lower_bound_comparison_operator: &quot;LT&quot; | &quot;GT&quot; | &quot;EQ&quot; | &quot;LE&quot; | &quot;GE&quot;,
+                  upper_bound_comparison_value: &quot;integer&quot;,
+                  upper_bound_comparison_operator: &quot;LT&quot; | &quot;GT&quot; | &quot;EQ&quot; | &quot;LE&quot; | &quot;GE&quot;,
+                  next_question_id: &quot;string&quot;
+                }
+              ]
+            },
+            {
+              question_type: &quot;STATEMENT&quot;,
+              question_text: &quot;string&quot;,
+              question_id: &quot;string&quot;,
+              content_plain: &quot;string&quot;,
+              content_html: &quot;string&quot;,
+              help_text: &quot;string&quot;,
+              default_next_question_id: &quot;string&quot;,
+              coded_reference: {
+                qualifier: &quot;string&quot;,
+                code_system_version: &quot;integer&quot;,
+                id: &quot;string&quot;,
+                ref: &quot;string&quot;
+              },
+            },
+            {
+              question_type: &quot;HIDDEN&quot;,
+              question_text: &quot;string&quot;,
+              question_id: &quot;string&quot;,
+            },
+            {
+              question_type: &quot;FILE&quot;,
+              question_text: &quot;string&quot;,
+              question_id: &quot;string&quot;,
+              default_next_question_id: &quot;string&quot;,
+              flag: &quot;REQUIRED&quot; | &quot;IMPORTANT&quot;,
+              help_text: &quot;string&quot;,
+              validations: [&quot;string&quot;, ...],
+              &quot;coded_reference&quot;: {
+                &quot;qualifier&quot;: &quot;string&quot;,
+                &quot;code_system_version&quot;: &quot;integer&quot;
+                &quot;id&quot;: string
+                &quot;ref&quot;: &quot;string&quot;
+              }
+            },
+            {
+              question_type: &quot;CHECKBOX&quot;,
+              question_text: &quot;string&quot;,
+              question_id: &quot;test_checkbox&quot;,
+              default_next_question_id: &quot;string&quot;,
+              flag: &quot;REQUIRED&quot; | &quot;IMPORTANT&quot;,
+              help_text: &quot;string&quot;,
+              validations: [&quot;string&quot;, ...],
+              &quot;coded_reference&quot;: {
+                &quot;qualifier&quot;: &quot;string&quot;,
+                &quot;code_system_version&quot;: &quot;integer&quot;
+                &quot;id&quot;: string
+                &quot;ref&quot;: &quot;string&quot;
+              }
+            },
+            {
+              question_type: &quot;FREE_AREA&quot;,
+              question_text: &quot;string&quot;,
+              question_id: &quot;string&quot;,
+              default_next_question_id: &quot;string&quot;,
+              flag: &quot;REQUIRED&quot; | &quot;IMPORTANT&quot;,
+              help_text: &quot;string&quot;,
+              placeholder: &quot;string&quot;,
+              validations: [&quot;string&quot;, ...],
+              &quot;coded_reference&quot;: {
+                &quot;qualifier&quot;: &quot;string&quot;,
+                &quot;code_system_version&quot;: &quot;integer&quot;
+                &quot;id&quot;: string
+                &quot;ref&quot;: &quot;string&quot;
+              }
+            }
+          ]
+        }
+      ]
+    }
+  },
+  provided_coded_references: {
+    &quot;string&quot;: { // name of coded reference, e.g. &quot;ICD:9:1:&quot;
+      href: &quot;string&quot;,
+      method: &quot;GET&quot; | &quot;POST&quot;,
+      data_fields: [
+        {
+          question_id: &quot;string&quot;,
+          query_parameter: &quot;string&quot;
+        }
+      ]
+    },
+    ...
+  },
+  validations: {
+    &quot;string&quot;: { // id of validation
+      type: &quot;REGEX&quot;,
+      value: &quot;string&quot;,
+      message: &quot;string&quot;,
+      html_attributes: &quot;string&quot;
+    },
+    ...
+  },
+  actions: [
+    {
+      ref: &quot;string&quot;,
+      title: &quot;string&quot;,
+      href: &quot;string&quot;,
+      method: &quot;string&quot;
+    },
+    ...
+  ]
+}
+</code></p>
+
+<p>The response from <code class="prettyprint">/request-pages/{id}</code> always follows the above schema. To render the data into the Client System:</p>
 
 <ol>
 <li>Walk through the <code class="prettyprint">forms</code> property, and render each form into your application (e.g., as HTML)
@@ -1278,110 +1494,6 @@ Make sure to check out our <a href="https://github.com/covermymeds/api-jquery-pl
 </ol></li>
 <li>Links and submit buttons are rendered from the <code class="prettyprint">actions</code> property.</li>
 </ol>
-
-<p><code class="schema">{
-  &quot;data&quot;: {
-    &quot;pa_request&quot;: {
-      &quot;patient_firstname&quot;: &quot;Mark&quot;
-      &quot;drug_name&quot;: &quot;Ambien&quot;
-      &quot;office_fax&quot;: null
-      ... more fields ...
-    }
-  }
-  &quot;forms&quot;: {
-    &quot;pa_request&quot;: {
-      &quot;question_sets&quot;: [
-        {
-          &quot;title&quot;: &quot;Patient Details&quot;
-          &quot;questions&quot;: [
-            {
-              &quot;question_type&quot;: &quot;FREE_TEXT&quot;
-              &quot;question_text&quot;: &quot;Diagnosis&quot;
-              &quot;question_id&quot;: &quot;icd9&quot;
-              &quot;default_next_question_id&quot;: &quot;gender&quot;
-              &quot;coded_reference&quot;: {
-                &quot;qualifier&quot;: &quot;ICD9&quot;,
-                &quot;code_system_version&quot;: &quot;1&quot;
-                &quot;id&quot;: null
-                &quot;ref&quot;: &quot;ICD9:1:&quot;
-              }
-              &quot;required&quot;: false
-              &quot;important&quot;: true
-              &quot;help_text&quot;: &quot;&quot;
-              &quot;validations&quot;: [&quot;icd9&quot;]
-              &quot;placeholder&quot;: &quot;example: 873.63&quot;
-            }
-            {
-              &quot;question_type&quot;: &quot;CHOICE&quot;
-              &quot;question_text&quot;: &quot;Gender&quot;
-              &quot;question_id&quot;: &quot;gender&quot;
-              &quot;choices&quot;: [
-                {
-                  &quot;choice_id&quot;: &quot;f&quot;,
-                  &quot;choice_text&quot;: &quot;Female&quot;
-                  &quot;additional_free_text_indicator&quot;: null
-                  &quot;next_question_id&quot;: &quot;END&quot;
-                  &quot;coded_reference&quot;: {
-                    ...
-                  }
-                }
-              ]
-              &quot;select_multiple&quot;: false
-              &quot;coded_reference&quot;: {
-                ...
-              }
-              &quot;required&quot;: true
-              &quot;important&quot;: true
-              &quot;help_text&quot;: &quot;&quot;
-              &quot;validations&quot;: []
-            }
-          ]
-        }
-      ]
-    }
-  }
-  &quot;provided_coded_references&quot;: {
-    &quot;ICD9:1:&quot;: {
-      &quot;href&quot;: &quot;http://example.covermymeds.com/icd9_codes&quot;
-      &quot;method&quot;: &quot;GET&quot;
-      &quot;data_fields&quot;: [
-        {
-          &quot;question_id&quot;: &quot;icd9&quot;
-          &quot;query_parameter&quot;: &quot;q&quot;
-        }
-      ]
-    }
-  }
-  &quot;validations&quot;: {
-    &quot;icd9&quot;: {
-      &quot;type&quot;: &quot;REGEX&quot;
-      &quot;value&quot;: &quot;^(V\d{2}(.\d{1,2})?|\d{3}(.\d{1,2})?|E\d{3}(.\d)?)$&quot;
-      &quot;message&quot;: &quot;Invalid icd9 code&quot;
-      &quot;html_attributes&quot;: null
-    }
-  }
-  &quot;actions&quot;: [
-    {
-      &quot;ref&quot;: &quot;pa_request&quot;
-      &quot;title&quot;: &quot;Save&quot;
-      &quot;href&quot;: &quot;http://www.covermymeds.com/request/XXYYZZ?token_id=adfoi30238b012j&quot;
-      &quot;method&quot;: &quot;POST&quot;
-    }
-    {
-      &quot;ref&quot;: null
-      &quot;title&quot;: &quot;Email&quot;
-      &quot;href&quot;: &quot;http://www.covermymeds.com/request/XXYYZZ/email?token_id=adfoi30238b012j&quot;
-      &quot;method&quot;: &quot;GET&quot;
-    }
-    {
-      &quot;ref&quot;: &quot;pa_request&quot;
-      &quot;title&quot;: &quot;Send to Plan&quot;
-      &quot;href&quot;: &quot;http://www.covermymeds.com/request/XXYYZZ/send_to_plan?token_id=adfoi30238b012j&quot;
-      &quot;method&quot;: &quot;POST&quot;
-    }
-  ]
-}
-</code></p>
 
 <h3 id="the-data-property">The <code class="prettyprint">data</code> property</h3>
 
@@ -1416,8 +1528,7 @@ Make sure to check out our <a href="https://github.com/covermymeds/api-jquery-pl
               &quot;id&quot;: null
               &quot;ref&quot;: &quot;ICD9:1:&quot;
             }
-            &quot;required&quot;: false
-            &quot;important&quot;: true
+            flag: &quot;REQUIRED&quot; | &quot;IMPORTANT&quot;,
             &quot;help_text&quot;: &quot;&quot;
           }
         ]
@@ -1481,7 +1592,7 @@ Make sure to check out our <a href="https://github.com/covermymeds/api-jquery-pl
 
 <h3 id="the-actions-property">The <code class="prettyprint">actions</code> property</h3>
 
-<p>The <code class="prettyprint">actions</code> property lets your Client System construct a workflow for each PA request, as well as allows your user to save their work (this is why POST, PUT and DELETE verbs are not provided for this resource).  This workflow may vary by health plan and the type of connection (e.g., ePA, proprietary electronic connection, paper form).</p>
+<p>The <code class="prettyprint">actions</code> property lets your Client System construct a workflow for each PA request.  This workflow may vary by health plan and the type of connection (e.g., ePA, proprietary electronic connection, paper form).</p>
 
 <p>When the <code class="prettyprint">ref</code> property is provided, the form matching the reference should be submitted as <code class="prettyprint">application/x-www-form-urlencoded</code> data in the body.</p>
 
@@ -1491,27 +1602,27 @@ Make sure to check out our <a href="https://github.com/covermymeds/api-jquery-pl
   {
     &quot;ref&quot;: &quot;pa_request&quot;
     &quot;title&quot;: &quot;Save&quot;
-    &quot;href&quot;: &quot;http://www.covermymeds.com/request/XXYYZZ?token_id=adfoi30238b012j&quot;
+    &quot;href&quot;: &quot;http://www.covermymeds.com/request-pages/XXYYZZ?token_id=adfoi30238b012j&quot;
     &quot;method&quot;: &quot;POST&quot;
   }
   {
     &quot;ref&quot;: null
     &quot;title&quot;: &quot;Email&quot;
-    &quot;href&quot;: &quot;http://www.covermymeds.com/request/XXYYZZ/email?token_id=adfoi30238b012j&quot;
+    &quot;href&quot;: &quot;http://www.covermymeds.com/request-pages/XXYYZZ/email?token_id=adfoi30238b012j&quot;
     &quot;method&quot;: &quot;GET&quot;
   }
   {
     &quot;ref&quot;: &quot;pa_request&quot;
     &quot;title&quot;: &quot;Send to Plan&quot;
-    &quot;href&quot;: &quot;http://www.covermymeds.com/request/XXYYZZ/send_to_plan?token_id=adfoi30238b012j&quot;
+    &quot;href&quot;: &quot;http://www.covermymeds.com/request-pages/XXYYZZ/send_to_plan?token_id=adfoi30238b012j&quot;
     &quot;method&quot;: &quot;POST&quot;
   }
 ]
 </code></p>
 
-<h2 id="working-with-request_pages">Working with <code class="prettyprint">request_pages</code></h2>
+<h2 id="working-with-request-pages">Working with <code class="prettyprint">request-pages</code></h2>
 
-<p>Only the <code class="prettyprint">GET</code> verb is provided for the <code class="prettyprint">/request_pages/</code> resource.  The PA is created or saved when the user presses the &ldquo;Save&rdquo; button included in the <code class="prettyprint">actions</code> property.</p>
+<p>Only the <code class="prettyprint">GET</code> verb is provided for the <code class="prettyprint">/request-pages/</code> resource.  The PA is created or saved when the user presses the &ldquo;Save&rdquo; button included in the <code class="prettyprint">actions</code> property.</p>
 
 <p>The <code class="prettyprint">actions</code> are provided on a per-PA basis because different types of PA have slightly different work flows.  While an ePA can be sent directly to the plan, for a fax-based PA the physican&rsquo;s signature is collected and the fax numbers are confirmed.</p>
 
@@ -1630,22 +1741,24 @@ Make sure to check out our <a href="https://github.com/covermymeds/api-jquery-pl
     &quot;question_id&quot;: &quot;reason_displayed&quot;
     &quot;default_next_question_id&quot;: &quot;gender&quot;
     &quot;coded_reference&quot;: { }
-    &quot;required&quot;: false
-    &quot;important&quot;: false
     &quot;help_text&quot;: &quot;&quot;
   }
 ]
 </code></p>
 
+<h2 id="error-handling-in-request-pages">Error Handling in <code class="prettyprint">request-pages</code></h2>
+
+<p>Errors may be returned to the Client System while in its <code class="prettyprint">request-pages</code> loop.  For simplicity, we use standard HTTP status codes in responses as described in <a href="#handling-errors">Handling Errors</a>.  Clients System implementations are expected to check the HTTP response codes before attempting to process the JSON response.</p>
+
 <h1 id="/prescribers/">/prescribers/</h1>
 
 <p>The Prescriber resource allows you to associate prescriber NPIs with your system.</p>
 
-<p>Most pharmacies in the United States use the CoverMyMeds system to initiate a PA after each claim rejection in their pharmacy.  CMM pushes these prior authorizations to the right place based on a credentialing process that maps prescriber NPIs to integrated EHRs or CoverMyMeds user accounts.</p>
+<p>Most pharmacies in the United States use the CoverMyMeds system to initiate a PA after each claim rejection in their pharmacy.  CoverMyMeds pushes these prior authorizations to the right place based on a credentialing process that maps prescriber NPIs to integrated EHRs or CoverMyMeds user accounts.</p>
 
 <p>Doing this push involves mapping the Prescriber NPI field in the rejected pharmacy claim to a flag that tells the CoverMyMeds system that claim rejections for the given Prescriber NPI should be available in your system.</p>
 
-<p>Upon a PA being initiated by a pharmacy, CMM will deliver the transaction through the <a href="#callbacks">Callback system</a>.  For each pharmacy-initiated PA, CMM will make an HTTP request to the URL you have configured for the prescriber NPI, letting you know that a pharmacy-initiated PA was created for one of your prescribers.  CoverMyMeds expects a 2xx (“ok”) HTTP response; if we receive an error, we will queue the delivery and try again later.</p>
+<p>Upon a PA being initiated by a pharmacy, CoverMyMeds will deliver the transaction through the <a href="#callbacks">Callback system</a>.  For each pharmacy-initiated PA, CoverMyMeds will make an HTTP request to the URL you have configured for the prescriber NPI, letting you know that a pharmacy-initiated PA was created for one of your prescribers.  CoverMyMeds expects a 2xx (“ok”) HTTP response; if we receive an error, we will queue the delivery and try again later.</p>
 
 <p>When delivered, you should store the PA data, including the <code class="prettyprint">id</code>, <code class="prettyprint">tokens</code>, and <code class="prettyprint">prescriber_npi</code> so that you may push the PA to the appropriate users in your system.  Generally, pharmacy-initiated PAs should show up in the same task lists as your Client System-initiated PAs.</p>
 
@@ -1876,29 +1989,29 @@ pharmacy-initiated transactions for the NPI will not be sent to the <code class=
 
 <p>There currently is not a supported method to receive new pharmacy-initiated PAs without the Callback service.  Supporting pharmacy PAs is strongly recommended.</p>
 
-<p>To use the Callback service, you need to implement an HTTP server to which we may send data each time there is a change (e.g., the health plan approves the request), or a new PA is created by an integrated pharmacy.  CMM will format this request identically to the response schema in the <code class="prettyprint">/requests/</code> resource.</p>
+<p>To use the Callback service, you need to implement an HTTP server to which we may send data each time there is a change (e.g., the health plan approves the request), or a new PA is created by an integrated pharmacy.  CoverMyMeds will format this request identically to the response schema in the <code class="prettyprint">/requests/</code> resource.</p>
 
 <p>When you implement your endpoint, you can specify a global Callback URL in your <a href="https://api.covermymeds.com/consumers/signin">Developer Account</a>, and the HTTP method (GET, PUT, POST) we should use when making our HTTP request.  If you are supporting multiple on-premise systems, you may register a <a href="https://api.covermymeds.com/consumers/">Developer Account</a> for each webserver that will be running, and then use the appropriate <code class="prettyprint">api_id</code> in each on-premise installation.</p>
 
-<p>For convenience, you may specify individual <code class="prettyprint">delivery_url</code>s for each prescriber NPI (without registering multiple Developer Accounts) as <a href="#prescribers">detailed</a> in the <code class="prettyprint">/prescribers/</code> section.</p>
+<p>For convenience, you may specify individual <code class="prettyprint">delivery_url</code>s for each prescriber NPI (without registering multiple Developer Accounts) as <a href="#/prescribers/">detailed</a> in the <code class="prettyprint">/prescribers/</code> section.</p>
 
 <p>Your webservice should return an HTTP status 200 or 201 when you receive the request and process it successfully.  You should return an HTTP error code when the request cannot be processed.  CoverMyMeds&#39; system will queue errors and retry them if the status codes are believed to be resolvable.  We will contact you if they are not successfully processed within a reasonable time-frame.</p>
 
 <p>Before you have finished the implementation of your Callback service, you may wish to use a service like <a href="http://requestb.in/">RequestBin</a> for your Callback URL.  This will allow you to inspect the Callback data.  Remember that RequestBin is not secure and you should not allow real patient data to be submitted to this service.</p>
 
-<p>You will see recent Callbacks in your developer Account.  This may be helpful for testing and debugging your application.  For example, you will be able to see that CMM has delivered a Callback and what the HTTP Response code your server provided (if any).</p>
+<p>You will see recent Callbacks in your developer Account.  This may be helpful for testing and debugging your application.  For example, you will be able to see that CoverMyMeds has delivered a Callback and what the HTTP Response code your server provided (if any).</p>
 
 <p>To enhance security, you may white-list our ip address range.  Because your system should not &ldquo;give out&rdquo; information, these security measures are prudent to avoid the possibility of malfeasance, but are not required.</p>
 
 <h2 id="importing-existing-pas">Importing existing PAs</h2>
 
-<p>CoverMyMeds&#39; existing users typically overlap the Client System by 20-50 percent; meaning that if you have 10,000 prescribers, it is possible that 5,000 of them could be existing CMM users.  We have learned that allowing existing users to import their PAs to your system makes the rollout smoother, and will enhance long-term utilization.</p>
+<p>CoverMyMeds&#39; existing users typically overlap the Client System by 20-50 percent; meaning that if you have 10,000 prescribers, it is possible that 5,000 of them could be existing CoverMyMeds users.  We have learned that allowing existing users to import their PAs to your system makes the rollout smoother, and will enhance long-term utilization.</p>
 
-<p>Importing existing PA data from the CMM system happens automatically when you implement the Callback System and the <code class="prettyprint">/prescribers/credentials/</code> resource.  After creating a new prescriber credential, and after the asynchronous &ldquo;credential check&rdquo; step that CMM performs, our servers will run the Callback once for each existing prior authorization, sending data to the URL specified in the <code class="prettyprint">POST /prescribers/credentials/</code> request.</p>
+<p>Importing existing PA data from the CoverMyMeds system happens automatically when you implement the Callback System and the <code class="prettyprint">/prescribers/credentials/</code> resource.  After creating a new prescriber credential, and after the asynchronous &ldquo;credential check&rdquo; step that CoverMyMeds performs, our servers will run the Callback once for each existing prior authorization, sending data to the URL specified in the <code class="prettyprint">POST /prescribers/credentials/</code> request.</p>
 
 <p>Upon delivery, your system should store the same PA data that allows you to provide access to these imported PAs through your Task List.</p>
 
-<p>This import function may be difficult for you to test, since you may not have a CMM user account with a credentialed prescriber.  Please contact us if you need any help.</p>
+<p>This import function may be difficult for you to test, since you may not have a CoverMyMeds user account with a credentialed prescriber.  Please contact us if you need any help.</p>
 
 <h1 id="authentication">Authentication</h1>
 
@@ -1986,7 +2099,7 @@ While all resources will accept the <code class="prettyprint">api_secret</code> 
 <p>You may choose to actively manage <code class="prettyprint">tokens</code>. This is unnecessary unless the <code class="prettyprint">tokens</code> are compromised, but you may wish to consider it if you are using <code class="prettyprint">tokens</code> in a client-side application.  For example, you could regenerate <code class="prettyprint">tokens</code> for a particular request if a user of the system shouldn&rsquo;t have access to the PA request anymore.  While low risk, it would be possible that this user had previously recorded the <code class="prettyprint">access_token</code>.</p>
 
 <p><aside class="notice">
-A technique to consider in a client-side implementation is to make server-side requests with <code class="prettyprint">tokens</code>, then to return the API response data (without the <code class="prettyprint">tokens</code>) into a page where it can be used by a JavaScript client that is also loaded on the page. When clicked, the user is following a link to your server, and then redirected to the CMM page with the access <code class="prettyprint">token</code>.
+A technique to consider in a client-side implementation is to make server-side requests with <code class="prettyprint">tokens</code>, then to return the API response data (without the <code class="prettyprint">tokens</code>) into a page where it can be used by a JavaScript client that is also loaded on the page. When clicked, the user is following a link to your server, and then redirected to the CoverMyMeds page with the access <code class="prettyprint">token</code>.
 </aside></p>
 
 <h1 id="handling-errors">Handling Errors</h1>
@@ -2006,6 +2119,22 @@ A technique to consider in a client-side implementation is to make server-side r
 <th>Meaning</th>
 </tr>
 </thead><tbody>
+<tr>
+<td>301</td>
+<td>Moved permanently &ndash; the request-page is no longer found at this address (this error should be rare)</td>
+</tr>
+<tr>
+<td>302</td>
+<td>Found &ndash; the URL requested is available at a new location.  Client Systems should re-issue the request to the new location</td>
+</tr>
+<tr>
+<td>305</td>
+<td>Use Proxy &ndash; repeat the request, using the proxy specified in the Location field of the response header</td>
+</tr>
+<tr>
+<td>307</td>
+<td>Temporary Redirect &ndash; the resource requested is temporarily available at a new location.  Client System should re-issue to the new URI.</td>
+</tr>
 <tr>
 <td>400</td>
 <td>Bad Request</td>
@@ -2049,7 +2178,7 @@ Be careful that your implementation doesn&rsquo;t create blocking requests that 
 
 <h1 id="getting-help">Getting Help</h1>
 
-<p>It will greatly simplify your integration if you understand how the CoverMyMeds website system works, since you are essentially reproducing it in your application.  You should <a href="https://www.covermymeds.com/signup">create a CMM account</a> and play around with it.  You should also make sure to check out the <a href="http://covermymeds.github.io/ehr-example/">EHR Demo Application</a>.</p>
+<p>It will greatly simplify your integration if you understand how the CoverMyMeds website system works, since you are essentially reproducing it in your application.  You should <a href="https://www.covermymeds.com/signup">create a CoverMyMeds account</a> and play around with it.  You should also make sure to check out the <a href="http://covermymeds.github.io/ehr-example/">EHR Demo Application</a>.</p>
 
 <p>CoverMyMeds provides complete technical assistance during the integration. Questions may be sent to <a href="mailto:developers@covermymeds.com">developers@covermymeds.com</a> until a regular contact is assigned.  You may also call us for immediate help, although our general support staff are not always able to answer development-related questions.</p>
 
@@ -2066,7 +2195,7 @@ Saturday: 8:00AM - 3:00PM EST
 <h2 id="links">Links</h2>
 
 <ul>
-<li><a href="https://www.covermymeds.com/signup">Sign up for a CMM account</a> to see how our original website works</li>
+<li><a href="https://www.covermymeds.com/signup">Sign up for a CoverMyMeds account</a> to see how our original website works</li>
 <li><a href="https://api.covermymeds.com/consumers/signin">Register your Client System or manage your Developer Account</a></li>
 <li><a href="https://github.com/covermymeds/api-jquery-plugins">JavaScript API client plugins</a></li>
 <li><a href="https://github.com/covermymeds/ehr-example">EHR demo app</a> that uses the JavaScript components</li>
@@ -2137,17 +2266,17 @@ Saturday: 8:00AM - 3:00PM EST
 <td></td>
 </tr>
 <tr>
-<td>Discussed rollout plan with CMM?</td>
+<td>Discussed rollout plan with CoverMyMeds?</td>
 <td>Y / N</td>
 <td></td>
 </tr>
 <tr>
-<td>Provided CMM with demo account to your system?</td>
+<td>Provided CoverMyMeds with demo account to your system?</td>
 <td>Y / N</td>
 <td>This allows us to take screenprints for support staff</td>
 </tr>
 <tr>
-<td>Exchanged support contacts with CMM?</td>
+<td>Exchanged support contacts with CoverMyMeds?</td>
 <td>Y / N</td>
 <td></td>
 </tr>
