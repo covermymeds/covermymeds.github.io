@@ -256,7 +256,7 @@ Make sure to check out our <a href="https://github.com/covermymeds/api-jquery-pl
 
 <h2 id="versioning">Versioning</h2>
 
-<p>Currently, the API is on version &ldquo;1&rdquo;.  Without changing the version number we may add additional fields to any response or accept additional fields on any resource.  Your system should be written to be tolerant of additional fields.</p>
+<p>Currently, the API is on version &ldquo;1&rdquo;.  Without changing the version number we may add additional fields to any response, accept additional fields on any resource, or add enumerated values to an existing field on a resource.  Your system should be written to tolerate these changes.</p>
 
 <p>If we need to remove a field, change a data type, or move/rename a field we will increment the version number.</p>
 
@@ -430,8 +430,6 @@ Make sure to check out our <a href="https://github.com/covermymeds/api-jquery-pl
 <h1 id="/requests/">/requests/</h1>
 
 <p>The <code class="prettyprint">/requests/</code> resource is the workhorse of the API.  You will use it to create new prior authorizations (<code class="prettyprint">POST /requests/</code>), retrieve a single PA (<code class="prettyprint">GET /requests/</code>), and retrieve multiple PAs, for use in your Task List or other bulk operations (<code class="prettyprint">POST /requests/search/</code>).  Several additional features are provided for working with prior authorizations such as using the <a href="#displaying-a-pa-on-the-covermymeds-site">CoverMyMeds request page</a>, <a href="#theming">theming</a>, and the <a href="#callbacks">Callback system</a>.</p>
-
-<p>As an alternative to using the CoverMyMeds request page, you may also use the <a href="#request-pages">request-pages</a> resource.</p>
 
 <p>As an alternative to using the CoverMyMeds request page, you may also use the <a href="#request-pages">request-pages</a> resource.</p>
 
@@ -1245,7 +1243,7 @@ Make sure to check out our <a href="https://github.com/covermymeds/api-jquery-pl
 
 <h1 id="/request-pages/">/request-pages/</h1>
 
-<p>This resource provides the data needed to render your own PA request screen, so that the user can work through the entire PA process within your Client System.  Should you use this option, you will be serving your own Request page, rather than using the one provided by CoverMyMeds.  Of course, you can serve this in a web-based application or desktop application.</p>
+<p>This resource provides the data needed to render your own PA request screen, so that the user can work through the entire PA process within your Client System.  Should you use this option, you will be serving your own Request page, rather than using the one provided by CoverMyMeds.  The request-pages resource is UI-agnostic to be served a web-based, desktop, or mobile application.</p>
 
 <p>CoverMyMeds connects to dozens of health plans electronically, providing a &ldquo;compatibility layer&rdquo; for the provider in the case of plans that do not support electronic connection for ePA.  To abstract away differences between plans&#39; implementations of the emerging ePA standard, we use a <a href="http://en.wikipedia.org/wiki/HATEOAS">Hypertext as the Engine of Application State (HATEOS)</a> architecture.  With this approach, your Client System does not need to anticipate every implementation detail in the request workflow.</p>
 
@@ -1257,17 +1255,18 @@ Make sure to check out our <a href="https://github.com/covermymeds/api-jquery-pl
 
 <ol>
 <li>Create a new PA request with <code class="prettyprint">POST /requests/</code></li>
-<li>Grab the <code class="prettyprint">tokens</code> and <code class="prettyprint">id</code> attributes from the response</li>
-<li>Use the <code class="prettyprint">tokens</code> and <code class="prettyprint">id</code> to make a GET request to <code class="prettyprint">request-pages/{id}</code></li>
+<li>Using the <code class="prettyprint">tokens</code> and <code class="prettyprint">id</code> attributes from the response, make a GET request to <code class="prettyprint">request-pages/{id}</code></li>
 <li>If there is not an error in the response, render the PA form in the Client System (for example, in HTML)</li>
+<li>If the actions array is empty, the user is finished with the request. If not, return to step 3.</li>
 <li>When users invoke an action, the server must return a new request-page</li>
-<li>If the actions array is empty, the user is finished with the request. If not, return to step 4.</li>
 </ol>
 
-<h2 id="get-/request-pages/{id}">GET /request-pages/{id}</h2>
+<h2 id="get-/request-pages/{id}-(for-web-based-systems)">GET /request-pages/{id}  (for web-based systems)</h2>
 
 <p><button class="show-schema">Show HTTP Request Schema</button>
-<code class="schema" style="display: none;">{
+<code class="schema" style="display: none;">
+Accept: application/json
+{
   &quot;v&quot;:       &quot;integer&quot;,
   &quot;api_id&quot;:  &quot;string&quot;
 }
@@ -1301,7 +1300,7 @@ Make sure to check out our <a href="https://github.com/covermymeds/api-jquery-pl
               validations: [&quot;string&quot;, ...],
               &quot;coded_reference&quot;: {
                 &quot;qualifier&quot;: &quot;string&quot;,
-                &quot;code_system_version&quot;: &quot;integer&quot;
+                &quot;code_system_version&quot;: &quot;string&quot;
                 &quot;id&quot;: string
                 &quot;ref&quot;: &quot;string&quot;
               }
@@ -1325,7 +1324,7 @@ Make sure to check out our <a href="https://github.com/covermymeds/api-jquery-pl
               validations: [&quot;string&quot;, ...],
               &quot;coded_reference&quot;: {
                 &quot;qualifier&quot;: &quot;string&quot;,
-                &quot;code_system_version&quot;: &quot;integer&quot;
+                &quot;code_system_version&quot;: &quot;string&quot;
                 &quot;id&quot;: string
                 &quot;ref&quot;: &quot;string&quot;
               }
@@ -1340,7 +1339,7 @@ Make sure to check out our <a href="https://github.com/covermymeds/api-jquery-pl
               validations: [&quot;string&quot;, ...],
               &quot;coded_reference&quot;: {
                 &quot;qualifier&quot;: &quot;string&quot;,
-                &quot;code_system_version&quot;: &quot;integer&quot;
+                &quot;code_system_version&quot;: &quot;string&quot;
                 &quot;id&quot;: string
                 &quot;ref&quot;: &quot;string&quot;
               }
@@ -1355,7 +1354,7 @@ Make sure to check out our <a href="https://github.com/covermymeds/api-jquery-pl
               validations: [&quot;string&quot;, ...],
               &quot;coded_reference&quot;: {
                 &quot;qualifier&quot;: &quot;string&quot;,
-                &quot;code_system_version&quot;: &quot;integer&quot;
+                &quot;code_system_version&quot;: &quot;string&quot;
                 &quot;id&quot;: string
                 &quot;ref&quot;: &quot;string&quot;
               }
@@ -1406,7 +1405,7 @@ Make sure to check out our <a href="https://github.com/covermymeds/api-jquery-pl
               validations: [&quot;string&quot;, ...],
               &quot;coded_reference&quot;: {
                 &quot;qualifier&quot;: &quot;string&quot;,
-                &quot;code_system_version&quot;: &quot;integer&quot;
+                &quot;code_system_version&quot;: &quot;string&quot;
                 &quot;id&quot;: string
                 &quot;ref&quot;: &quot;string&quot;
               }
@@ -1421,7 +1420,7 @@ Make sure to check out our <a href="https://github.com/covermymeds/api-jquery-pl
               validations: [&quot;string&quot;, ...],
               &quot;coded_reference&quot;: {
                 &quot;qualifier&quot;: &quot;string&quot;,
-                &quot;code_system_version&quot;: &quot;integer&quot;
+                &quot;code_system_version&quot;: &quot;string&quot;
                 &quot;id&quot;: string
                 &quot;ref&quot;: &quot;string&quot;
               }
@@ -1437,7 +1436,7 @@ Make sure to check out our <a href="https://github.com/covermymeds/api-jquery-pl
               validations: [&quot;string&quot;, ...],
               &quot;coded_reference&quot;: {
                 &quot;qualifier&quot;: &quot;string&quot;,
-                &quot;code_system_version&quot;: &quot;integer&quot;
+                &quot;code_system_version&quot;: &quot;string&quot;
                 &quot;id&quot;: string
                 &quot;ref&quot;: &quot;string&quot;
               }
@@ -1481,14 +1480,193 @@ Make sure to check out our <a href="https://github.com/covermymeds/api-jquery-pl
 }
 </code></p>
 
-<p>The response from <code class="prettyprint">/request-pages/{id}</code> always follows the above schema. To render the data into the Client System:</p>
+<h2 id="get-/request-pages/{id}-(for-client-server-systems)">GET /request-pages/{id}  (for client-server systems)</h2>
+
+<p>For client-server systems, typically written in a statically typed language like Java or C#, the schema is designed conform to language data types.  The same question types are represented, but the answers to each question are included within the question element, and property names are held static.</p>
+
+<p><button class="show-schema">Show HTTP Request Schema</button>
+<code class="schema" style="display: none;">
+Accept: application/typed+json
+{
+  &quot;v&quot;:       &quot;integer&quot;,
+  &quot;api_id&quot;:  &quot;string&quot;
+}
+</code></p>
+
+<p><button class="show-schema">Show HTTP Response Schema</button>
+<code class="schema" style="display: none;">{
+{&quot;request_page&quot;: {
+    &quot;forms&quot;: [{
+        &quot;identifier&quot;: &quot;string&quot;,
+        &quot;question_sets&quot;: [{
+            &quot;title&quot;: &quot;string&quot;,
+            &quot;questions&quot;: [
+                {
+                    &quot;question_type&quot;: &quot;FREE_TEXT&quot;,
+                    &quot;question_text&quot;: &quot;string&quot;,
+                    &quot;question_id&quot;: &quot;string&quot;,
+                    &quot;default_next_question_id&quot;: &quot;string&quot;,
+                    &quot;help_text&quot;: &quot;string&quot;,
+                    &quot;coded_reference&quot;: {
+                        &quot;qualifier&quot;: &quot;string&quot;,
+                        &quot;code_system_version&quot;: &quot;string&quot;,
+                        &quot;id&quot;: &quot;string&quot;,
+                        &quot;ref&quot;: &quot;string&quot;
+                    },
+                    &quot;validations&quot;: [&quot;string&quot;, ...],
+                    &quot;placeholder&quot;: &quot;string&quot;,
+                    &quot;flag&quot;: &quot;REQUIRED&quot; | &quot;IMPORTANT&quot;,
+                    &quot;question_answer&quot;: &quot;string&quot;
+                },
+                {
+                    &quot;question_type&quot;: &quot;CHOICE&quot;,
+                    &quot;question_text&quot;: &quot;Gender&quot;,
+                    &quot;question_id&quot;: &quot;gender&quot;,
+                    &quot;default_next_question_id&quot;: &quot;prescribed_date&quot;,
+                    &quot;choices&quot;: [
+                        {
+                            &quot;choice_id&quot;: &quot;string&quot;,
+                            &quot;choice_text&quot;: &quot;string&quot;,
+                            &quot;additional_free_text_indicator&quot;: &quot;string&quot;,
+                            &quot;next_question_id&quot;: &quot;string&quot;
+                        }
+                    ],
+                    &quot;select_multiple&quot;: boolean,
+                    flag: &quot;REQUIRED&quot; | &quot;IMPORTANT&quot;,
+                    &quot;help_text&quot;: &quot;string&quot;,
+                    &quot;validations&quot;: [&quot;string&quot;, ...],
+                    &quot;question_answers&quot;: [&quot;string&quot;, ...]
+                },
+                {
+                    &quot;question_type&quot;: &quot;DATE&quot;,
+                    &quot;question_text&quot;: &quot;string&quot;,
+                    &quot;question_id&quot;: &quot;string&quot;,
+                    &quot;default_next_question_id&quot;: &quot;string&quot;,
+                    &quot;flag&quot;: &quot;REQUIRED&quot; | &quot;IMPORTANT&quot;,
+                    &quot;help_text&quot;: &quot;string&quot;,
+                    &quot;question_answer&quot;: &quot;string&quot; // ISO 8701 format
+                },
+                {
+                    &quot;question_type&quot;: &quot;NUMERIC&quot;,
+                    &quot;question_text&quot;: &quot;string&quot;,
+                    &quot;question_id&quot;: &quot;string&quot;,
+                    &quot;default_next_question_id&quot;: &quot;string&quot;,
+                    &quot;flag&quot;: &quot;REQUIRED&quot; | &quot;IMPORTANT&quot;,
+                    &quot;help_text&quot;: &quot;string&quot;,
+                    &quot;comparisons&quot;: [<br>
+                        {
+                            &quot;type&quot;: &quot;SINGLE_COMPARISON&quot;,
+                            &quot;comparison_operator&quot;: &quot;LT&quot; | &quot;GT&quot; | &quot;EQ&quot;| &quot;LE&quot; | &quot;GE&quot;,
+                            &quot;comparison_value&quot;: integer,
+                            &quot;next_question_id&quot;: &quot;string&quot;
+                        },
+                        {
+                            &quot;type&quot;: &quot;RANGE_COMPARISON&quot;,
+                            &quot;lower_bound_comparison_value&quot;: integer,
+                            &quot;lower_bound_comparison_operator&quot;: &quot;LT&quot; | &quot;GT&quot; | &quot;EQ&quot;| &quot;LE&quot; | &quot;GE&quot;,
+                            &quot;upper_bound_comparison_value&quot;: integer,
+                            &quot;upper_bound_comparison_operator&quot;: &quot;LT&quot; | &quot;GT&quot; | &quot;EQ&quot;| &quot;LE&quot; | &quot;GE&quot;,
+                            &quot;next_question_id&quot;: &quot;string&quot;
+                        }
+                    ],
+                    &quot;question_answer&quot;: integer
+                },
+                {
+                    &quot;question_type&quot;: &quot;STATEMENT&quot;,
+                    &quot;question_text&quot;: &quot;string&quot;,
+                    &quot;question_id&quot;: &quot;string&quot;,
+                    &quot;content_plain&quot;: &quot;string&quot;,
+                    &quot;content_html&quot;: &quot;html_fragment_string&quot;,
+                    &quot;help_text&quot;: &quot;string&quot;,
+                    &quot;flag&quot;: &quot;REQUIRED&quot; | &quot;IMPORTANT&quot;,
+                    &quot;question_answer&quot;: &quot;string&quot;
+                },
+                {
+                    &quot;question_type&quot;: &quot;HIDDEN&quot;,
+                    &quot;question_text&quot;: &quot;string&quot;,
+                    &quot;question_id&quot;: &quot;string&quot;,
+                    &quot;default_next_question_id&quot;: &quot;string&quot;,
+                    &quot;flag&quot;: &quot;REQUIRED&quot; | &quot;IMPORTANT&quot;,
+                    &quot;question_answer&quot;: &quot;string&quot;
+                },
+                {
+                    &quot;question_type&quot;: &quot;FILE&quot;,
+                    &quot;question_text&quot;: &quot;string&quot;,
+                    &quot;question_id&quot;: &quot;string&quot;,
+                    &quot;default_next_question_id&quot;: &quot;string&quot;,
+                    &quot;flag&quot;: &quot;REQUIRED&quot; | &quot;IMPORTANT&quot;,
+                    &quot;help_text&quot;: &quot;string&quot;,
+                    &quot;question_answer&quot;: &quot;string&quot;
+                },
+                {
+                    &quot;question_type&quot;: &quot;CHECKBOX&quot;,
+                    &quot;question_text&quot;: &quot;string&quot;,
+                    &quot;question_id&quot;: &quot;string&quot;,
+                    &quot;default_next_question_id&quot;: &quot;string&quot;,
+                    &quot;flag&quot;: &quot;REQUIRED&quot; | &quot;IMPORTANT&quot;,
+                    &quot;help_text&quot;: &quot;string&quot;,
+                    &quot;question_answer&quot;: &quot;string&quot;
+                },
+                {
+                    &quot;question_type&quot;: &quot;FREE_AREA&quot;,
+                    &quot;question_text&quot;: &quot;Explanation&quot;,
+                    &quot;question_id&quot;: &quot;test_free_area&quot;,
+                    &quot;default_next_question_id&quot;: &quot;string&quot;,
+                    &quot;flag&quot;: &quot;REQUIRED&quot; | &quot;IMPORTANT&quot;,
+                    &quot;help_text&quot;: &quot;string&quot;,
+                    &quot;placeholder&quot;: &quot;string&quot;,
+                    &quot;question_answer&quot;: &quot;string&quot;
+                }
+            ]
+        }]
+    }],
+    &quot;actions&quot;: [
+        {
+            &quot;ref&quot;: &quot;string&quot;,
+            &quot;title&quot;: &quot;string&quot;,
+            &quot;href&quot;: &quot;url_string&quot;,
+            &quot;method&quot;: &quot;string&quot;<br>
+        }, 
+    ],
+    &quot;provided_coded_references&quot;: [{
+        &quot;identifier&quot;: &quot;string&quot;,
+        &quot;href&quot;: &quot;url_string&quot;,
+        &quot;method&quot;: &quot;string&quot;, 
+        &quot;data_fields&quot;: [{
+            &quot;question_id&quot;: &quot;string&quot;,
+            &quot;query_parameter&quot;: &quot;string&quot;
+        }]
+    }],
+    &quot;validations&quot;: [
+        {
+            &quot;identifier&quot;: &quot;string&quot;,
+            &quot;type&quot;: &quot;string&quot;,     // valid: REGEX
+            &quot;value&quot;: &quot;string&quot;,
+            &quot;message&quot;: &quot;string&quot;,  // error message to show when validation fails
+            &quot;html_attributes&quot;: &quot;string&quot;
+        },
+    ]
+}}
+</code></p>
+
+<h2 id="working-with-request-pages">Working with <code class="prettyprint">request-pages</code></h2>
+
+<p>Only the <code class="prettyprint">GET</code> verb is provided for the <code class="prettyprint">/request-pages/</code> resource.  The PA is created or saved when the user presses the &ldquo;Save&rdquo; button included in the <code class="prettyprint">actions</code> property.</p>
+
+<p>The <code class="prettyprint">actions</code> are provided on a per-PA basis because different types of PA have slightly different work flows.  While an ePA can be sent directly to the plan, for a fax-based PA the physican&rsquo;s signature is collected and the fax numbers are confirmed.</p>
+
+<p><aside class='info'>
+API clients have a choice of response schemas for request-pages: JSON is optimized for web-based systems, while Typed JSON is optimized for client-server systems.  The returned schema is determined by the <code class="prettyprint">Accept:</code> header in the <code class="prettyprint">/request-pages/</code> HTTP request.  Specify &ldquo;<code class="prettyprint">application/json</code>&rdquo; for web-based client systems, and <code class="prettyprint">application/typed+json</code>&ldquo; for client-server (desktop)-based client systems.
+</aside></p>
+
+<p>Every response from <code class="prettyprint">/request-pages/{id}</code> conforms to one of the above schemas. To render the data into the Client System:</p>
 
 <ol>
 <li>Walk through the <code class="prettyprint">forms</code> property, and render each form into your application (e.g., as HTML)
 
 <ol>
-<li>Record the form&rsquo;s property name (e.g. <code class="prettyprint">pa_request</code>), it will be used as a reference</li>
-<li>When a <code class="prettyprint">question_id</code> property is reached, it&rsquo;s value is retrieved from <code class="prettyprint">data[&quot;pa_request&quot;][&quot;some_question_id&quot;]</code></li>
+<li>Record the form&rsquo;s property name (e.g. <code class="prettyprint">pa_request</code>); it will be used as a reference</li>
+<li>When a <code class="prettyprint">question_id</code> property is reached, it&rsquo;s value is retrieved from <code class="prettyprint">data[&quot;pa_request&quot;][&quot;some_question_id&quot;]</code>, or the question_answer(s) property of the question</li>
 <li>When a <code class="prettyprint">coded_reference</code> property is reached, the UI is decorated with coded reference data obtained by using the <code class="prettyprint">ref</code> value in <code class="prettyprint">coded_references</code> and performing an HTTP request to the specified endpoint</li>
 <li>When a <code class="prettyprint">validations</code> property is reached, each validation is applied to the form field</li>
 </ol></li>
@@ -1538,7 +1716,7 @@ Make sure to check out our <a href="https://github.com/covermymeds/api-jquery-pl
 }
 </code></p>
 
-<p>The <code class="prettyprint">question_sets</code> property contains all of the display information required to render the PA to the screen.  It does not include any of the user&rsquo;s answers. (those are contained in the <code class="prettyprint">data</code> property).</p>
+<p>In the web-optimized schema, the <code class="prettyprint">question_sets</code> property contains all of the display information required to render the PA to the screen, while the user&rsquo;s answers are contained in the data property.</p>
 
 <p>The <code class="prettyprint">coded_reference</code> sub-property has a <code class="prettyprint">ref</code> property.  The <code class="prettyprint">ref</code> property is used to retrieve href information from the <code class="prettyprint">provided_coded_references</code> section, so that coded reference options can be obtained from CoverMyMeds.  Optionally, you can use your own coded references data.</p>
 
@@ -1577,7 +1755,7 @@ Make sure to check out our <a href="https://github.com/covermymeds/api-jquery-pl
 
 <p>The <code class="prettyprint">validations</code> property provides a set of client-side validations that should be applied to the rendered form to help the user complete the PA correctly.  The sub-properties (e.g. <code class="prettyprint">icd9</code>) will match values in the <code class="prettyprint">validations</code> array from the <code class="prettyprint">question_sets</code> property.</p>
 
-<p>When the <code class="prettyprint">html_attributes</code> property is present it provides a set of attributes that can applied to the rendred form to leverage a web browser&rsquo;s built in validations.
+<p>When the <code class="prettyprint">html_attributes</code> property is present it provides a set of attributes that can applied to the rendered form to leverage a web browser&rsquo;s built in validations.
 <code class="schema">&quot;validations&quot;: {
   &quot;email&quot;: {
     &quot;type&quot;: &quot;REGEX&quot;
@@ -1619,12 +1797,6 @@ Make sure to check out our <a href="https://github.com/covermymeds/api-jquery-pl
   }
 ]
 </code></p>
-
-<h2 id="working-with-request-pages">Working with <code class="prettyprint">request-pages</code></h2>
-
-<p>Only the <code class="prettyprint">GET</code> verb is provided for the <code class="prettyprint">/request-pages/</code> resource.  The PA is created or saved when the user presses the &ldquo;Save&rdquo; button included in the <code class="prettyprint">actions</code> property.</p>
-
-<p>The <code class="prettyprint">actions</code> are provided on a per-PA basis because different types of PA have slightly different work flows.  While an ePA can be sent directly to the plan, for a fax-based PA the physican&rsquo;s signature is collected and the fax numbers are confirmed.</p>
 
 <h2 id="possible-form-elements">Possible form elements</h2>
 
@@ -1730,7 +1902,7 @@ Make sure to check out our <a href="https://github.com/covermymeds/api-jquery-pl
 
 <h2 id="statement-type-questions"><code class="prettyprint">STATEMENT</code> type questions</h2>
 
-<p>Some forms need to display information only &ldquo;questions&rdquo; to the user.  These &ldquo;questions&rdquo; do not get answers, they are simply displayed as static text.</p>
+<p>Some forms need to display information only &quot;questions&rdquo; to the user.  These &ldquo;questions&rdquo; do not get answers, they are simply displayed as static text.</p>
 
 <p><code class="schema">&quot;questions&quot;: [
   {
@@ -1744,6 +1916,701 @@ Make sure to check out our <a href="https://github.com/covermymeds/api-jquery-pl
     &quot;help_text&quot;: &quot;&quot;
   }
 ]
+</code></p>
+
+<h2 id="error-handling-in-request-pages">Error Handling in <code class="prettyprint">request-pages</code></h2>
+
+<p>Errors may be returned to the Client System while in its <code class="prettyprint">request-pages</code> loop.  For simplicity, we use standard HTTP status codes in responses as described in <a href="#handling-errors">Handling Errors</a>.  Clients System implementations are expected to check the HTTP response codes before attempting to process the JSON response.</p>
+
+<h1 id="/request-pages/">/request-pages/</h1>
+
+<p>This resource provides the data needed to render your own PA request screen, so that the user can work through the entire PA process within your Client System.  Should you use this option, you will be serving your own Request page, rather than using the one provided by CoverMyMeds.  The request-pages resource is UI-agnostic to be served a web-based, desktop, or mobile application.</p>
+
+<p>CoverMyMeds connects to dozens of health plans electronically, providing a &ldquo;compatibility layer&rdquo; for the provider in the case of plans that do not support electronic connection for ePA.  To abstract away differences between plans&#39; implementations of the emerging ePA standard, we use a <a href="http://en.wikipedia.org/wiki/HATEOAS">Hypertext as the Engine of Application State (HATEOS)</a> architecture.  With this approach, your Client System does not need to anticipate every implementation detail in the request workflow.</p>
+
+<p><code class="prettyprint">/request-pages/{id}</code> is the starting point for a series of RESTful interactions in which each resource includes URLs for possible next states.  Normal state transitions include things like &ldquo;Save&rdquo;, &ldquo;Send to Plan&rdquo; and &ldquo;Archive,&rdquo; but also exceptions like &ldquo;Choose your form&rdquo; (to handle user input to determine the correct PA recipient) and error handling actions.</p>
+
+<p>There are no PUT, POST, or DELETE verbs for this resource&ndash;all data manipulation occurs through the HATEOAS interactions.  The Client System works in a loop, rendering screens based on responses from the server.  Each response represents a new state in the PA process.  Users transition from state to state with actions encoded as URLs returned with each response.  The loop ends when the user no longer requests another link, or the CoverMyMeds server sends an empty <code class="prettyprint">actions</code> array.  </p>
+
+<p>To use the <code class="prettyprint">request-pages</code> resource:</p>
+
+<ol>
+<li>Create a new PA request with <code class="prettyprint">POST /requests/</code></li>
+<li>Using the <code class="prettyprint">tokens</code> and <code class="prettyprint">id</code> attributes from the response, make a GET request to <code class="prettyprint">request-pages/{id}</code></li>
+<li>If there is not an error in the response, render the PA form in the Client System (for example, in HTML)</li>
+<li>If the actions array is empty, the user is finished with the request. If not, return to step 3.</li>
+<li>When users invoke an action, the server must return a new request-page</li>
+</ol>
+
+<h2 id="get-/request-pages/{id}-(for-web-based-systems)">GET /request-pages/{id}  (for web-based systems)</h2>
+
+<p><button class="show-schema">Show HTTP Request Schema</button>
+<code class="schema" style="display: none;">
+Accept: application/json
+{
+  &quot;v&quot;:       &quot;integer&quot;,
+  &quot;api_id&quot;:  &quot;string&quot;
+}
+</code></p>
+
+<p><button class="show-schema">Show HTTP Response Schema</button>
+<code class="schema" style="display: none;">{
+  data: {
+    pa_request: {
+      // key:value pairs
+      // &quot;key&quot; is the question_id from the corresponding question
+      // &quot;value&quot; is the answer to the question
+      // e.g. &quot;patient_fname&quot;:&quot;Jack&quot;
+    }
+  },
+  forms: {
+    pa_request: {
+      question_sets: [
+        {
+          title: &quot;string&quot;,
+          questions: [
+            // each element is one of the below
+            {
+              question_type: &quot;FREE_TEXT&quot;,
+              question_text: &quot;string&quot;,
+              question_id: &quot;string&quot;,
+              default_next_question_id: &quot;string&quot;,
+              help_text: &quot;string&quot;,
+              placeholder: &quot;string&quot;,
+              flag: &quot;REQUIRED&quot; | &quot;IMPORTANT&quot;,
+              validations: [&quot;string&quot;, ...],
+              &quot;coded_reference&quot;: {
+                &quot;qualifier&quot;: &quot;string&quot;,
+                &quot;code_system_version&quot;: &quot;string&quot;
+                &quot;id&quot;: string
+                &quot;ref&quot;: &quot;string&quot;
+              }
+            },
+            {
+              question_type: &quot;CHOICE&quot;,
+              question_text: &quot;string&quot;,
+              question_id: &quot;string&quot;,
+              default_next_question_id: &quot;string&quot;,
+              choices: [
+                {
+                  choice_id: &quot;string&quot;,
+                  choice_text: &quot;string&quot;,
+                  additional_free_text_indicator: &quot;string&quot;,
+                  next_question_id: &quot;string&quot;
+                },
+              ],
+              select_multiple: &quot;boolean&quot;,
+              flag: &quot;REQUIRED&quot; | &quot;IMPORTANT&quot;,
+              help_text: &quot;string&quot;,
+              validations: [&quot;string&quot;, ...],
+              &quot;coded_reference&quot;: {
+                &quot;qualifier&quot;: &quot;string&quot;,
+                &quot;code_system_version&quot;: &quot;string&quot;
+                &quot;id&quot;: string
+                &quot;ref&quot;: &quot;string&quot;
+              }
+            },
+            {
+              question_type: &quot;DATE&quot;,
+              question_text: &quot;string&quot;,
+              question_id: &quot;string&quot;,
+              default_next_question_id: &quot;string&quot;,
+              flag: &quot;REQUIRED&quot; | &quot;IMPORTANT&quot;,
+              help_text: &quot;string&quot;,
+              validations: [&quot;string&quot;, ...],
+              &quot;coded_reference&quot;: {
+                &quot;qualifier&quot;: &quot;string&quot;,
+                &quot;code_system_version&quot;: &quot;string&quot;
+                &quot;id&quot;: string
+                &quot;ref&quot;: &quot;string&quot;
+              }
+            },
+            {
+              question_type: &quot;NUMERIC&quot;,
+              question_text: &quot;string&quot;,
+              question_id: &quot;string&quot;,
+              default_next_question_id: &quot;string&quot;,
+              flag: &quot;REQUIRED&quot; | &quot;IMPORTANT&quot;,
+              help_text: &quot;string&quot;,
+              validations: [&quot;string&quot;, ...],
+              &quot;coded_reference&quot;: {
+                &quot;qualifier&quot;: &quot;string&quot;,
+                &quot;code_system_version&quot;: &quot;string&quot;
+                &quot;id&quot;: string
+                &quot;ref&quot;: &quot;string&quot;
+              }
+              conditions: [
+                {
+                  type: &quot;SINGLE_COMPARISON&quot;,
+                  comparison_operator: &quot;LT&quot; | &quot;GT&quot; | &quot;EQ&quot;| &quot;LE&quot; | &quot;GE&quot;,
+                  comparison_value: &quot;integer&quot;,
+                  next_question_id: &quot;string&quot;
+                },
+                {
+                  type: &quot;RANGE_COMPARISON&quot;,
+                  lower_bound_comparison_value: &quot;integer&quot;,
+                  lower_bound_comparison_operator: &quot;LT&quot; | &quot;GT&quot; | &quot;EQ&quot; | &quot;LE&quot; | &quot;GE&quot;,
+                  upper_bound_comparison_value: &quot;integer&quot;,
+                  upper_bound_comparison_operator: &quot;LT&quot; | &quot;GT&quot; | &quot;EQ&quot; | &quot;LE&quot; | &quot;GE&quot;,
+                  next_question_id: &quot;string&quot;
+                }
+              ]
+            },
+            {
+              question_type: &quot;STATEMENT&quot;,
+              question_text: &quot;string&quot;,
+              question_id: &quot;string&quot;,
+              content_plain: &quot;string&quot;,
+              content_html: &quot;string&quot;,
+              help_text: &quot;string&quot;,
+              default_next_question_id: &quot;string&quot;,
+              coded_reference: {
+                qualifier: &quot;string&quot;,
+                code_system_version: &quot;integer&quot;,
+                id: &quot;string&quot;,
+                ref: &quot;string&quot;
+              },
+            },
+            {
+              question_type: &quot;HIDDEN&quot;,
+              question_text: &quot;string&quot;,
+              question_id: &quot;string&quot;,
+            },
+            {
+              question_type: &quot;FILE&quot;,
+              question_text: &quot;string&quot;,
+              question_id: &quot;string&quot;,
+              default_next_question_id: &quot;string&quot;,
+              flag: &quot;REQUIRED&quot; | &quot;IMPORTANT&quot;,
+              help_text: &quot;string&quot;,
+              validations: [&quot;string&quot;, ...],
+              &quot;coded_reference&quot;: {
+                &quot;qualifier&quot;: &quot;string&quot;,
+                &quot;code_system_version&quot;: &quot;string&quot;
+                &quot;id&quot;: string
+                &quot;ref&quot;: &quot;string&quot;
+              }
+            },
+            {
+              question_type: &quot;CHECKBOX&quot;,
+              question_text: &quot;string&quot;,
+              question_id: &quot;test_checkbox&quot;,
+              default_next_question_id: &quot;string&quot;,
+              flag: &quot;REQUIRED&quot; | &quot;IMPORTANT&quot;,
+              help_text: &quot;string&quot;,
+              validations: [&quot;string&quot;, ...],
+              &quot;coded_reference&quot;: {
+                &quot;qualifier&quot;: &quot;string&quot;,
+                &quot;code_system_version&quot;: &quot;string&quot;
+                &quot;id&quot;: string
+                &quot;ref&quot;: &quot;string&quot;
+              }
+            },
+            {
+              question_type: &quot;FREE_AREA&quot;,
+              question_text: &quot;string&quot;,
+              question_id: &quot;string&quot;,
+              default_next_question_id: &quot;string&quot;,
+              flag: &quot;REQUIRED&quot; | &quot;IMPORTANT&quot;,
+              help_text: &quot;string&quot;,
+              placeholder: &quot;string&quot;,
+              validations: [&quot;string&quot;, ...],
+              &quot;coded_reference&quot;: {
+                &quot;qualifier&quot;: &quot;string&quot;,
+                &quot;code_system_version&quot;: &quot;string&quot;
+                &quot;id&quot;: string
+                &quot;ref&quot;: &quot;string&quot;
+              }
+            }
+          ]
+        }
+      ]
+    }
+  },
+  provided_coded_references: {
+    &quot;string&quot;: { // name of coded reference, e.g. &quot;ICD:9:1:&quot;
+      href: &quot;string&quot;,
+      method: &quot;GET&quot; | &quot;POST&quot;,
+      data_fields: [
+        {
+          question_id: &quot;string&quot;,
+          query_parameter: &quot;string&quot;
+        }
+      ]
+    },
+    ...
+  },
+  validations: {
+    &quot;string&quot;: { // id of validation
+      type: &quot;REGEX&quot;,
+      value: &quot;string&quot;,
+      message: &quot;string&quot;,
+      html_attributes: &quot;string&quot;
+    },
+    ...
+  },
+  actions: [
+    {
+      ref: &quot;string&quot;,
+      title: &quot;string&quot;,
+      href: &quot;string&quot;,
+      method: &quot;string&quot;
+    },
+    ...
+  ]
+}
+</code></p>
+
+<h2 id="get-/request-pages/{id}-(for-client-server-systems)">GET /request-pages/{id}  (for client-server systems)</h2>
+
+<p>For client-server systems, typically written in a statically typed language like Java or C#, the schema is designed conform to language data types.  The same question types are represented, but the answers to each question are included within the question element, and property names are held static.</p>
+
+<p><button class="show-schema">Show HTTP Request Schema</button>
+<code class="schema" style="display: none;">
+Accept: application/typed+json
+{
+  &quot;v&quot;:       &quot;integer&quot;,
+  &quot;api_id&quot;:  &quot;string&quot;
+}
+</code></p>
+
+<p><button class="show-schema">Show HTTP Response Schema</button>
+<code class="schema" style="display: none;">{
+{&quot;request_page&quot;: {
+    &quot;forms&quot;: [{
+        &quot;identifier&quot;: &quot;string&quot;,
+        &quot;question_sets&quot;: [{
+            &quot;title&quot;: &quot;string&quot;,
+            &quot;questions&quot;: [
+                {
+                    &quot;question_type&quot;: &quot;FREE_TEXT&quot;,
+                    &quot;question_text&quot;: &quot;string&quot;,
+                    &quot;question_id&quot;: &quot;string&quot;,
+                    &quot;default_next_question_id&quot;: &quot;string&quot;,
+                    &quot;help_text&quot;: &quot;string&quot;,
+                    &quot;coded_reference&quot;: {
+                        &quot;qualifier&quot;: &quot;string&quot;,
+                        &quot;code_system_version&quot;: &quot;string&quot;,
+                        &quot;id&quot;: &quot;string&quot;,
+                        &quot;ref&quot;: &quot;string&quot;
+                    },
+                    &quot;validations&quot;: [&quot;string&quot;, ...],
+                    &quot;placeholder&quot;: &quot;string&quot;,
+                    &quot;flag&quot;: &quot;REQUIRED&quot; | &quot;IMPORTANT&quot;,
+                    &quot;question_answer&quot;: &quot;string&quot;
+                },
+                {
+                    &quot;question_type&quot;: &quot;CHOICE&quot;,
+                    &quot;question_text&quot;: &quot;Gender&quot;,
+                    &quot;question_id&quot;: &quot;gender&quot;,
+                    &quot;default_next_question_id&quot;: &quot;prescribed_date&quot;,
+                    &quot;choices&quot;: [
+                        {
+                            &quot;choice_id&quot;: &quot;string&quot;,
+                            &quot;choice_text&quot;: &quot;string&quot;,
+                            &quot;additional_free_text_indicator&quot;: &quot;string&quot;,
+                            &quot;next_question_id&quot;: &quot;string&quot;
+                        }
+                    ],
+                    &quot;select_multiple&quot;: boolean,
+                    flag: &quot;REQUIRED&quot; | &quot;IMPORTANT&quot;,
+                    &quot;help_text&quot;: &quot;string&quot;,
+                    &quot;validations&quot;: [&quot;string&quot;, ...],
+                    &quot;question_answers&quot;: [&quot;string&quot;, ...]
+                },
+                {
+                    &quot;question_type&quot;: &quot;DATE&quot;,
+                    &quot;question_text&quot;: &quot;string&quot;,
+                    &quot;question_id&quot;: &quot;string&quot;,
+                    &quot;default_next_question_id&quot;: &quot;string&quot;,
+                    &quot;flag&quot;: &quot;REQUIRED&quot; | &quot;IMPORTANT&quot;,
+                    &quot;help_text&quot;: &quot;string&quot;,
+                    &quot;question_answer&quot;: &quot;string&quot; // ISO 8701 format
+                },
+                {
+                    &quot;question_type&quot;: &quot;NUMERIC&quot;,
+                    &quot;question_text&quot;: &quot;string&quot;,
+                    &quot;question_id&quot;: &quot;string&quot;,
+                    &quot;default_next_question_id&quot;: &quot;string&quot;,
+                    &quot;flag&quot;: &quot;REQUIRED&quot; | &quot;IMPORTANT&quot;,
+                    &quot;help_text&quot;: &quot;string&quot;,
+                    &quot;comparisons&quot;: [<br>
+                        {
+                            &quot;type&quot;: &quot;SINGLE_COMPARISON&quot;,
+                            &quot;comparison_operator&quot;: &quot;LT&quot; | &quot;GT&quot; | &quot;EQ&quot;| &quot;LE&quot; | &quot;GE&quot;,
+                            &quot;comparison_value&quot;: integer,
+                            &quot;next_question_id&quot;: &quot;string&quot;
+                        },
+                        {
+                            &quot;type&quot;: &quot;RANGE_COMPARISON&quot;,
+                            &quot;lower_bound_comparison_value&quot;: integer,
+                            &quot;lower_bound_comparison_operator&quot;: &quot;LT&quot; | &quot;GT&quot; | &quot;EQ&quot;| &quot;LE&quot; | &quot;GE&quot;,
+                            &quot;upper_bound_comparison_value&quot;: integer,
+                            &quot;upper_bound_comparison_operator&quot;: &quot;LT&quot; | &quot;GT&quot; | &quot;EQ&quot;| &quot;LE&quot; | &quot;GE&quot;,
+                            &quot;next_question_id&quot;: &quot;string&quot;
+                        }
+                    ],
+                    &quot;question_answer&quot;: integer
+                },
+                {
+                    &quot;question_type&quot;: &quot;STATEMENT&quot;,
+                    &quot;question_text&quot;: &quot;string&quot;,
+                    &quot;question_id&quot;: &quot;string&quot;,
+                    &quot;content_plain&quot;: &quot;string&quot;,
+                    &quot;content_html&quot;: &quot;html_fragment_string&quot;,
+                    &quot;help_text&quot;: &quot;string&quot;,
+                    &quot;flag&quot;: &quot;REQUIRED&quot; | &quot;IMPORTANT&quot;,
+                    &quot;question_answer&quot;: &quot;string&quot;
+                },
+                {
+                    &quot;question_type&quot;: &quot;HIDDEN&quot;,
+                    &quot;question_text&quot;: &quot;string&quot;,
+                    &quot;question_id&quot;: &quot;string&quot;,
+                    &quot;default_next_question_id&quot;: &quot;string&quot;,
+                    &quot;flag&quot;: &quot;REQUIRED&quot; | &quot;IMPORTANT&quot;,
+                    &quot;question_answer&quot;: &quot;string&quot;
+                },
+                {
+                    &quot;question_type&quot;: &quot;FILE&quot;,
+                    &quot;question_text&quot;: &quot;string&quot;,
+                    &quot;question_id&quot;: &quot;string&quot;,
+                    &quot;default_next_question_id&quot;: &quot;string&quot;,
+                    &quot;flag&quot;: &quot;REQUIRED&quot; | &quot;IMPORTANT&quot;,
+                    &quot;help_text&quot;: &quot;string&quot;,
+                    &quot;question_answer&quot;: &quot;string&quot;
+                },
+                {
+                    &quot;question_type&quot;: &quot;CHECKBOX&quot;,
+                    &quot;question_text&quot;: &quot;string&quot;,
+                    &quot;question_id&quot;: &quot;string&quot;,
+                    &quot;default_next_question_id&quot;: &quot;string&quot;,
+                    &quot;flag&quot;: &quot;REQUIRED&quot; | &quot;IMPORTANT&quot;,
+                    &quot;help_text&quot;: &quot;string&quot;,
+                    &quot;question_answer&quot;: &quot;string&quot;
+                },
+                {
+                    &quot;question_type&quot;: &quot;FREE_AREA&quot;,
+                    &quot;question_text&quot;: &quot;Explanation&quot;,
+                    &quot;question_id&quot;: &quot;test_free_area&quot;,
+                    &quot;default_next_question_id&quot;: &quot;string&quot;,
+                    &quot;flag&quot;: &quot;REQUIRED&quot; | &quot;IMPORTANT&quot;,
+                    &quot;help_text&quot;: &quot;string&quot;,
+                    &quot;placeholder&quot;: &quot;string&quot;,
+                    &quot;question_answer&quot;: &quot;string&quot;
+                }
+            ]
+        }]
+    }],
+    &quot;actions&quot;: [
+        {
+            &quot;ref&quot;: &quot;string&quot;,
+            &quot;title&quot;: &quot;string&quot;,
+            &quot;href&quot;: &quot;url_string&quot;,
+            &quot;method&quot;: &quot;string&quot;<br>
+        }, 
+    ],
+    &quot;provided_coded_references&quot;: [{
+        &quot;identifier&quot;: &quot;string&quot;,
+        &quot;href&quot;: &quot;url_string&quot;,
+        &quot;method&quot;: &quot;string&quot;, 
+        &quot;data_fields&quot;: [{
+            &quot;question_id&quot;: &quot;string&quot;,
+            &quot;query_parameter&quot;: &quot;string&quot;
+        }]
+    }],
+    &quot;validations&quot;: [
+        {
+            &quot;identifier&quot;: &quot;string&quot;,
+            &quot;type&quot;: &quot;string&quot;,     // valid: REGEX
+            &quot;value&quot;: &quot;string&quot;,
+            &quot;message&quot;: &quot;string&quot;,  // error message to show when validation fails
+            &quot;html_attributes&quot;: &quot;string&quot;
+        },
+    ]
+}}
+</code></p>
+
+<h2 id="working-with-request-pages">Working with <code class="prettyprint">request-pages</code></h2>
+
+<p>Only the <code class="prettyprint">GET</code> verb is provided for the <code class="prettyprint">/request-pages/</code> resource.  The PA is created or saved when the user presses the &ldquo;Save&rdquo; button included in the <code class="prettyprint">actions</code> property.</p>
+
+<p>The <code class="prettyprint">actions</code> are provided on a per-PA basis because different types of PA have slightly different work flows.  While an ePA can be sent directly to the plan, for a fax-based PA the physican&rsquo;s signature is collected and the fax numbers are confirmed.</p>
+
+<p><aside class='info'>
+API clients have a choice of response schemas for request-pages: JSON is optimized for web-based systems, while Typed JSON is optimized for client-server systems.  The returned schema is determined by the <code class="prettyprint">Accept:</code> header in the <code class="prettyprint">/request-pages/</code> HTTP request.  Specify &ldquo;<code class="prettyprint">application/json</code>&rdquo; for web-based client systems, and <code class="prettyprint">application/typed+json</code>&ldquo; for client-server (desktop)-based client systems.
+</aside></p>
+
+<p>Every response from <code class="prettyprint">/request-pages/{id}</code> conforms to one of the above schemas. To render the data into the Client System:</p>
+
+<ol>
+<li>Walk through the <code class="prettyprint">forms</code> property, and render each form into your application (e.g., as HTML)
+
+<ol>
+<li>Record the form&rsquo;s property name (e.g. <code class="prettyprint">pa_request</code>); it will be used as a reference</li>
+<li>When a <code class="prettyprint">question_id</code> property is reached, it&rsquo;s value is retrieved from <code class="prettyprint">data[&quot;pa_request&quot;][&quot;some_question_id&quot;]</code>, or the question_answer(s) property of the question</li>
+<li>When a <code class="prettyprint">coded_reference</code> property is reached, the UI is decorated with coded reference data obtained by using the <code class="prettyprint">ref</code> value in <code class="prettyprint">coded_references</code> and performing an HTTP request to the specified endpoint</li>
+<li>When a <code class="prettyprint">validations</code> property is reached, each validation is applied to the form field</li>
+</ol></li>
+<li>Links and submit buttons are rendered from the <code class="prettyprint">actions</code> property.</li>
+</ol>
+
+<h3 id="the-data-property">The <code class="prettyprint">data</code> property</h3>
+
+<p><code class="schema">&quot;data&quot;: {
+  &quot;pa_request&quot;: {
+    &quot;patient_firstname&quot;: &quot;Mark&quot;
+    &quot;drug_name&quot;: &quot;Ambien&quot;
+    &quot;office_fax&quot;: null
+    ... more fields ...
+  }
+}
+</code></p>
+
+<p>The <code class="prettyprint">pa_request</code> property holds the current state of the request in CoverMyMeds&rsquo;s database.  Each property (e.g. <code class="prettyprint">patient_firstname</code>) corresponds to one <code class="prettyprint">question_id</code>.</p>
+
+<h3 id="the-question_sets-property">The <code class="prettyprint">question_sets</code> property</h3>
+
+<p><code class="schema">&quot;forms: {
+  &quot;pa_request&quot;: {
+    &quot;question_sets&quot;: [
+      {
+        &quot;title&quot;: &quot;Patient Details&quot;
+        &quot;questions&quot;: [
+          {
+            &quot;question_type&quot;: &quot;FREE_TEXT&quot;
+            &quot;question_text&quot;: &quot;Diagnosis&quot;
+            &quot;question_id&quot;: &quot;icd9&quot;
+            &quot;default_next_question_id&quot;: &quot;gender&quot;
+            &quot;coded_reference&quot;: {
+              &quot;qualifier&quot;: &quot;ICD9&quot;,
+              &quot;code_system_version&quot;: &quot;1&quot;
+              &quot;id&quot;: null
+              &quot;ref&quot;: &quot;ICD9:1:&quot;
+            }
+            flag: &quot;REQUIRED&quot; | &quot;IMPORTANT&quot;,
+            &quot;help_text&quot;: &quot;&quot;
+          }
+        ]
+      }
+    ]
+  }
+}
+</code></p>
+
+<p>In the web-optimized schema, the <code class="prettyprint">question_sets</code> property contains all of the display information required to render the PA to the screen, while the user&rsquo;s answers are contained in the data property.</p>
+
+<p>The <code class="prettyprint">coded_reference</code> sub-property has a <code class="prettyprint">ref</code> property.  The <code class="prettyprint">ref</code> property is used to retrieve href information from the <code class="prettyprint">provided_coded_references</code> section, so that coded reference options can be obtained from CoverMyMeds.  Optionally, you can use your own coded references data.</p>
+
+<h3 id="the-provided_coded_references-property">The <code class="prettyprint">provided_coded_references</code> property</h3>
+
+<p><code class="schema">&quot;provided_coded_references&quot;: {
+  &quot;ICD9:1:&quot;: {
+    &quot;href&quot;: &quot;http://example.covermymeds.com/icd9_codes&quot;
+    &quot;method&quot;: &quot;GET&quot;
+    &quot;data_fields&quot;: [
+      {
+        &quot;question_id&quot;: &quot;icd9&quot;
+        &quot;query_parameter&quot;: &quot;q&quot;
+      }
+    ]
+  }
+}
+</code></p>
+
+<p>CoverMyMed provides coded reference data sources.  The <code class="prettyprint">data_fields</code> property is used to construct the query string, where the key is the query parameter, and the value is the value of the field identified by the <code class="prettyprint">question_id</code>.  In the example the full URL for the CoverMyMeds idc9 coded reference would be:</p>
+
+<p><code class="keep-with-text">http://example.covermymeds.com/icd9_codes?q=broken
+</code></p>
+
+<h3 id="the-validations-property">The <code class="prettyprint">validations</code> property</h3>
+
+<p><code class="schema">&quot;validations&quot;: {
+  &quot;icd9&quot;: {
+    &quot;type&quot;: &quot;REGEX&quot;
+    &quot;value&quot;: &quot;^(V\d{2}(.\d{1,2})?|\d{3}(.\d{1,2})?|E\d{3}(.\d)?)$&quot;
+    &quot;message&quot;: &quot;Invalid icd9 code&quot;
+    &quot;html_attributes&quot;: null
+  }
+}
+</code></p>
+
+<p>The <code class="prettyprint">validations</code> property provides a set of client-side validations that should be applied to the rendered form to help the user complete the PA correctly.  The sub-properties (e.g. <code class="prettyprint">icd9</code>) will match values in the <code class="prettyprint">validations</code> array from the <code class="prettyprint">question_sets</code> property.</p>
+
+<p>When the <code class="prettyprint">html_attributes</code> property is present it provides a set of attributes that can applied to the rendered form to leverage a web browser&rsquo;s built in validations.
+<code class="schema">&quot;validations&quot;: {
+  &quot;email&quot;: {
+    &quot;type&quot;: &quot;REGEX&quot;
+    &quot;value&quot;: &quot;/^\S+@\S+.\S+$/&quot;
+    &quot;message&quot;: &quot;Invalid email address&quot;
+    &quot;html_attributes&quot;: {
+      &quot;type&quot;: &quot;email&quot;
+    }
+  }
+}
+</code></p>
+
+<h3 id="the-actions-property">The <code class="prettyprint">actions</code> property</h3>
+
+<p>The <code class="prettyprint">actions</code> property lets your Client System construct a workflow for each PA request.  This workflow may vary by health plan and the type of connection (e.g., ePA, proprietary electronic connection, paper form).</p>
+
+<p>When the <code class="prettyprint">ref</code> property is provided, the form matching the reference should be submitted as <code class="prettyprint">application/x-www-form-urlencoded</code> data in the body.</p>
+
+<p>Submitting each action requires the same authentication as <code class="prettyprint">GET /requests/{id}</code>.  See the <a href="#authentication">authentication section</a> for details.</p>
+
+<p><code class="schema">&quot;actions&quot;: [
+  {
+    &quot;ref&quot;: &quot;pa_request&quot;
+    &quot;title&quot;: &quot;Save&quot;
+    &quot;href&quot;: &quot;http://www.covermymeds.com/request-pages/XXYYZZ?token_id=adfoi30238b012j&quot;
+    &quot;method&quot;: &quot;POST&quot;
+  }
+  {
+    &quot;ref&quot;: null
+    &quot;title&quot;: &quot;Email&quot;
+    &quot;href&quot;: &quot;http://www.covermymeds.com/request-pages/XXYYZZ/email?token_id=adfoi30238b012j&quot;
+    &quot;method&quot;: &quot;GET&quot;
+  }
+  {
+    &quot;ref&quot;: &quot;pa_request&quot;
+    &quot;title&quot;: &quot;Send to Plan&quot;
+    &quot;href&quot;: &quot;http://www.covermymeds.com/request-pages/XXYYZZ/send_to_plan?token_id=adfoi30238b012j&quot;
+    &quot;method&quot;: &quot;POST&quot;
+  }
+]
+</code></p>
+
+<h2 id="possible-form-elements">Possible form elements</h2>
+
+<p>Each <code class="prettyprint">questions</code> sub-property of the <code class="prettyprint">forms</code> property will be rendered as a form element for the user to complete.  The table below is a list of possible values for the <code class="prettyprint">question_type</code> property:</p>
+
+<table><thead>
+<tr>
+<th><code class="prettyprint">question_type</code></th>
+<th>html corollary</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code class="prettyprint">FREE_TEXT</code></td>
+<td><code class="prettyprint">&lt;input type=&quot;text&quot;/&gt;</code></td>
+</tr>
+<tr>
+<td><code class="prettyprint">CHOICE</code></td>
+<td><code class="prettyprint">&lt;select&gt;&lt;option&gt;&lt;/option&gt;&lt;/select&gt;</code></td>
+</tr>
+<tr>
+<td><code class="prettyprint">DATE</code></td>
+<td><code class="prettyprint">&lt;input type=&quot;date&quot;/&gt;</code></td>
+</tr>
+<tr>
+<td><code class="prettyprint">NUMERIC</code></td>
+<td><code class="prettyprint">&lt;input type=&quot;number&quot;/&gt;</code></td>
+</tr>
+<tr>
+<td><code class="prettyprint">STATEMENT</code></td>
+<td><code class="prettyprint">&lt;div&gt;</code></td>
+</tr>
+<tr>
+<td><code class="prettyprint">HIDDEN</code></td>
+<td><code class="prettyprint">&lt;input type=&quot;hidden&quot;/&gt;</code></td>
+</tr>
+<tr>
+<td><code class="prettyprint">FILE</code></td>
+<td><code class="prettyprint">&lt;input type=&quot;file&quot;/&gt;</code></td>
+</tr>
+<tr>
+<td><code class="prettyprint">CHECKBOX</code></td>
+<td><code class="prettyprint">&lt;input type=&quot;checkbox&quot;/&gt;</code></td>
+</tr>
+<tr>
+<td><code class="prettyprint">FREE_AREA</code></td>
+<td><code class="prettyprint">&lt;textarea/&gt;</code></td>
+</tr>
+</tbody></table>
+
+<p>When the <code class="prettyprint">CHOICE</code> type is used, two additional properties will be present:</p>
+
+<ul>
+<li><code class="prettyprint">choices:</code> an array of choice options.</li>
+<li><code class="prettyprint">select_multiple:</code> a <code class="prettyprint">true</code> or <code class="prettyprint">false</code> value.  When <code class="prettyprint">true</code> multiple choices can be selected.</li>
+</ul>
+
+<p>When the <code class="prettyprint">NUMERIC</code> type is used, one additional property will be present:</p>
+
+<ul>
+<li><code class="prettyprint">comparison</code></li>
+</ul>
+
+<p>When the <code class="prettyprint">STATEMENT</code> type is used, two additional properties will be present:</p>
+
+<ul>
+<li><code class="prettyprint">content_plain</code></li>
+<li><code class="prettyprint">content_html</code></li>
+</ul>
+
+<h2 id="branching-logic">Branching logic</h2>
+
+<p>The questions that are presented to the user may depend on their answer to previous questions.  Both the <code class="prettyprint">NUMERIC</code> and <code class="prettyprint">CHOICE</code> question types can have properties that specify the branching logic.</p>
+
+<p>The Client System may choose to show all the questions at once, or to step the user through one question at a time.</p>
+
+<h3 id="for-choice-type-questions">For <code class="prettyprint">CHOICE</code> type questions</h3>
+
+<p>If not <code class="prettyprint">null</code> the <code class="prettyprint">next_question_id</code> property for the selected choice should be used to determine the next question to display.</p>
+
+<p>If the <code class="prettyprint">next_question_id</code> property is <code class="prettyprint">null</code>, the <code class="prettyprint">default_next_question_id</code> of the parent <code class="prettyprint">CHOICE</code> should be the next question displayed.</p>
+
+<h3 id="for-numeric-type-questions">For <code class="prettyprint">NUMERIC</code> type questions</h3>
+
+<p>For <code class="prettyprint">NUMERIC</code> type questions the <code class="prettyprint">comparisons</code> array may include a list of conditions to select the next question.  When <code class="prettyprint">next_question_id</code> is <code class="prettyprint">null</code> the <code class="prettyprint">default_next_question_id</code> should be used.</p>
+
+<p><code class="schema">&quot;comparisons&quot;: [
+  {
+    &quot;type&quot;: &quot;SINGLE_COMPARISON&quot;
+    &quot;comparison_operator&quot;: &quot;LT&quot;
+    &quot;comparison_value&quot;: 5
+    &quot;next_question_id&quot;: null
+  }
+  {
+    &quot;type&quot;: &quot;RANGE_COMPARISON&quot;
+    &quot;lower_bound_comparison_value&quot;: 5
+    &quot;lower_bound_comparison_operator&quot;: &quot;GT&quot;
+    &quot;upper_bound_comparison_value&quot;: 10
+    &quot;upper_bound_comparison_operator&quot;: &quot;LE&quot;
+    &quot;next_question_id&quot;: null
+  }
+]
+</code></p>
+
+<h2 id="statement-type-questions"><code class="prettyprint">STATEMENT</code> type questions</h2>
+
+<p>Some forms need to display information only &quot;questions&rdquo; to the user.  These &ldquo;questions&rdquo; do not get answers, they are simply displayed as static text.</p>
+
+<p><code class="schema">&quot;questions&quot;: [
+  {
+    &quot;question_type&quot;: &quot;STATEMENT&quot;
+    &quot;question_text&quot;: &quot;&quot;
+    &quot;content_plain&quot;: &quot;This form was displayed because the search terms didn&#39;t match a specific Medicare plan or PBM.&quot;
+    &quot;content_html&quot;: &quot;&lt;p&gt;This form was displayed because the &lt;strong&gt;search terms didn&#39;t match a specific Medicare plan or PBM.&lt;/strong&gt;&lt;/p&gt;&quot;
+    &quot;question_id&quot;: &quot;reason_displayed&quot;
+    &quot;default_next_question_id&quot;: &quot;gender&quot;
+    &quot;help_text&quot;: &quot;&quot;
+  }
+]
+</code></p>
+
+<h2 id="hidden-type-questions"><code class="prettyprint">HIDDEN</code> type questions</h2>
+
+<p>Some forms require information supplied by the system, but not by the user.  A <code class="prettyprint">HIDDEN</code> question allows the Client System to send information to the payer, or to CoverMyMeds directly without involving the user.</p>
+
+<p><code class="schema">&quot;questions&quot;: [
+  {
+    &quot;question_type&quot;: &quot;HIDDEN&quot;,
+    &quot;question_text&quot;: &quot;we need some hidden information&quot;,
+    &quot;question_id&quot;: &quot;hidden_question_1&quot;,
+    &quot;default_next_question_id&quot;: &quot;reason_displayed&quot;,
+    &quot;flag&quot;: &quot;IMPORTANT&quot;,
+    &quot;question_answer&quot;: &quot;Jack Johnson&quot;
+  }
 </code></p>
 
 <h2 id="error-handling-in-request-pages">Error Handling in <code class="prettyprint">request-pages</code></h2>
@@ -1981,35 +2848,47 @@ pharmacy-initiated transactions for the NPI will not be sent to the <code class=
 
 <h1 id="callbacks">Callbacks</h1>
 
+<p>Callbacks are issued to a Client-System-specific endpoint with each status change to a request (e.g., health plan approval).  Callbacks contain the latest known data for a request <strong>at the time of sending</strong>, formatted identically to the response schema in the <a href="#/requests/"><code class="prettyprint">/requests/</code> resource</a>. In this way, client systems are guaranteed to receive the most up-to-date status of the request.</p>
+
+<p><aside class="warning">
+While the CoverMyMeds system will make a best-effort to deliver callbacks in order for each state change to the Request, due to the asynchronous nature of HTTP, it is possible that callbacks will arrive out of order, or states will be skipped.  For example, you may receive a callback generated by the response from a payer before the one generated due to creation of your request.  <strong>It is unsafe to assume delivery of callbacks for every state change.</strong>.<br>
+</aside></p>
+
+<p>To use the Callback service, implement an HTTP server to which CoverMyMeds may send data each time there is a status change, or when a new PA is created by an integrated pharmacy.  </p>
+
+<p>When you implement your endpoint, you specify the Callback URL in your <a href="https://api.covermymeds.com/consumers/signin">Developer Account</a>, and the HTTP method (GET, PUT, or POST) CoverMyMeds should use when making the HTTP request.  If you support multiple on-premise systems, you may register a <a href="https://api.covermymeds.com/consumers/">Developer Account</a> for each web server that will be running, and then use the appropriate <code class="prettyprint">api_id</code> in each on-premise installation.</p>
+
+<p>For convenience, you may specify individual <code class="prettyprint">delivery_url</code>s for each prescriber NPI (without registering multiple Developer Accounts) as <a href="#/prescribers/">detailed</a> in the <code class="prettyprint">/prescribers/</code> section.</p>
+
+<p>Your webservice must return an HTTP status 200 or 201 when you receive the request and process it successfully.  Return an HTTP error code (e.g. 404, 500) when the request cannot be processed.  CoverMyMeds&#39; system will queue errors for retry.  We will contact you if they are not successfully processed within a reasonable time-frame.</p>
+
+<h3 id="testing-&amp;-debugging">Testing &amp; Debugging</h3>
+
+<p>Before you have finished the implementation of your Callback Service, you may wish to use a service like <a href="http://requestb.in/">RequestBin</a> for your Callback URL.  This will allow you to inspect the Callback data.<br>
+<aside class='warning'>Remember that RequestBin is not secure and you should not allow real patient data to be submitted to this service.
+</aside></p>
+
+<p>You will see recent callbacks in your Developer Account.  For example, you will be able to see that CoverMyMeds has delivered a Callback and what the HTTP Response code your server provided (if any), which should aid in debugging.</p>
+
+<h3 id="callback-endpoint-security">Callback Endpoint Security</h3>
+
+<p>You may choose to white-list the CoverMyMeds IP address range (ask CoverMyMeds support for details).  Because your callback endpoint should not &ldquo;give out&rdquo; information, these security measures are highly recommended to avoid the potential misuse, but are not required.</p>
+
 <h2 id="pa-updates-and-pharmacy-pas">PA updates and pharmacy PAs</h2>
 
 <p>It is essential that your Task List contain the latest status information for each PA, and that you update it with new PAs that were created in integrated pharmacies.</p>
 
-<p>You could get an updated task list by using <code class="prettyprint">/requests/</code> each time a user views a Task List, but our Callback system may be more convenient, and it will also allow you to push workflow tasks to your user without polling our server.</p>
+<p>While it is possible to poll the <a href="#/requests/"><code class="prettyprint">/requests/</code></a> resource each time a user views a Task List, the Callback Service will manage network bandwidth by allowing you to push workflow tasks to your user without polling our server.</p>
 
-<p>There currently is not a supported method to receive new pharmacy-initiated PAs without the Callback service.  Supporting pharmacy PAs is strongly recommended.</p>
+<p>Accepting pharmacy PAs in your client system is strongly recommended.  Currently, the Callback Service is the only supported method to receive new pharmacy-initiated PAs.  </p>
 
-<p>To use the Callback service, you need to implement an HTTP server to which we may send data each time there is a change (e.g., the health plan approves the request), or a new PA is created by an integrated pharmacy.  CoverMyMeds will format this request identically to the response schema in the <code class="prettyprint">/requests/</code> resource.</p>
+<h2 id="importing-existing-pas-with-callbacks">Importing existing PAs with Callbacks</h2>
 
-<p>When you implement your endpoint, you can specify a global Callback URL in your <a href="https://api.covermymeds.com/consumers/signin">Developer Account</a>, and the HTTP method (GET, PUT, POST) we should use when making our HTTP request.  If you are supporting multiple on-premise systems, you may register a <a href="https://api.covermymeds.com/consumers/">Developer Account</a> for each webserver that will be running, and then use the appropriate <code class="prettyprint">api_id</code> in each on-premise installation.</p>
+<p>CoverMyMeds&#39; existing users typically overlap a Client System&rsquo;s user base by 20%-50%. If you have 10,000 prescribers, it is possible that 5,000 are existing CoverMyMeds users.  We have learned that allowing existing users to import their PAs to your system makes the rollout smoother, and will enhance long-term satisfaction.</p>
 
-<p>For convenience, you may specify individual <code class="prettyprint">delivery_url</code>s for each prescriber NPI (without registering multiple Developer Accounts) as <a href="#/prescribers/">detailed</a> in the <code class="prettyprint">/prescribers/</code> section.</p>
+<p>Automatic import of existing PA data from the CoverMyMeds system happens when you implement the Callback System and the <code class="prettyprint">/prescribers/credentials/</code> resource.  After creating a new prescriber credential, and after the asynchronous &ldquo;credential check&rdquo; step that CoverMyMeds performs, our servers will issue callbacks for each existing prior authorization, sending data to the URL specified in the <code class="prettyprint">POST /prescribers/credentials/</code> request.</p>
 
-<p>Your webservice should return an HTTP status 200 or 201 when you receive the request and process it successfully.  You should return an HTTP error code when the request cannot be processed.  CoverMyMeds&#39; system will queue errors and retry them if the status codes are believed to be resolvable.  We will contact you if they are not successfully processed within a reasonable time-frame.</p>
-
-<p>Before you have finished the implementation of your Callback service, you may wish to use a service like <a href="http://requestb.in/">RequestBin</a> for your Callback URL.  This will allow you to inspect the Callback data.  Remember that RequestBin is not secure and you should not allow real patient data to be submitted to this service.</p>
-
-<p>You will see recent Callbacks in your developer Account.  This may be helpful for testing and debugging your application.  For example, you will be able to see that CoverMyMeds has delivered a Callback and what the HTTP Response code your server provided (if any).</p>
-
-<p>To enhance security, you may white-list our ip address range.  Because your system should not &ldquo;give out&rdquo; information, these security measures are prudent to avoid the possibility of malfeasance, but are not required.</p>
-
-<h2 id="importing-existing-pas">Importing existing PAs</h2>
-
-<p>CoverMyMeds&#39; existing users typically overlap the Client System by 20-50 percent; meaning that if you have 10,000 prescribers, it is possible that 5,000 of them could be existing CoverMyMeds users.  We have learned that allowing existing users to import their PAs to your system makes the rollout smoother, and will enhance long-term utilization.</p>
-
-<p>Importing existing PA data from the CoverMyMeds system happens automatically when you implement the Callback System and the <code class="prettyprint">/prescribers/credentials/</code> resource.  After creating a new prescriber credential, and after the asynchronous &ldquo;credential check&rdquo; step that CoverMyMeds performs, our servers will run the Callback once for each existing prior authorization, sending data to the URL specified in the <code class="prettyprint">POST /prescribers/credentials/</code> request.</p>
-
-<p>Upon delivery, your system should store the same PA data that allows you to provide access to these imported PAs through your Task List.</p>
+<p>Upon delivery, your system should store the same prior authorization data that allows you to provide access to these imported prior authorization requests through your Task List.</p>
 
 <p>This import function may be difficult for you to test, since you may not have a CoverMyMeds user account with a credentialed prescriber.  Please contact us if you need any help.</p>
 
