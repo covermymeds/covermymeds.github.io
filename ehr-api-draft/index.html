@@ -1243,13 +1243,13 @@ Make sure to check out our <a href="https://github.com/covermymeds/api-jquery-pl
 
 <h1 id="/request-pages/">/request-pages/</h1>
 
-<p>This resource provides the data needed to render your own PA request screen, so that the user can work through the entire PA process within your Client System.  Should you use this option, you will be serving your own Request page, rather than using the one provided by CoverMyMeds.  The request-pages resource is UI-agnostic to be served a web-based, desktop, or mobile application.</p>
-
 <p>CoverMyMeds connects to dozens of health plans electronically, providing a &ldquo;compatibility layer&rdquo; for the provider in the case of plans that do not support electronic connection for ePA.  To abstract away differences between plans&#39; implementations of the emerging ePA standard, we use a <a href="http://en.wikipedia.org/wiki/HATEOAS">Hypertext as the Engine of Application State (HATEOS)</a> architecture.  With this approach, your Client System does not need to anticipate every implementation detail in the request workflow.</p>
+
+<p>This resource provides the data needed to render your own PA request screen, so that the user can work through the entire PA process within your Client System.  Should you use this option, you will be serving your own Request page, rather than using the one provided by CoverMyMeds.  The request-pages resource is UI-agnostic to be served a web-based, desktop, or mobile application.</p>
 
 <p><code class="prettyprint">/request-pages/{id}</code> is the starting point for a series of RESTful interactions in which each resource includes URLs for possible next states.  Normal state transitions include things like &ldquo;Save&rdquo;, &ldquo;Send to Plan&rdquo; and &ldquo;Archive,&rdquo; but also exceptions like &ldquo;Choose your form&rdquo; (to handle user input to determine the correct PA recipient) and error handling actions.</p>
 
-<p>There are no PUT, POST, or DELETE verbs for this resource&ndash;all data manipulation occurs through the HATEOAS interactions.  The Client System works in a loop, rendering screens based on responses from the server.  Each response represents a new state in the PA process.  Users transition from state to state with actions encoded as URLs returned with each response.  The loop ends when the user no longer requests another link, or the CoverMyMeds server sends an empty <code class="prettyprint">actions</code> array.  </p>
+<p>Only the <code class="prettyprint">GET</code> verb is provided for the <code class="prettyprint">/request-pages/</code> resource.  There are no PUT, POST, or DELETE verbs for this resource &ndash; all data manipulation occurs through the HATEOAS interactions.  The Client System works in a loop, rendering screens based on responses from the server.  Each response represents a new state in the PA process.  Users transition from state to state with actions encoded as URLs returned with each response.  The loop ends when the user no longer requests another link, or the CoverMyMeds server sends an empty <code class="prettyprint">actions</code> array.  </p>
 
 <p>To use the <code class="prettyprint">request-pages</code> resource:</p>
 
@@ -1261,14 +1261,69 @@ Make sure to check out our <a href="https://github.com/covermymeds/api-jquery-pl
 <li>When users invoke an action, the server must return a new request-page</li>
 </ol>
 
-<h2 id="get-/request-pages/{id}-(for-web-based-systems)">GET /request-pages/{id}  (for web-based systems)</h2>
+<p><aside class='info'>
+API clients have a choice of response schemas for request-pages: JSON is optimized for web-based systems, while Typed JSON is optimized for client-server systems.  The returned schema is determined by the <code class="prettyprint">Accept:</code> header in the <code class="prettyprint">/request-pages/</code> HTTP request.  Specify &ldquo;<code class="prettyprint">application/json</code>&rdquo; for web-based client systems, and <code class="prettyprint">application/typed+json</code>&ldquo; for client-server (desktop)-based client systems.
+</aside></p>
 
+<h2 id="get-/request-pages/{id}-(for-web-based-systems)">GET /request-pages/{id}  (for web-based systems)</h2>
+<pre class="highlight html"><span class="nt">&lt;form</span> <span class="na">method=</span><span class="s">"get"</span> <span class="na">action=</span><span class="s">"https://api.covermymeds.com/request-pages/"</span> <span class="na">id=</span><span class="s">"get_request_pages"</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;label</span> <span class="na">for=</span><span class="s">"get_request_pages_id"</span><span class="nt">&gt;</span>id<span class="nt">&lt;/label&gt;</span>
+  <span class="nt">&lt;input</span> <span class="na">id=</span><span class="s">"get_request_pages_id"</span> <span class="na">type=</span><span class="s">"text"</span> <span class="na">value=</span><span class="s">"PF6FK9"</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;label</span> <span class="na">for=</span><span class="s">"get_request_token_id"</span><span class="nt">&gt;</span>token_id<span class="nt">&lt;/label&gt;</span>
+  <span class="nt">&lt;input</span> <span class="na">id=</span><span class="s">"get_request_token_id"</span> <span class="na">name=</span><span class="s">"token_id"</span> <span class="na">type=</span><span class="s">"text"</span> <span class="na">value=</span><span class="s">"gq9vmqai2mkwewv1y55x"</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"hidden"</span> <span class="na">name=</span><span class="s">"v"</span> <span class="na">value=</span><span class="s">"1"</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"hidden"</span> <span class="na">name=</span><span class="s">"api_id"</span> <span class="na">value=</span><span class="s">"1vd9o4427lyi0ccb2uem"</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"submit"</span> <span class="na">value=</span><span class="s">"Submit"</span><span class="nt">&gt;</span>
+<span class="nt">&lt;/form&gt;</span>
+
+<span class="nt">&lt;script&gt;</span>
+  <span class="c1">// The API URL requires a request ID in the URL, which is problematic in our
+</span>  <span class="c1">// interactive documentation because the ID is a user-provided value.
+</span>  <span class="c1">// This Javascript dynamically appends the request ID value to the form URL
+</span>  <span class="c1">// when the form is submitted.  You will likely not need this code in your
+</span>  <span class="c1">// application.
+</span>  <span class="p">(</span><span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+    <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s1">'get_request_pages'</span><span class="p">).</span><span class="nx">addEventListener</span><span class="p">(</span><span class="s1">'submit'</span><span class="p">,</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">event</span><span class="p">)</span> <span class="p">{</span>
+      <span class="kd">var</span> <span class="nx">form</span> <span class="o">=</span> <span class="nx">event</span><span class="p">.</span><span class="nx">target</span><span class="p">,</span>
+          <span class="nx">request_id</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s1">'get_request_pages_id'</span><span class="p">).</span><span class="nx">value</span><span class="p">;</span>
+
+      <span class="c1">// Append the PARequest ID to the API URL if it's not there already
+</span>      <span class="k">if</span> <span class="p">(</span><span class="nx">form</span><span class="p">.</span><span class="nx">action</span><span class="p">.</span><span class="nx">indexOf</span><span class="p">(</span><span class="nx">request_id</span><span class="p">)</span> <span class="o">===</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nx">form</span><span class="p">.</span><span class="nx">action</span> <span class="o">+=</span> <span class="nx">request_id</span><span class="p">;</span>
+      <span class="p">}</span>
+    <span class="p">},</span> <span class="kc">true</span><span class="p">);</span>
+  <span class="p">}());</span>
+<span class="nt">&lt;/script&gt;</span>
+</pre><pre class="highlight javascript"><span class="c1">// Uncomment &lt;script&gt; tags if needed
+// &lt;script src="https://code.jquery.com/jquery-1.11.0.min.js"&gt;&lt;/script&gt;
+// &lt;script&gt;
+</span><span class="nx">$</span><span class="p">(</span><span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+  <span class="kd">var</span> <span class="nx">id</span> <span class="o">=</span> <span class="s1">'PF6FK9'</span><span class="p">,</span>
+      <span class="nx">token_id</span> <span class="o">=</span> <span class="s1">'gq9vmqai2mkwewv1y55x'</span><span class="p">;</span>
+
+  <span class="nx">$</span><span class="p">.</span><span class="nx">ajax</span><span class="p">({</span>
+    <span class="na">method</span><span class="p">:</span> <span class="s1">'get'</span><span class="p">,</span>
+    <span class="na">accepts</span><span class="p">:</span> <span class="s1">'application/json'</span>
+    <span class="na">url</span><span class="p">:</span> <span class="s1">'https://api.covermymeds.com/request-pages/'</span> <span class="o">+</span> <span class="nx">id</span><span class="p">,</span>
+    <span class="na">data</span><span class="p">:</span> <span class="p">{</span>
+      <span class="na">token_id</span><span class="p">:</span> <span class="nx">token_id</span><span class="p">,</span>
+      <span class="na">v</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+      <span class="na">api_id</span><span class="p">:</span> <span class="s1">'1vd9o4427lyi0ccb2uem'</span>
+    <span class="p">},</span>
+    <span class="na">success</span><span class="p">:</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">data</span><span class="p">)</span> <span class="p">{</span>
+      <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">'Request results: '</span> <span class="o">+</span> <span class="nx">JSON</span><span class="p">.</span><span class="nx">stringify</span><span class="p">(</span><span class="nx">data</span><span class="p">));</span>
+    <span class="p">}</span>
+  <span class="p">});</span>
+<span class="p">});</span>
+<span class="c1">// &lt;/script&gt;
+</span></pre>
 <p><button class="show-schema">Show HTTP Request Schema</button>
 <code class="schema" style="display: none;">
 Accept: application/json
 {
-  &quot;v&quot;:       &quot;integer&quot;,
-  &quot;api_id&quot;:  &quot;string&quot;
+  &quot;v&quot;:           &quot;integer&quot;,
+  &quot;api_id&quot;:      &quot;string&quot;,
+  &quot;token_id&quot;:    &quot;string&quot;
 }
 </code></p>
 
@@ -1414,6 +1469,7 @@ Accept: application/json
               question_type: &quot;CHECKBOX&quot;,
               question_text: &quot;string&quot;,
               question_id: &quot;test_checkbox&quot;,
+              checked_value: &quot;string&quot;,
               default_next_question_id: &quot;string&quot;,
               flag: &quot;REQUIRED&quot; | &quot;IMPORTANT&quot;,
               help_text: &quot;string&quot;,
@@ -1483,7 +1539,57 @@ Accept: application/json
 <h2 id="get-/request-pages/{id}-(for-client-server-systems)">GET /request-pages/{id}  (for client-server systems)</h2>
 
 <p>For client-server systems, typically written in a statically typed language like Java or C#, the schema is designed conform to language data types.  The same question types are represented, but the answers to each question are included within the question element, and property names are held static.</p>
+<pre class="highlight html"><span class="nt">&lt;form</span> <span class="na">method=</span><span class="s">"get"</span> <span class="na">action=</span><span class="s">"https://api.covermymeds.com/request-pages/"</span> <span class="na">id=</span><span class="s">"get_request_pages_cs"</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;label</span> <span class="na">for=</span><span class="s">"get_request_pages_cs_id"</span><span class="nt">&gt;</span>id<span class="nt">&lt;/label&gt;</span>
+  <span class="nt">&lt;input</span> <span class="na">id=</span><span class="s">"get_request_pages_cs_id"</span> <span class="na">type=</span><span class="s">"text"</span> <span class="na">value=</span><span class="s">"PF6FK9"</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;label</span> <span class="na">for=</span><span class="s">"get_request_token_cs_id"</span><span class="nt">&gt;</span>token_id<span class="nt">&lt;/label&gt;</span>
+  <span class="nt">&lt;input</span> <span class="na">id=</span><span class="s">"get_request_token_cs_id"</span> <span class="na">name=</span><span class="s">"token_id"</span> <span class="na">type=</span><span class="s">"text"</span> <span class="na">value=</span><span class="s">"gq9vmqai2mkwewv1y55x"</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"hidden"</span> <span class="na">name=</span><span class="s">"v"</span> <span class="na">value=</span><span class="s">"1"</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"hidden"</span> <span class="na">name=</span><span class="s">"api_id"</span> <span class="na">value=</span><span class="s">"1vd9o4427lyi0ccb2uem"</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"submit"</span> <span class="na">value=</span><span class="s">"Submit"</span><span class="nt">&gt;</span>
+<span class="nt">&lt;/form&gt;</span>
 
+<span class="nt">&lt;script&gt;</span>
+  <span class="c1">// The API URL requires a request ID in the URL, which is problematic in our
+</span>  <span class="c1">// interactive documentation because the ID is a user-provided value.
+</span>  <span class="c1">// This Javascript dynamically appends the request ID value to the form URL
+</span>  <span class="c1">// when the form is submitted.  You will likely not need this code in your
+</span>  <span class="c1">// application.
+</span>  <span class="p">(</span><span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+    <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s1">'get_request_pages_cs'</span><span class="p">).</span><span class="nx">addEventListener</span><span class="p">(</span><span class="s1">'submit'</span><span class="p">,</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">event</span><span class="p">)</span> <span class="p">{</span>
+      <span class="kd">var</span> <span class="nx">form</span> <span class="o">=</span> <span class="nx">event</span><span class="p">.</span><span class="nx">target</span><span class="p">,</span>
+          <span class="nx">token_id</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s1">'get_request_pages_cs_id'</span><span class="p">).</span><span class="nx">value</span><span class="p">;</span>
+
+      <span class="c1">// Append the token ID to the API URL if it's not there already
+</span>      <span class="k">if</span> <span class="p">(</span><span class="nx">form</span><span class="p">.</span><span class="nx">action</span><span class="p">.</span><span class="nx">indexOf</span><span class="p">(</span><span class="nx">token_id</span><span class="p">)</span> <span class="o">===</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nx">form</span><span class="p">.</span><span class="nx">action</span> <span class="o">+=</span> <span class="nx">token_id</span><span class="o">+</span><span class="s2">".typed_json"</span><span class="p">;</span>
+      <span class="p">}</span>
+    <span class="p">},</span> <span class="kc">true</span><span class="p">);</span>
+  <span class="p">}());</span>
+<span class="nt">&lt;/script&gt;</span>
+</pre><pre class="highlight javascript"><span class="c1">// Uncomment &lt;script&gt; tags if needed
+// &lt;script src="https://code.jquery.com/jquery-1.11.0.min.js"&gt;&lt;/script&gt;
+// &lt;script&gt;
+</span><span class="nx">$</span><span class="p">(</span><span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+  <span class="kd">var</span> <span class="nx">id</span> <span class="o">=</span> <span class="s1">'PF6FK9'</span><span class="p">,</span>
+      <span class="nx">token_id</span> <span class="o">=</span> <span class="s1">'gq9vmqai2mkwewv1y55x'</span><span class="p">;</span>
+
+  <span class="nx">$</span><span class="p">.</span><span class="nx">ajax</span><span class="p">({</span>
+    <span class="na">method</span><span class="p">:</span> <span class="s1">'get'</span><span class="p">,</span>
+    <span class="na">accepts</span><span class="p">:</span> <span class="s1">'application/typed+json'</span><span class="p">,</span>
+    <span class="na">url</span><span class="p">:</span> <span class="s1">'https://api.covermymeds.com/request-pages/'</span> <span class="o">+</span> <span class="nx">id</span><span class="p">,</span>
+    <span class="na">data</span><span class="p">:</span> <span class="p">{</span>
+      <span class="na">token_id</span><span class="p">:</span> <span class="nx">token_id</span><span class="p">,</span>
+      <span class="na">v</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+      <span class="na">api_id</span><span class="p">:</span> <span class="s1">'1vd9o4427lyi0ccb2uem'</span>
+    <span class="p">},</span>
+    <span class="na">success</span><span class="p">:</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">data</span><span class="p">)</span> <span class="p">{</span>
+      <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">'Request results: '</span> <span class="o">+</span> <span class="nx">JSON</span><span class="p">.</span><span class="nx">stringify</span><span class="p">(</span><span class="nx">data</span><span class="p">));</span>
+    <span class="p">}</span>
+  <span class="p">});</span>
+<span class="p">});</span>
+<span class="c1">// &lt;/script&gt;
+</span></pre>
 <p><button class="show-schema">Show HTTP Request Schema</button>
 <code class="schema" style="display: none;">
 Accept: application/typed+json
@@ -1532,10 +1638,16 @@ Accept: application/typed+json
                         }
                     ],
                     &quot;select_multiple&quot;: boolean,
-                    flag: &quot;REQUIRED&quot; | &quot;IMPORTANT&quot;,
+                    &quot;flag&quot;: &quot;REQUIRED&quot; | &quot;IMPORTANT&quot;,
                     &quot;help_text&quot;: &quot;string&quot;,
                     &quot;validations&quot;: [&quot;string&quot;, ...],
-                    &quot;question_answers&quot;: [&quot;string&quot;, ...]
+                    &quot;question_answers&quot;: [&quot;string&quot;, ...],
+                    &quot;coded_reference&quot;: {
+                      &quot;qualifier&quot;: &quot;string&quot;,
+                      &quot;code_system_version&quot;: &quot;string&quot;
+                      &quot;id&quot;: string
+                      &quot;ref&quot;: &quot;string&quot;
+                    }
                 },
                 {
                     &quot;question_type&quot;: &quot;DATE&quot;,
@@ -1544,6 +1656,12 @@ Accept: application/typed+json
                     &quot;default_next_question_id&quot;: &quot;string&quot;,
                     &quot;flag&quot;: &quot;REQUIRED&quot; | &quot;IMPORTANT&quot;,
                     &quot;help_text&quot;: &quot;string&quot;,
+                    &quot;coded_reference&quot;: {
+                      &quot;qualifier&quot;: &quot;string&quot;,
+                      &quot;code_system_version&quot;: &quot;string&quot;
+                      &quot;id&quot;: string
+                      &quot;ref&quot;: &quot;string&quot;
+                    },
                     &quot;question_answer&quot;: &quot;string&quot; // ISO 8701 format
                 },
                 {
@@ -1552,6 +1670,12 @@ Accept: application/typed+json
                     &quot;question_id&quot;: &quot;string&quot;,
                     &quot;default_next_question_id&quot;: &quot;string&quot;,
                     &quot;flag&quot;: &quot;REQUIRED&quot; | &quot;IMPORTANT&quot;,
+                    &quot;coded_reference&quot;: {
+                      &quot;qualifier&quot;: &quot;string&quot;,
+                      &quot;code_system_version&quot;: &quot;string&quot;
+                      &quot;id&quot;: string
+                      &quot;ref&quot;: &quot;string&quot;
+                    },
                     &quot;help_text&quot;: &quot;string&quot;,
                     &quot;comparisons&quot;: [<br>
                         {
@@ -1579,14 +1703,19 @@ Accept: application/typed+json
                     &quot;content_html&quot;: &quot;html_fragment_string&quot;,
                     &quot;help_text&quot;: &quot;string&quot;,
                     &quot;flag&quot;: &quot;REQUIRED&quot; | &quot;IMPORTANT&quot;,
-                    &quot;question_answer&quot;: &quot;string&quot;
+                    &quot;question_answer&quot;: &quot;string&quot;,
+                    &quot;coded_reference&quot;: {
+                      &quot;qualifier&quot;: &quot;string&quot;,
+                      &quot;code_system_version&quot;: &quot;string&quot;
+                      &quot;id&quot;: string
+                      &quot;ref&quot;: &quot;string&quot;
+                    }
                 },
                 {
                     &quot;question_type&quot;: &quot;HIDDEN&quot;,
                     &quot;question_text&quot;: &quot;string&quot;,
                     &quot;question_id&quot;: &quot;string&quot;,
                     &quot;default_next_question_id&quot;: &quot;string&quot;,
-                    &quot;flag&quot;: &quot;REQUIRED&quot; | &quot;IMPORTANT&quot;,
                     &quot;question_answer&quot;: &quot;string&quot;
                 },
                 {
@@ -1596,7 +1725,13 @@ Accept: application/typed+json
                     &quot;default_next_question_id&quot;: &quot;string&quot;,
                     &quot;flag&quot;: &quot;REQUIRED&quot; | &quot;IMPORTANT&quot;,
                     &quot;help_text&quot;: &quot;string&quot;,
-                    &quot;question_answer&quot;: &quot;string&quot;
+                    &quot;question_answer&quot;: &quot;string&quot;,
+                    &quot;coded_reference&quot;: {
+                      &quot;qualifier&quot;: &quot;string&quot;,
+                      &quot;code_system_version&quot;: &quot;string&quot;
+                      &quot;id&quot;: string
+                      &quot;ref&quot;: &quot;string&quot;
+                    }
                 },
                 {
                     &quot;question_type&quot;: &quot;CHECKBOX&quot;,
@@ -1605,13 +1740,26 @@ Accept: application/typed+json
                     &quot;default_next_question_id&quot;: &quot;string&quot;,
                     &quot;flag&quot;: &quot;REQUIRED&quot; | &quot;IMPORTANT&quot;,
                     &quot;help_text&quot;: &quot;string&quot;,
-                    &quot;question_answer&quot;: &quot;string&quot;
+                    &quot;question_answer&quot;: &quot;string&quot;,
+                    &quot;checked_value&quot;: &quot;string&quot;,
+                    &quot;coded_reference&quot;: {
+                      &quot;qualifier&quot;: &quot;string&quot;,
+                      &quot;code_system_version&quot;: &quot;string&quot;
+                      &quot;id&quot;: string
+                      &quot;ref&quot;: &quot;string&quot;
+                    }
                 },
                 {
                     &quot;question_type&quot;: &quot;FREE_AREA&quot;,
                     &quot;question_text&quot;: &quot;Explanation&quot;,
                     &quot;question_id&quot;: &quot;test_free_area&quot;,
                     &quot;default_next_question_id&quot;: &quot;string&quot;,
+                    &quot;coded_reference&quot;: {
+                      &quot;qualifier&quot;: &quot;string&quot;,
+                      &quot;code_system_version&quot;: &quot;string&quot;
+                      &quot;id&quot;: string
+                      &quot;ref&quot;: &quot;string&quot;
+                    },
                     &quot;flag&quot;: &quot;REQUIRED&quot; | &quot;IMPORTANT&quot;,
                     &quot;help_text&quot;: &quot;string&quot;,
                     &quot;placeholder&quot;: &quot;string&quot;,
@@ -1649,28 +1797,19 @@ Accept: application/typed+json
 }}
 </code></p>
 
-<h2 id="working-with-request-pages">Working with <code class="prettyprint">request-pages</code></h2>
-
-<p>Only the <code class="prettyprint">GET</code> verb is provided for the <code class="prettyprint">/request-pages/</code> resource.  The PA is created or saved when the user presses the &ldquo;Save&rdquo; button included in the <code class="prettyprint">actions</code> property.</p>
-
-<p>The <code class="prettyprint">actions</code> are provided on a per-PA basis because different types of PA have slightly different work flows.  While an ePA can be sent directly to the plan, for a fax-based PA the physican&rsquo;s signature is collected and the fax numbers are confirmed.</p>
-
-<p><aside class='info'>
-API clients have a choice of response schemas for request-pages: JSON is optimized for web-based systems, while Typed JSON is optimized for client-server systems.  The returned schema is determined by the <code class="prettyprint">Accept:</code> header in the <code class="prettyprint">/request-pages/</code> HTTP request.  Specify &ldquo;<code class="prettyprint">application/json</code>&rdquo; for web-based client systems, and <code class="prettyprint">application/typed+json</code>&ldquo; for client-server (desktop)-based client systems.
-</aside></p>
+<h1 id="using-/request-pages/">Using /request-pages/</h1>
 
 <p>Every response from <code class="prettyprint">/request-pages/{id}</code> conforms to one of the above schemas. To render the data into the Client System:</p>
 
-<ol>
-<li>Walk through the <code class="prettyprint">forms</code> property, and render each form into your application (e.g., as HTML)
+<h4 id="for-each-key-in-the-forms-property-of-the-request-pages-response:">For each key in the <code class="prettyprint">forms</code> property of the request-pages response:</h4>
 
 <ol>
-<li>Record the form&rsquo;s property name (e.g. <code class="prettyprint">pa_request</code>); it will be used as a reference</li>
-<li>When a <code class="prettyprint">question_id</code> property is reached, it&rsquo;s value is retrieved from <code class="prettyprint">data[&quot;pa_request&quot;][&quot;some_question_id&quot;]</code>, or the question_answer(s) property of the question</li>
-<li>When a <code class="prettyprint">coded_reference</code> property is reached, the UI is decorated with coded reference data obtained by using the <code class="prettyprint">ref</code> value in <code class="prettyprint">coded_references</code> and performing an HTTP request to the specified endpoint</li>
-<li>When a <code class="prettyprint">validations</code> property is reached, each validation is applied to the form field</li>
-</ol></li>
-<li>Links and submit buttons are rendered from the <code class="prettyprint">actions</code> property.</li>
+<li>Record the form&rsquo;s <code class="prettyprint">identifier</code> property (e.g. <code class="prettyprint">pa_request</code>); it will be used as a reference
+<code class="prettyprint">var form_identifier = request_page.forms.keys[0];</code></li>
+<li>When a <code class="prettyprint">question_id</code> property is reached, retrieve its value from <code class="prettyprint">data[form_identifier][&quot;some_question_id&quot;]</code>, or the <code class="prettyprint">question_answer(s)</code> property (depending on returned schema)</li>
+<li>When a <code class="prettyprint">coded_reference</code> property is reached, render the UI with coded reference data obtained by using the <code class="prettyprint">ref</code> value in <code class="prettyprint">coded_references</code> and performing an HTTP request to the specified endpoint</li>
+<li>Apply validations to the form field from the <code class="prettyprint">validations</code> property </li>
+<li>Render links and submit buttons from the <code class="prettyprint">actions</code> property.  Executing an action will return another request-pages response to be rendered.</li>
 </ol>
 
 <h3 id="the-data-property">The <code class="prettyprint">data</code> property</h3>
@@ -1846,25 +1985,128 @@ API clients have a choice of response schemas for request-pages: JSON is optimiz
 </tr>
 </tbody></table>
 
-<p>When the <code class="prettyprint">CHOICE</code> type is used, two additional properties will be present:</p>
+<p>All of the questions share these properties:
+- <code class="prettyprint">question_id</code>
+- <code class="prettyprint">question_type</code>
+- <code class="prettyprint">question_text</code>
+- <code class="prettyprint">default_next_question_id</code>
+- <code class="prettyprint">flag</code> (value is either &lsquo;REQUIRED&rsquo; or &lsquo;IMPORTANT&rsquo;)
+- <code class="prettyprint">help_text</code>
+- <code class="prettyprint">coded_reference</code></p>
 
-<ul>
-<li><code class="prettyprint">choices:</code> an array of choice options.</li>
-<li><code class="prettyprint">select_multiple:</code> a <code class="prettyprint">true</code> or <code class="prettyprint">false</code> value.  When <code class="prettyprint">true</code> multiple choices can be selected.</li>
-</ul>
+<p>Some of the question types modify the base question with extra or missing properties.  See below for a table of properties and question types.</p>
 
-<p>When the <code class="prettyprint">NUMERIC</code> type is used, one additional property will be present:</p>
-
-<ul>
-<li><code class="prettyprint">comparison</code></li>
-</ul>
-
-<p>When the <code class="prettyprint">STATEMENT</code> type is used, two additional properties will be present:</p>
-
-<ul>
-<li><code class="prettyprint">content_plain</code></li>
-<li><code class="prettyprint">content_html</code></li>
-</ul>
+<table><thead>
+<tr>
+<th>Property</th>
+<th>Data Type</th>
+<th>Description</th>
+<th style="text-align: center">Question Type</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>question_id</td>
+<td>string</td>
+<td>unique identifier for the question within this question_set</td>
+<td style="text-align: center">ALL</td>
+</tr>
+<tr>
+<td>question_type</td>
+<td>string</td>
+<td>type of question.  one of the values to the right</td>
+<td style="text-align: center">ALL</td>
+</tr>
+<tr>
+<td>question_text</td>
+<td>string</td>
+<td>the question being asked</td>
+<td style="text-align: center">ALL</td>
+</tr>
+<tr>
+<td>default_next_question_id</td>
+<td>string</td>
+<td>the next question to send the user to after this one is answered</td>
+<td style="text-align: center">ALL</td>
+</tr>
+<tr>
+<td>flag</td>
+<td>enum</td>
+<td>REQUIRED or IMPORTANT. Hint for UI decoration.</td>
+<td style="text-align: center">FREE_TEXT<br/>CHOICE<br/>DATE<br/>NUMERIC<br/>STATEMENT<br/>FILE<br/>CHECKBOX<br/>FREE_AREA</td>
+</tr>
+<tr>
+<td>help_text</td>
+<td>string</td>
+<td>String displayed to the user to help them answer the question.  For example, &quot;Enter a number between 1 and 10&rdquo;.</td>
+<td style="text-align: center">FREE_TEXT<br/>CHOICE<br/>DATE<br/>NUMERIC<br/>STATEMENT<br/>FILE<br/>CHECKBOX<br/>FREE_AREA</td>
+</tr>
+<tr>
+<td>coded_reference</td>
+<td>object</td>
+<td>A system-readable reference to the data being requested in the question for the EHR to pull out of the database automatically.</td>
+<td style="text-align: center">FREE_TEXT<br/>CHOICE<br/>DATE<br/>NUMERIC<br/>STATEMENT<br/>FILE<br/>CHECKBOX<br/>FREE_AREA</td>
+</tr>
+<tr>
+<td>validations</td>
+<td>array</td>
+<td>array of strings referring to elements of the validations property.  Validations are applied to the answer to the question.  For example, this could point to a regular expression that validates a phone number.</td>
+<td style="text-align: center">FREE_TEXT<br/>CHOICE</td>
+</tr>
+<tr>
+<td>choices</td>
+<td>array</td>
+<td>In a CHOICE question, an array of objects representing the choices for the user.</td>
+<td style="text-align: center">CHOICE</td>
+</tr>
+<tr>
+<td>select_multiple</td>
+<td>boolean</td>
+<td>Indicates whether the user can select more than one choice or exactly one.</td>
+<td style="text-align: center">CHOICE</td>
+</tr>
+<tr>
+<td>comparisons</td>
+<td>array</td>
+<td>Array of numeric expressions for numeric questions to use for branching.</td>
+<td style="text-align: center">NUMERIC</td>
+</tr>
+<tr>
+<td>content_plain</td>
+<td>string</td>
+<td>Plain text of the statement.</td>
+<td style="text-align: center">STATEMENT</td>
+</tr>
+<tr>
+<td>content_html</td>
+<td>string</td>
+<td>HTML fragment representing the text of the statement.  Allows formatting of text within the content.</td>
+<td style="text-align: center">STATEMENT</td>
+</tr>
+<tr>
+<td>checked_value</td>
+<td>string</td>
+<td>The value to submit to the EHR when this checkbox is selected.</td>
+<td style="text-align: center">CHECKBOX</td>
+</tr>
+<tr>
+<td>placeholder</td>
+<td>string</td>
+<td>Text to display in a FREE_TEXT or FREE_AREA as a prompt to the user.</td>
+<td style="text-align: center">FREE_TEXT<br/>FREE_AREA</td>
+</tr>
+<tr>
+<td>question_answer</td>
+<td>string</td>
+<td>The answer to the question being asked. Only available in typed+json schema.</td>
+<td style="text-align: center">FREE_TEXT<br/>DATE<br/>NUMERIC<br/>HIDDEN FILE<br/>CHECKBOX<br/>FREE_AREA</td>
+</tr>
+<tr>
+<td>question_answers*</td>
+<td>array</td>
+<td>The answers to a multiple-select choice question. Only available in typed+json schema.</td>
+<td style="text-align: center">CHOICE (select_multiple:true)</td>
+</tr>
+</tbody></table>
 
 <h2 id="branching-logic">Branching logic</h2>
 
@@ -1902,7 +2144,7 @@ API clients have a choice of response schemas for request-pages: JSON is optimiz
 
 <h2 id="statement-type-questions"><code class="prettyprint">STATEMENT</code> type questions</h2>
 
-<p>Some forms need to display information only &quot;questions&rdquo; to the user.  These &ldquo;questions&rdquo; do not get answers, they are simply displayed as static text.</p>
+<p>Some forms need to display information only &ldquo;questions&rdquo; to the user.  These &ldquo;questions&rdquo; do not get answers, they are simply displayed as static text.</p>
 
 <p><code class="schema">&quot;questions&quot;: [
   {
@@ -1917,7 +2159,7 @@ API clients have a choice of response schemas for request-pages: JSON is optimiz
 ]
 </code></p>
 
-<h2 id="hidden-type-questions"><code class="prettyprint">HIDDEN</code> type questions</h2>
+<h2 id="hidden-questions"><code class="prettyprint">HIDDEN</code> questions</h2>
 
 <p>Some forms require information supplied by the system, but not by the user.  A <code class="prettyprint">HIDDEN</code> question allows the Client System to send information to the payer, or to CoverMyMeds directly without involving the user.</p>
 
