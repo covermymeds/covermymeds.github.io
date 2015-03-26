@@ -1,0 +1,27 @@
+.reveal pre {
+  margin-top: 0px;
+}
+.reveal pre code {
+  max-height: 650px;
+  width: auto;
+}
+#pre-center, #pre-small {
+  margin: 0 auto;
+  height: 100%;
+}
+#pre-center {
+  width: 50%;
+  text-align: center;
+}
+#pre-small {
+  font-size: .35em;
+}
+.reveal .footer {
+  position: absolute;
+  bottom: 1em;
+  left: 1em;
+  font-size: 0.5em;
+}
+.reveal .slides img {
+  border: 1px solid #999999;
+}
